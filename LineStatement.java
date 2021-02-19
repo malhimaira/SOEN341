@@ -1,3 +1,6 @@
+/**
+ * Class representing a Line Statement
+ */
 public class LineStatement {
     IInstruction instruction;
     
