@@ -28,20 +28,20 @@ public class Parser {
      * @param lexer object that contains the Tokens to be read
      * @return boolean value that indicates if the parsing worked properly
      */
-    public boolean parseTokens(ILexer lexer) {
+    public boolean parseTokens(Lexer lexer) {
         // Initializing values for each line statement
         
         //TODO Change names cuz teacher mean
-        IToken currentToken = null;
-        IMnemonic monica = null;
-        IInstruction instructor = null;
+        Token currentToken = null;
+        Mnemonic monica = null;
+        Instruction instructor = null;
         IOperand opera = null;
         LineStatement linux = null;
 
         while ((currentToken = lexer.getNextToken()).getCode() != TokenType.EOF) {
             //If token is a mnemonic...
             if (currentToken.getCode() == TokenType.Mnemonic) {
-                monica = (IMnemonic) currentToken;
+                monica = (Mnemonic) currentToken;
             //If token is a Label
             } else if (currentToken.getCode() == TokenType.Label) {
                 // TODO SPRINT 3

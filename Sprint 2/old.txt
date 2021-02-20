@@ -1,0 +1,44 @@
+import java.util.HashMap;
+
+public interface LexicalAnalyzer {
+
+	void addKey(String word);
+	int readChar();
+	int getEOF();
+	
+	
+}
+
+_______________________
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.util.HashMap;
+
+public class Lexer implements LexicalAnalyzer{
+	private HashMap<String, String> SymbolTable = new HashMap<>();
+	@Override
+	public void addKey(String word) {
+		this.SymbolTable.put(word, "");		
+	}
+
+	@Override
+	public  readChar() {
+		String str1 = "";
+
+		for(int i = 1;i<inStream.length(); i++) {
+			if (inStream.charAt(i) == '\n') {
+				continue;
+			}
+			if (inStream.charAt(i) == ' ') {
+				addKey(str1);
+				str1 = "";
+			}
+
+			else {
+				str1 += inStream.charAt(i);
+			}
+		}
+
+		return inStream;
+
+	}

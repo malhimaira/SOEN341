@@ -1,8 +1,8 @@
 /**
  * Interface for the Token Class
  */
-public interface IToken {
-    //Tells us the type of the token via an enum
+public interface IToken {//will return name of token
     String getName();
     TokenType getCode();
+    
 }

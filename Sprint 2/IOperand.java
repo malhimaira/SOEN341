@@ -1,6 +1,6 @@
 /**
  * Interface for the Operand
  */
-public interface IOperand {
+public interface IOperand extends IToken{
     
 }

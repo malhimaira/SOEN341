@@ -3,6 +3,6 @@
  */
 public interface IInstruction {
 
-    IMnemonic getMnemonic();
-    IOperand getOperand();
+    Mnemonic getMnemonic();
+    //Operand getOperand();
 }
