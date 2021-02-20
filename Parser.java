@@ -30,6 +30,8 @@ public class Parser {
      */
     public boolean parseTokens(ILexer lexer) {
         // Initializing values for each line statement
+        
+        //TODO Change names cuz teacher mean
         IToken currentToken = null;
         IMnemonic monica = null;
         IInstruction instructor = null;
