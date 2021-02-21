@@ -22,7 +22,7 @@ public class Parser {
         return IR;
     }
 
-    //TODO May need to change input type to lexer. I am not sure if it is possible to do it this way since eventually we need to get labels and operands...
+    //TODO May need to change input type to lexer (DONE). I am not sure if it is possible to do it this way since eventually we need to get labels and operands...
     /**
      * Method used to Parse the tokens obtained from the Lexer object
      * @param lexer object that contains the Tokens to be read
