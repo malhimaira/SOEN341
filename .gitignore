@@ -3,3 +3,4 @@
 test.java
 *.iml
 /.idea
+/out
