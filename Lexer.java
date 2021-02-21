@@ -3,19 +3,21 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class Lexer implements ILexer{
 
 	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();	
-	private Iterator iter;
+	private Iterator<Map.Entry<String, Token>> iter;
 
 
 	public Lexer() {
 		super();
 	}
-	/** 
-	 * 
-	 * @param reader
+
+	/**
+	 *
+	 * @param fileStream
 	 */
 	public void execute(FileInputStream fileStream) {
 		int metaChar;       // May contained eof or a character.
@@ -52,27 +54,28 @@ public class Lexer implements ILexer{
 			System.out.println(e.getMessage());
 		}
 	}
+
 	/**
-	 * @param key
-	 * @return
+	 *
+	 * @return Token
 	 */
 	public Token getNextToken() {
 		Token t = null;
 		if(iter.hasNext()) {
 						HashMap.Entry<String, Token> me = (HashMap.Entry<String, Token>) iter.next();
-			if(me.getValue().getClass().equals("Token")) {
+			if(me.getValue().getClass() == Token.class ) {
 				t = (Token) me.getValue();
 				return t;
 			}
-			else if(me.getValue().getClass().equals("Mnemonic")) {
+			else if(me.getValue().getClass() == Mnemonic.class) {
 				t = (Mnemonic) me.getValue();
 				return t;
 			}
-			else if(me.getValue().getClass().equals("EOL")) {
+			else if(me.getValue().getClass() == EOL.class) {
 				t = (EOL) me.getValue();
 				return t;
 			}
-			else if(me.getValue().getClass().equals("EOF")) {
+			else if(me.getValue().getClass() == EOF.class) {
 				t = (EOF) me.getValue();
 				return t;
 			}
