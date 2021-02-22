@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class LexerBrandon extends Lexer implements ILexer {
+public class LexerBrandon extends Lexer {
 
 	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();
 	private Iterator<Map.Entry<String, Token>> iter;
