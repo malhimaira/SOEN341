@@ -1,4 +1,4 @@
-
+// comment for EOF
 public class EOF extends Token{
 	EOF(String name) {
 		super(name, TokenType.EOF);
