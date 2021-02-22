@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Lexer implements ILexer{
 
-	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();	
+	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();
 	private Iterator<Map.Entry<String, Token>> iter;
 
 
@@ -48,7 +48,8 @@ public class Lexer implements ILexer{
 			EOF eof = new EOF("EOF");
 			SymbolTable.put(eof.getName(), eof);
 			//System.out.println("<eof>");
-			iter = SymbolTable.entrySet().iterator();
+			iter = SymbolTable.entrySet().iterator(); //just creates it and doesnt do anything else
+			System.out.println(iter);
 		}
 		catch(IOException e) {
 			System.out.println(e.getMessage());
@@ -68,7 +69,7 @@ public class Lexer implements ILexer{
 				return t;
 			}
 			else if(me.getValue().getClass() == Mnemonic.class) {
-				t = (Mnemonic) me.getValue();
+				t = (Mnemonic) me.getValue(); //maybe getValue isnt the right thing?
 				return t;
 			}
 			else if(me.getValue().getClass() == EOL.class) {
@@ -79,11 +80,11 @@ public class Lexer implements ILexer{
 				t = (EOF) me.getValue();
 				return t;
 			}
-			return t; 
+			return t;
 		}
 		else {
 			return t; //Team 4 please handle the case where the Token is null, if it is then just don't process it.
-		}	
+		}
 	}
 
 }
