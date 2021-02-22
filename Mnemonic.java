@@ -82,7 +82,7 @@ public class Mnemonic extends Token implements IMnemonic {
      * toString() returns hex representation of the opcode.
      */
     public String toString() {
-        return Integer.toHexString(opCode).toUpperCase();
+        return mName + " " + Integer.toHexString(opCode).toUpperCase();
     }
 	
 

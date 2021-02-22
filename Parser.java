@@ -40,6 +40,7 @@ public class Parser {
 
         while ((currentToken = lexer.getNextToken()).getCode() != TokenType.EOF) {
             //If token is a mnemonic...
+            //System.out.println(currentToken); For debugging
             if (currentToken.getCode() == TokenType.Mnemonic) {
                 monica = (Mnemonic) currentToken;
             //If token is a Label
