@@ -1,7 +1,7 @@
 /**
  * Class representing a Line Statement
  */
-public class LineStatement {
+public class LineStatement implements ILineStatement{
     IInstruction instruction;
     
     public LineStatement(IInstruction instruction) {

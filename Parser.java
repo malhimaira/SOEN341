@@ -3,22 +3,22 @@ import java.util.ArrayList;
 /**
  * Parser class used to parse through the tokens provided by the Lexer
  */
-public class Parser {
+public class Parser implements IParser{
     //IR is an ArrayList of LineStatements
-    ArrayList<LineStatement> IR;
+    ArrayList<ILineStatement> IR;
 
     /**
      * Constructor Method
      */
     public Parser() {
-        IR = new ArrayList<LineStatement>();
+        IR = new ArrayList<ILineStatement>();
     }
 
     /**
      * Method that gets the IR ArrayList containing the Line Statements
      * @return the IR Array List
      */
-    public ArrayList<LineStatement> getIR() {
+    public ArrayList<ILineStatement> getIR() {
         return IR;
     }
 
@@ -28,7 +28,7 @@ public class Parser {
      * @param lexer object that contains the Tokens to be read
      * @return boolean value that indicates if the parsing worked properly
      */
-    public boolean parseTokens(Lexer lexer) {
+    public boolean parseTokens(ILexer lexer) {
         // Initializing values for each line statement
         
         //TODO Change names cuz teacher mean
@@ -40,7 +40,7 @@ public class Parser {
 
         while ((currentToken = lexer.getNextToken()).getCode() != TokenType.EOF) {
             //If token is a mnemonic...
-            //System.out.println(currentToken); For debugging
+            //System.out.println(currentToken); //For debugging
             if (currentToken.getCode() == TokenType.Mnemonic) {
                 monica = (Mnemonic) currentToken;
             //If token is a Label
