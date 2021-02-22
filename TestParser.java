@@ -1,7 +1,8 @@
-import java.awt.*;
 import java.util.ArrayList;
 
-
+/**
+ * Testing Class used for aunit testing on the Parser class by using a DummyLexer class
+ */
 public class TestParser {
 
     public static void main(String[] args) {
