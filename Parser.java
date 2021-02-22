@@ -42,12 +42,15 @@ public class Parser implements IParser{
             //If token is a mnemonic...
             //System.out.println(currentToken); //For debugging
             if (currentToken.getCode() == TokenType.Mnemonic) {
+                //System.out.println("Current token is a Mnemonic!");
                 monica = (Mnemonic) currentToken;
             //If token is a Label
             } else if (currentToken.getCode() == TokenType.Label) {
+                //System.out.println("Current token is a Label!");
                 // TODO SPRINT 3
             //If token is EOL
             } else if (currentToken.getCode() == TokenType.EOL) {
+                //System.out.println("Current token is a EOL!");
                 // TODO SPRINT 2
                 if (monica != null) {
                     if (opera != null) {
@@ -69,6 +72,7 @@ public class Parser implements IParser{
                 linux = null;
 
             } else { //TODO We add other checks here (comments, labels and directives)
+                System.out.println("Current token was not recognized!");
                 return false;
             }
         }

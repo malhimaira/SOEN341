@@ -7,7 +7,7 @@ public class Mnemonic extends Token implements IMnemonic {
     private TreeMap<String,Integer> mapping; //Using a TreeMap for mapping as it is very efficient for searching.
 	/**
 	 * 
-	 * @param name
+	 * @param
 	 */
 	
 	public Mnemonic(String mnemonic) {
@@ -46,7 +46,7 @@ public class Mnemonic extends Token implements IMnemonic {
 	
     /**
      * Helper method which checks if the mnemonic is a valid operation
-     * @param mnemonic String which represents the mnemonic
+     * @param
      * @return Boolean value which indicates the validity of the instruction 
      */
     public boolean isValidOperation() {
@@ -58,7 +58,7 @@ public class Mnemonic extends Token implements IMnemonic {
 
     /**
      * Helper method which finds the opcode related the the instruction, returns -1 if the instruction is invalid
-     * @param mnemonic String mnemonic value to be tested
+     * @param
      * @return Integer representing the opcode
      */
     private byte findOpcode() {

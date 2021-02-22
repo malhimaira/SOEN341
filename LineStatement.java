@@ -11,4 +11,9 @@ public class LineStatement implements ILineStatement{
     public IInstruction getInstruction() {
         return instruction;
     }
+
+    @Override
+    public String toString() {
+        return instruction.toString();
+    }
 }
