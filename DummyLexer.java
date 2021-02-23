@@ -1,7 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 /**
  * DummyLexer Class used to test the Parser class with an arraylist of hardcoded Token objects
  */
