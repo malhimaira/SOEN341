@@ -3,7 +3,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 
-public class App extends StubIR {
+public class ListingGenerator extends StubIR {
 
     public static void main(String[] args) throws Exception {
 
