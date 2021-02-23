@@ -1,16 +1,18 @@
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 
-public class App {
+public class App extends StubIR {
 
     public static void main(String[] args) throws Exception {
 
+        //Creating the lst file and writing any information passed through System.out.println
         PrintStream outputList = new PrintStream("testList.lst");
         System.setOut(outputList);
 
         // Question 1, b)
-        String header = "Line\tAddr\tCode\tLabel\t\tMne\tOperand\tComment";
+        String header = "Line\tAddr\tCode\t\tLabel\t\tMne\tOperand\t\tComment";
         System.out.println(header);
 
         String addr = "";
@@ -41,6 +43,8 @@ public class App {
         // System.out.println(Integer.toHexString(10));
 
     }
+
+
 }
 
 
