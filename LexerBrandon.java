@@ -5,13 +5,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class Lexer implements ILexer{
+public class LexerBrandon extends Lexer {
 
-	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();	
+	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();
 	private Iterator<Map.Entry<String, Token>> iter;
 
-
-	public Lexer() {
+	public LexerBrandon() {
 		super();
 	}
 
@@ -27,28 +26,45 @@ public class Lexer implements ILexer{
 		try {
 			while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
 				if((char)metaChar == '\n') { // check how EOL actually gets read
+
+					if (!word.trim().equals("")) { //TODO Brandon, without this check you end up missing a whole word sometimes!
+						Mnemonic m1 = new Mnemonic(word.trim()); //needs to be more generalized more after //TODO Brandon added trim
+					SymbolTable.put(m1.getName(), m1);
+					System.out.println(m1); //TODO Brandon
+					word="";
+					firstIter = true; //TODO Brandon
+					}
+
 					EOL e1 = new EOL("EOL");
 					SymbolTable.put(e1.getName(), e1);
+					System.out.println(e1); //TODO Brandon
 					continue;
 				}
-				if ((char)metaChar == ' ' && !firstIter ) { //just to account the space at the beginning, space char included for now as thats what is in the asm
-					Mnemonic m1 = new Mnemonic(word); //needs to be more generalized more after
+				if ((char)metaChar == ' ' && !firstIter && !word.trim().equals("")) { //just to account the space at the beginning, space char included for now as thats what is in the asm
+					Mnemonic m1 = new Mnemonic(word.trim()); //needs to be more generalized more after //TODO Brandon added trim 
 					SymbolTable.put(m1.getName(), m1);
+					System.out.println(m1); //TODO Brandon
 					word="";
+					firstIter = true; //TODO Brandon
 				}
 				else {
 					firstIter = false;
 					word += (char)metaChar;
+					System.out.println(word);
 				}
 			}
-			Mnemonic endCase = new Mnemonic(word); //needs to be more generalized more after
+			//TODO Why is this here? What does this do? If we reached EOF that's it no? 
+			/*
+			Mnemonic endCase = new Mnemonic(word.trim()); //needs to be more generalized more after 
+			System.out.println(endCase);
 			SymbolTable.put(endCase.getName(), endCase);
-			word="";
+			word="";*/
 
 			EOF eof = new EOF("EOF");
 			SymbolTable.put(eof.getName(), eof);
-			//System.out.println("<eof>");
+			System.out.println("<eof>");
 			iter = SymbolTable.entrySet().iterator();
+			System.out.println(SymbolTable);
 		}
 		catch(IOException e) {
 			System.out.println(e.getMessage());

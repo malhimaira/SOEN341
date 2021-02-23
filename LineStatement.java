@@ -1,7 +1,7 @@
 /**
  * Class representing a Line Statement
  */
-public class LineStatement {
+public class LineStatement implements ILineStatement{
     IInstruction instruction;
     
     public LineStatement(IInstruction instruction) {
@@ -10,5 +10,10 @@ public class LineStatement {
 
     public IInstruction getInstruction() {
         return instruction;
+    }
+
+    @Override
+    public String toString() {
+        return instruction.toString();
     }
 }

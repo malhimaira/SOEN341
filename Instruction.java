@@ -20,4 +20,9 @@ public Mnemonic getMnemonic() {
 //    return operand;
 //}
 
+
+    @Override
+    public String toString() {
+        return mnemonic.toString();
+    }
 }
