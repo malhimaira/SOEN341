@@ -32,7 +32,7 @@ public class TestParser {
 
 
         System.out.println("Test Parser");
-        System.out.println("[halt 1, and D, shl 18, tgt 1D, exit 3]");
+        System.out.println("[halt 0, and D, shl 18, tgt 1D, exit 3]");
 
 
         parzival.parseTokens(dlex);
