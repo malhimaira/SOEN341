@@ -1,0 +1,3 @@
+Test Parser
+[halt 0, and D, shl 18, tgt 1D, exit 3]
+[halt 0, and D, shl 18, tgt 1D, exit 3]
