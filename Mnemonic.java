@@ -1,3 +1,6 @@
+/**
+ * Class representing a Mnemonic Token, used to specify Mnemonic type
+ */
 import java.util.TreeMap;
 
 public class Mnemonic extends Token implements IMnemonic {
@@ -5,11 +8,10 @@ public class Mnemonic extends Token implements IMnemonic {
 	private byte opCode;
 	
     private TreeMap<String,Integer> mapping; //Using a TreeMap for mapping as it is very efficient for searching.
-	/**
-	 * 
-	 * @param
+
+    /**
+	 * Constructor used to specify the type of the mnemonic given
 	 */
-	
 	public Mnemonic(String mnemonic) {
         super(mnemonic,TokenType.Mnemonic);
         opCode = -1;
@@ -87,7 +89,7 @@ public class Mnemonic extends Token implements IMnemonic {
 	
 
 	/**
-	 * 
+	 * Method used to set the name of the Mnemonic
 	 * @param name
 	 */
 	public void setName(String name) {

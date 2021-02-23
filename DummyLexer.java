@@ -1,16 +1,15 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
+/**
+ * DummyLexer Class used to test the Parser class with an arraylist of hardcoded Token objects
+ */
 public class DummyLexer extends Lexer{
-
-    private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();
-    private Iterator<Map.Entry<String, Token>> iter;
+    //integer to determine the position needed in the array
     private int positionCounter = 0;
 
+    // Arraylist of hardcoded testcases (Token objects)
     private ArrayList<Token> tokenList = new ArrayList<Token>();
 
+    //Constructor used in the TestParser class
     public DummyLexer(ArrayList<Token> tokens){
         tokenList = tokens;
     }
@@ -19,11 +18,15 @@ public class DummyLexer extends Lexer{
         super();
     }
 
+    /**
+     * Method to get the next token from the arraylist
+     * @return Token
+     */
     public Token getNextToken() {
         Token t = null;
         if(tokenList.get(positionCounter) != null) {
             t = tokenList.get(positionCounter++);
         }
-        return t; //Team 4 please handle the case where the Token is null, if it is then just don't process it.
+        return t;
     }
 }

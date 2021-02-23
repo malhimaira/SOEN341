@@ -1,4 +1,6 @@
-
+/**
+ * Class representing a EOL Token
+ */
 public class EOL extends Token {
 
 	EOL(String name) {
