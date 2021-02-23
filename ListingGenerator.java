@@ -39,7 +39,7 @@ public class ListingGenerator extends StubIR {
             System.out.println(line[i]);
         }
 
-        System.exit(0);
+        //System.exit(0); - For testing purposes
         // System.out.println(Integer.toHexString(10));
 
     }
