@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
+/**
+ * Lexer Class used to create Token Objects from a given fileStream to send to the Parser
+ */
 public class Lexer implements ILexer{
 
 	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();	
@@ -16,7 +18,7 @@ public class Lexer implements ILexer{
 	}
 
 	/**
-	 *
+	 *Method used to start the Lexer
 	 * @param fileStream
 	 */
 	public void execute(FileInputStream fileStream) {

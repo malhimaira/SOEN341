@@ -1,4 +1,6 @@
-
+/**
+ * Token Class used to specify Token Type of each Object
+ */
 public class Token implements IToken{
 	//private Position  pos;
 	private TokenType code;

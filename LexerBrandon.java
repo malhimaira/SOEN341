@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
+/**
+ * Lexer Class created by Brandon Takli
+ */
 public class LexerBrandon extends Lexer {
 
 	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();
