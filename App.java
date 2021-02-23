@@ -1,5 +1,13 @@
+
+import java.io.PrintStream;
+
+
 public class App {
+
     public static void main(String[] args) throws Exception {
+
+        PrintStream outputList = new PrintStream("testList.lst");
+        System.setOut(outputList);
 
         // Question 1, b)
         String header = "Line\tAddr\tCode\tLabel\t\tMne\tOperand\tComment";
@@ -12,7 +20,8 @@ public class App {
         String operand = "opTest";
         String comment = "commentTest";
 
-        
+
+
         String[] line = new String[26];
 
         for (int i = 0; i < line.length; i++) {
@@ -28,6 +37,7 @@ public class App {
             System.out.println(line[i]);
         }
 
+        System.exit(0);
         // System.out.println(Integer.toHexString(10));
 
     }
