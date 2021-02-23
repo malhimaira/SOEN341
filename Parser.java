@@ -30,46 +30,44 @@ public class Parser implements IParser{
      */
     public boolean parseTokens(ILexer lexer) {
         // Initializing values for each line statement
-        
-        //TODO Change names cuz teacher mean
         Token currentToken = null;
-        Mnemonic monica = null;
-        Instruction instructor = null;
-        IOperand opera = null;
-        LineStatement linux = null;
+        Mnemonic currentMnemonic = null;
+        Instruction currentInstruction = null;
+        IOperand currentOperand = null;
+        LineStatement currentLineStatement = null;
 
         while ((currentToken = lexer.getNextToken()).getCode() != TokenType.EOF) {
             //If token is a mnemonic...
             //System.out.println(currentToken); //For debugging
             if (currentToken.getCode() == TokenType.Mnemonic) {
-                //System.out.println("Current token is a Mnemonic!");
-                monica = (Mnemonic) currentToken;
+                //System.out.println("Current token is a Mnemonic!"); //For debugging
+                currentMnemonic = (Mnemonic) currentToken;
             //If token is a Label
             } else if (currentToken.getCode() == TokenType.Label) {
-                //System.out.println("Current token is a Label!");
+                //System.out.println("Current token is a Label!"); //For debugging
                 // TODO SPRINT 3
             //If token is EOL
             } else if (currentToken.getCode() == TokenType.EOL) {
-                //System.out.println("Current token is a EOL!");
+                //System.out.println("Current token is a EOL!"); //For debugging
                 // TODO SPRINT 2
-                if (monica != null) {
-                    if (opera != null) {
-                        //TODO : instructor = new Instruction(monica, opera);
+                if (currentMnemonic != null) {
+                    if (currentOperand != null) {
+                        //TODO SPRINT 3: instructor = new Instruction(currentMnemonic, currentOperand);
                     }else {
-                        instructor = new Instruction(monica);
+                        currentInstruction = new Instruction(currentMnemonic);
                     }
                 }
                 //TODO change this based on presence of comments, labels and directives
-                linux = new LineStatement(instructor);
+                currentLineStatement = new LineStatement(currentInstruction);
                 // Adding LineStatement to IR ArrayList
-                IR.add(linux);
+                IR.add(currentLineStatement);
 
                 //Reset the values for next line statements
                 currentToken = null;
-                monica = null;
-                instructor = null;
-                opera = null;
-                linux = null;
+                currentMnemonic = null;
+                currentInstruction = null;
+                currentOperand = null;
+                currentLineStatement = null;
 
             } else { //TODO We add other checks here (comments, labels and directives)
                 System.out.println("Current token was not recognized!");

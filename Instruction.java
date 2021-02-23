@@ -1,3 +1,6 @@
+/**
+ * Class representing an Instruction
+ */
 public class Instruction implements IInstruction {
     Mnemonic mnemonic;
     //Operand operand;
@@ -7,7 +10,7 @@ public Instruction(Mnemonic mnemonic) {
    // this.operand = null; //Implementation comes later
 }
 
-/* For Sprint 3
+/* TODO: For Sprint 3
 public Instruction(IMnemonic mnemonic,IOperand operand) {
 
 }*/
