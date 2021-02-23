@@ -8,7 +8,7 @@ public class TestParser {
 
     public static void main(String[] args) {
         // Initializing a Parser object to run the test
-        Parser parserObject = new Parser();
+        IParser parserObject = new Parser();
 
         // Initializing an ArrayList of Tokens to use as a Hardcoded Test case
         ArrayList<Token> tokenList = new ArrayList<Token>();
@@ -32,7 +32,7 @@ public class TestParser {
         tokenList.add(new EOF("EOF"));
 
         //Instantiating a DummyLexer Object with filled TokenList
-        DummyLexer dlex = new DummyLexer(tokenList);
+        ILexer dlex = new DummyLexer(tokenList);
 
         //Printing the expected output
         System.out.println("Test Parser");
