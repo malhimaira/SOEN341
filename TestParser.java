@@ -31,8 +31,9 @@ public class TestParser {
         DummyLexer dlex = new DummyLexer(array);
 
 
-        System.out.println("TestParser");
+        System.out.println("Test Parser");
         System.out.println("[halt 1, and D, shl 18, tgt 1D, exit 3]");
+
 
         parzival.parseTokens(dlex);
         //System.out.println("Actual Output: ");
