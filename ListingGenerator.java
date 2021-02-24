@@ -17,27 +17,13 @@ public class ListingGenerator implements IListingGenerator {
     String fileName;
     PrintWriter pw;
 
-    //Error with Address it won't print
-    //Constructors
-//    public ListingGenerator(){
-//        arrayStubIR = null;
-//        stub = new StubIR();
-//        addr = label = mne = operand= comment = "";
-//        code = 0;
-//    }
 
     public ListingGenerator(ArrayList<ILineStatement> IR, String fileName){
-       // setStub(arrayILineStat);
+
         this.IR = IR;
 
         for(ILineStatement temp : IR) {
-
-            //setAddr(stub.getMnemonicOpcode(temp));
-
-        for(LineStatement temp : arrayIR) {
-
-            //setAddr(stub.getMnemonicOpcode(temp));
-        	setAddr(arr);
+        	  setAddr(arr);
             setCode(stub.getMnemonicOpcode(temp));
             setMne(stub.getMnemonicName(temp));
             label=operand=comment="";
@@ -74,7 +60,6 @@ public class ListingGenerator implements IListingGenerator {
 
         result = addr +"/t"+ code +"/t" + label + "/t"+ mne +"/t" + "/t"+operand + "/t" + comment;
 
-        out.write(result);
         return result;
     }
 
