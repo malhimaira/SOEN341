@@ -6,12 +6,24 @@ import java.util.ArrayList;
 public class Parser implements IParser{
     //IR is an ArrayList of LineStatements
     ArrayList<ILineStatement> IR;
+    ILexer lexer;
 
     /**
      * Constructor Method
      */
-    public Parser() {
+    public Parser(ILexer lexer) {
         IR = new ArrayList<ILineStatement>();
+        this.lexer = lexer;
+
+    }
+
+    /**
+     * Parses the .asm file using the lexer. Calls the internal parseTokens method.
+     * @return The IR ArrayList of LineStatements
+     */
+    public ArrayList<ILineStatement> parse() {
+        parseTokens(lexer);
+        return getIR();
     }
 
     /**
@@ -28,7 +40,7 @@ public class Parser implements IParser{
      * @param lexer object that contains the Tokens to be read
      * @return boolean value that indicates if the parsing worked properly
      */
-    public boolean parseTokens(ILexer lexer) {
+    private boolean parseTokens(ILexer lexer) {
         // Initializing values for each line statement
         Token currentToken = null;
         Mnemonic currentMnemonic = null;
