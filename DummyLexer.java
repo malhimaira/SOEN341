@@ -5,17 +5,30 @@ import java.util.ArrayList;
 public class DummyLexer extends Lexer{
     //integer to determine the position needed in the array
     private int positionCounter = 0;
-
-    // Arraylist of hardcoded testcases (Token objects)
-    private ArrayList<Token> tokenList = new ArrayList<Token>();
+    ArrayList<Token> tokenList;
 
     //Constructor used in the TestParser class
-    public DummyLexer(ArrayList<Token> tokens){
-        tokenList = tokens;
-    }
+    public DummyLexer(){
+        // Initializing an ArrayList of Tokens to use as a Hardcoded Test case
+        tokenList = new ArrayList<Token>();
 
-    public DummyLexer() {
-        super();
+        //Adding Tokens to the ArrayList
+        tokenList.add(new Mnemonic("halt"));
+        tokenList.add(new EOL("EOL"));
+ 
+        tokenList.add(new Mnemonic("and"));
+        tokenList.add(new EOL("EOL"));
+ 
+        tokenList.add(new Mnemonic("shl"));
+        tokenList.add(new EOL("EOL"));
+ 
+        tokenList.add(new Mnemonic("tgt"));
+        tokenList.add(new EOL("EOL"));
+ 
+        tokenList.add(new Mnemonic("exit"));
+        tokenList.add(new EOL("EOL"));
+ 
+        tokenList.add(new EOF("EOF"));
     }
 
     /**
