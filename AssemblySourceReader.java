@@ -20,24 +20,35 @@ public class AssemblySourceReader {
         InputStream inputStream = null;
         readAsmFile(asmSourceFile);
 
-        inputStream = readAsmFile(asmSourceFile);
+            inputStream = readAsmFile(asmSourceFile);
 
     }
 
     public static InputStream readAsmFile(File file) {
 
+        StringBuilder sb = new StringBuilder();
         String[] asmFileArray = null;
 
         try {
-            InputStream inputStream = new FileInputStream(file);
-            return inputStream;
+        InputStream inputStream = new FileInputStream(file);
 
-        } catch (FileNotFoundException fileNotFoundException) {
+        /* BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line + System.lineSeparator());
+        }
+
+        return sb.toString();
+        // Testing if file was correctly input
+        // System.out.println(sb.toString());
+        */
+
+        return inputStream;
+         } catch (FileNotFoundException fileNotFoundException) {
             fileNotFoundException.printStackTrace();
         }
-        /* catch (IOException e) {
+        catch (IOException e) {
             e.printStackTrace();
-        } */
-        return null;
+        }
     }
-}
