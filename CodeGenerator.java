@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class CodeGenerator {
+public class CodeGenerator implements ICodeGenerator{
 	public CodeGenerator(ArrayList<ILineStatement> IR, boolean generateLST) {
 	
 		//booleans for lst
