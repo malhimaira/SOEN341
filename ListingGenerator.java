@@ -39,8 +39,10 @@ public class ListingGenerator implements IListingGenerator {
             addrString = comment = operand = mneName = label = header = "";
         }
 
+
         pw.close();
         System.out.println("Successfully generated " + fileName + ".lst"); //TODO This is temporary.
 
     }
+
 }
