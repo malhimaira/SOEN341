@@ -1,37 +1,72 @@
 
 import java.util.ArrayList;
 
-public class StubIR extends Parser {
+public class StubIR implements IStubIR{
 
       //Added thing for test done for Team 1 part (Generation of Listing)
-      ArrayList<ILineStatement> listingIR = getIR();
-      String addr;
-      String code;
-      String label;
-      String mne;
-      String operand;
-      String comment;
+      private static ArrayList<LineStatement> listingGenIR;
+      private static ArrayList<ILineStatement> givenIR;
+      private LineStatement lineStat;
+
 
       //default constructor
       public StubIR(){
-            listingIR = getIR();
-            listStringIR = null;
-            addr = "";
-            code = "";
-            label = "";
-            mne = "";
-            operand = "";
-            comment = "";
+            listingGenIR = null;
+            givenIR = null;
+            lineStat = null;
       }
 
-      public void lineStatmentToString(ArrayList<ILineStatement> toStringIR){
-            for(int i = 0; i < toStringIR.size(); i++){
-                  StubIR tempStub = new StubIR();
-                  ILineStatement tempILine = toStringIR.get(i);
-                  tempStub.addr = tempILine.toString();//What info is given when it goes to toString?
-                  listStringIR.add(i,tempStub);
+      public StubIR(ArrayList<ILineStatement> arrayILineStat){
+            setGivenIR(arrayILineStat);
+            setListingGenIR(getArrayLineStat());
+      }
+
+      //Getter
+      @Override
+      public ArrayList<LineStatement> getListingGenIR() {
+            return listingGenIR;
+      }
+
+
+      @Override
+      public ArrayList<ILineStatement> getGivenIR() {
+            return givenIR;
+      }
+
+
+      //Setter
+      @Override
+      public void setGivenIR(ArrayList<ILineStatement> givenIR) {
+            StubIR.givenIR = givenIR;
+      }
+      @Override
+      public void setListingGenIR(ArrayList<LineStatement> listingGenIR) {
+            StubIR.listingGenIR = listingGenIR;
+      }
+
+
+      @Override
+      public LineStatement getLineStatement() {
+            return lineStat;
+      }
+
+      @Override
+      public String getMnemonicName(LineStatement lineStat) {
+            return lineStat.getInstruction().getMnemonic().getName();
+      }
+
+      @Override
+      public Byte getMnemonicOpcode(LineStatement lineStat) {
+            return lineStat.getInstruction().getMnemonic().getOpcode();
+      }
+
+      public ArrayList<LineStatement> getArrayLineStat(){
+           ArrayList<LineStatement> tempArrayLineStat = new ArrayList<>();
+            for(int i = 0; i < givenIR.size(); i++){
+                  LineStatement tempLineStat = (LineStatement) givenIR.get(i);
+                  tempArrayLineStat.add(i,tempLineStat);
             }
+            return tempArrayLineStat;
       }
-
 
 }//end of StubIR Interface

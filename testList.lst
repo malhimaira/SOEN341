@@ -1,27 +1,6 @@
 Line	Addr	Code		Label		Mne	Operand		Comment
-1	0000	00Test	labelTest	mneTest	opTest	commentTest
-2	0001	00Test	labelTest	mneTest	opTest	commentTest
-3	0002	00Test	labelTest	mneTest	opTest	commentTest
-4	0003	00Test	labelTest	mneTest	opTest	commentTest
-5	0004	00Test	labelTest	mneTest	opTest	commentTest
-6	0005	00Test	labelTest	mneTest	opTest	commentTest
-7	0006	00Test	labelTest	mneTest	opTest	commentTest
-8	0007	00Test	labelTest	mneTest	opTest	commentTest
-9	0008	00Test	labelTest	mneTest	opTest	commentTest
-10	0009	00Test	labelTest	mneTest	opTest	commentTest
-11	000A	00Test	labelTest	mneTest	opTest	commentTest
-12	000B	00Test	labelTest	mneTest	opTest	commentTest
-13	000C	00Test	labelTest	mneTest	opTest	commentTest
-14	000D	00Test	labelTest	mneTest	opTest	commentTest
-15	000E	00Test	labelTest	mneTest	opTest	commentTest
-16	000F	00Test	labelTest	mneTest	opTest	commentTest
-17	0010	00Test	labelTest	mneTest	opTest	commentTest
-18	0011	00Test	labelTest	mneTest	opTest	commentTest
-19	0012	00Test	labelTest	mneTest	opTest	commentTest
-20	0013	00Test	labelTest	mneTest	opTest	commentTest
-21	0014	00Test	labelTest	mneTest	opTest	commentTest
-22	0015	00Test	labelTest	mneTest	opTest	commentTest
-23	0016	00Test	labelTest	mneTest	opTest	commentTest
-24	0017	00Test	labelTest	mneTest	opTest	commentTest
-25	0018	00Test	labelTest	mneTest	opTest	commentTest
-26	0019	00Test	labelTest	mneTest	opTest	commentTest
+1	halt 0
+2	and D
+3	shl 18
+4	tgt 1D
+5	exit 3

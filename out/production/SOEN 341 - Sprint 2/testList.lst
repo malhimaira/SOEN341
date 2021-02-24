@@ -1,4 +1,4 @@
-Line	Addr	Code	Label		Mne	Operand	Comment
+Line	Addr	Code		Label		Mne	Operand		Comment
 1	0000	00Test	labelTest	mneTest	opTest	commentTest
 2	0001	00Test	labelTest	mneTest	opTest	commentTest
 3	0002	00Test	labelTest	mneTest	opTest	commentTest
