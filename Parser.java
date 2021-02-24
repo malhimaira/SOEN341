@@ -70,10 +70,11 @@ public class Parser implements IParser{
                     }
                 }
                 //TODO change this based on presence of comments, labels and directives
+                if (currentInstruction != null) {
                 currentLineStatement = new LineStatement(currentInstruction);
                 // Adding LineStatement to IR ArrayList
                 IR.add(currentLineStatement);
-
+            }
                 //Reset the values for next line statements
                 currentToken = null;
                 currentMnemonic = null;

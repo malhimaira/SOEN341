@@ -21,9 +21,8 @@ public class CMA {
 	        Parser parser = new Parser(lexer);
 	        
 	        ArrayList<ILineStatement> IR =  parser.parse();
-	        
-	        System.out.print(IR);
-	        //CodeGenerator cg = new CodeGenerator(IR, true); //
+
+	        CodeGenerator cg = new CodeGenerator(IR, true);
 	        
 	        
 	        
