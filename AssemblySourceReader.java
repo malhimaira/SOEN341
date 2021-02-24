@@ -28,7 +28,9 @@ public class AssemblySourceReader implements IAssemblySourceReader{
             return inputStream;
 
         } catch (FileNotFoundException fileNotFoundException) {
-            fileNotFoundException.printStackTrace();
+            System.out.println("Error: file \"" + inputFile + "\" not found. Check spelling or file location!");
+            System.exit(0);
+            //fileNotFoundException.printStackTrace();
         }
         return null;
     }
