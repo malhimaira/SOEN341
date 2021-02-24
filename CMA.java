@@ -11,7 +11,11 @@ public class CMA {
 	            System.out.println("Usage: CMA File.asm");
 	            return;
 	        }
-	        AssemblySourceReader reader = new AssemblySourceReader(new File(args[0]));
+			File asmFile = new File(args[0]);
+			int fileExtensionIndex = asmFile.getName().indexOf(".");
+			String fileName = asmFile.getName().substring(0,fileExtensionIndex); //Gets name of file minus extension.
+
+	        AssemblySourceReader reader = new AssemblySourceReader(asmFile);
 	        FileInputStream inputReader = reader.readAsmFile();
 	        
 	        Lexer lexer = new Lexer (inputReader);
@@ -20,7 +24,8 @@ public class CMA {
 	        
 	        ArrayList<ILineStatement> IR =  parser.parse();
 
-	        CodeGenerator cg = new CodeGenerator(IR, true);
+	        CodeGenerator cg = new CodeGenerator(IR, fileName, true);
+			System.out.println("Done!");
 	        
 	        
 	        
