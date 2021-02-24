@@ -45,8 +45,7 @@ public class TestGenerateList {
       System.out.println(parserObject.getIR());
       /*End of stuff taken for testing purposes from TestParser*/
 
-      String test = parserObject.IR.get(2).toString();
-      System.out.print(test);
+      //Implementation of what is within the stub and ListingGenerator file
 
     }
 
