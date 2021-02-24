@@ -7,11 +7,11 @@ public class ListingGenerator implements IListingGenerator {
 
     private static ArrayList<LineStatement> arrayStubIR;
     private static StubIR stub;
-    public static String header = "Line\tAddr\tCode\t\tLabel\t\tMne\tOperand\t\tComment";
+    public static String header = "Line Addr Code Label Mne Operand Comment";
     private String addr, label, mne, operand, comment;
     private Byte code;
     private static int wrongAddr;
-    //Error with Address it won't print 
+    //Error with Address it won't print
 
 
     //Constructors
@@ -25,7 +25,7 @@ public class ListingGenerator implements IListingGenerator {
     public ListingGenerator(ArrayList<ILineStatement> arrayILineStat){
         setStub(arrayILineStat);
         arrayStubIR = stub.getListingGenIR();
-        int wrongAddr=0;
+        int wrongAddr = 0;
 
         for(LineStatement temp : arrayStubIR) {
 
@@ -83,55 +83,55 @@ public class ListingGenerator implements IListingGenerator {
 
         String result = "";
 
-        result = "\t" + addr + "\t" + code + "\t\t" + label + "\t\t" + mne + "\t" + operand + "\t" + comment;
+        result = "%-10s" + addr + "%-10s" + code + "%-10s%-10s" + label + "%-10s%-10s" + mne + "%-10s" + operand + "%-10s" + comment;
 
         return result;
     }
 
-    public static void main(String[] args) throws Exception {
-
-        //Creating the lst file and writing any information passed through System.out.println
-
-
-
-
-        // Question 1, b)
-        //String header = "Line\tAddr\tCode\t\tLabel\t\tMne\tOperand\t\tComment";
-        System.out.println(header);
-
-        String addr = "";
-        String code = "00Test";
-        String label = "labelTest";
-        String mne = "mneTest";
-        String operand = "opTest";
-        String comment = "commentTest";
-
-
-
-       // String[] line = new String[26];
-
-       /* for (int i = 0; i < line.length; i++) {
-
-            if (i < 16) {
-                addr = "000" + Integer.toHexString(i).toUpperCase();
-            } else {
-                addr = "00" + Integer.toHexString(i).toUpperCase();
-            }
-
-            line[i] = (i + 1) + "\t" + addr + "\t" + code + "\t" + label + "\t" + mne + "\t" + operand + "\t" + comment;
-
-            System.out.println(line[i]);
-        }*/
-
-
-
-        //System.exit(0); - For testing purposes
-        // System.out.println(Integer.toHexString(10));
-
-    }
-
-
-}
+//     public static void main(String[] args) throws Exception {
+//
+//         //Creating the lst file and writing any information passed through System.out.println
+//
+//
+//
+//
+//         // Question 1, b)
+//         //String header = "Line\tAddr\tCode\t\tLabel\t\tMne\tOperand\t\tComment";
+//         System.out.println(header);
+//
+//         String addr = "";
+//         String code = "00Test";
+//         String label = "labelTest";
+//         String mne = "mneTest";
+//         String operand = "opTest";
+//         String comment = "commentTest";
+//
+//
+//
+//        // String[] line = new String[26];
+//
+//        /* for (int i = 0; i < line.length; i++) {
+//
+//             if (i < 16) {
+//                 addr = "000" + Integer.toHexString(i).toUpperCase();
+//             } else {
+//                 addr = "00" + Integer.toHexString(i).toUpperCase();
+//             }
+//
+//             line[i] = (i + 1) + "\t" + addr + "\t" + code + "\t" + label + "\t" + mne + "\t" + operand + "\t" + comment;
+//
+//             System.out.println(line[i]);
+//         }*/
+//
+//
+//
+//         //System.exit(0); - For testing purposes
+//         // System.out.println(Integer.toHexString(10));
+//
+//     }
+//
+//
+ }
 
 
 //IR hold LineStatment

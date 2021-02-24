@@ -53,11 +53,11 @@ public class TestGenerateList extends Exception{
 
       ListingGenerator testListing = new ListingGenerator(parserObject.getIR());
 
-      System.out.println(ListingGenerator.header);
+      System.out.printf("%-30.30s", ListingGenerator.header+"\n");
       int i = 1;
       for(LineStatement ls : testListing.getStub().getArrayLineStat()){
         //setAddr(i);
-        System.out.println(i + "\t" + ls.toString());
+        System.out.printf(i + "\t" + ls.toString()+"\n");
         i++;
       }
     }

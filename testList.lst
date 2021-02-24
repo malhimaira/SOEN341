@@ -1,5 +1,4 @@
-Line	Addr	Code		Label		Mne	Operand		Comment
-1	halt 0
+Line Addr Code Label Mne Opera1	halt 0
 2	and D
 3	shl 18
 4	tgt 1D
