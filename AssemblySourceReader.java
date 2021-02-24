@@ -5,20 +5,11 @@ import java.io.FileNotFoundException;
 public class AssemblySourceReader implements IAssemblySourceReader{
 
 	private File inputFile;
-	private String[] asmFileArray;
-//    public static void main(String[] args) throws IOException {
-//        String asmPath = "/Users/marina/AndroidStudioProjects/Soen341/soen341/TestInherentMnemonics.asm";
-//        File asmSourceFile = new File(asmPath);
-//
-//        InputStream inputStream = null;
-//        readAsmFile(asmSourceFile);
-//
-//        inputStream = readAsmFile(asmSourceFile);
-//
-//    }
+	//private String[] asmFileArray;
+
 	public AssemblySourceReader(File inputFile) {
 		this.inputFile = inputFile;
-		asmFileArray = null; 
+		//asmFileArray = null; 
 	}
 
     public FileInputStream readAsmFile() {
