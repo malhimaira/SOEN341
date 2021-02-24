@@ -9,7 +9,6 @@ public class CodeGenerator implements ICodeGenerator{
 		if(generateLST == true) {
 			ListingGenerator lg = new ListingGenerator(IR,fileName);
 		}
-		//boolean for exe
 		
 		//TODO call .exe
 		
