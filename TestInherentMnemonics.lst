@@ -1,4 +1,4 @@
-Line Addr Code    Label     Mne     Operand Comments  
+Line Addr Code    Label     Mne     Operand     Comments  
 1    0000 00                halt                     
 2    0001 01                pop                      
 3    0002 02                dup                      

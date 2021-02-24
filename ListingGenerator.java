@@ -23,7 +23,7 @@ public class ListingGenerator implements IListingGenerator {
             exception.printStackTrace();
         }
         
-        header = String.format("%-5s%-5s%-8s%-10s%-8s%-8s%-10s","Line","Addr","Code","Label","Mne","Operand","Comments");
+        header = String.format("%-5s%-5s%-8s%-10s%-8s%-12s%-10s","Line","Addr","Code","Label","Mne","Operand","Comments");
         pw.println(header);
         for(ILineStatement temp : IR) {
         	addrString = String.format("%04X", currentAddr);
