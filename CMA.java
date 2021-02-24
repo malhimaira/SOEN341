@@ -1,4 +1,3 @@
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -7,7 +6,6 @@ import java.util.ArrayList;
 public class CMA {
 
 	public static void main(String[] args) {
-		 String line;
 
 	        if (args.length != 1) {
 	            System.out.println("Usage: CMA File.asm");
