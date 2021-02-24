@@ -1,3 +1,6 @@
+/**
+ * Class representing a Mnemonic Token, used to specify Mnemonic type
+ */
 import java.util.TreeMap;
 
 public class Mnemonic extends Token implements IMnemonic {
@@ -7,10 +10,8 @@ public class Mnemonic extends Token implements IMnemonic {
     private TreeMap<String,Integer> mapping; //Using a TreeMap for mapping as it is very efficient for searching.
 
     /**
-     *
-     * @param mnemonic
-     */
-	
+	 * Constructor used to specify the type of the mnemonic given
+	 */
 	public Mnemonic(String mnemonic) {
         super(mnemonic,TokenType.Mnemonic);
         opCode = -1;
@@ -47,7 +48,8 @@ public class Mnemonic extends Token implements IMnemonic {
 	
     /**
      * Helper method which checks if the mnemonic is a valid operation
-     * @return Boolean value which indicates the validity of the instruction
+     * @param
+     * @return Boolean value which indicates the validity of the instruction 
      */
     public boolean isValidOperation() {
         if (mapping.containsKey(mName))
@@ -58,6 +60,7 @@ public class Mnemonic extends Token implements IMnemonic {
 
     /**
      * Helper method which finds the opcode related the the instruction, returns -1 if the instruction is invalid
+     * @param
      * @return Integer representing the opcode
      */
     private byte findOpcode() {
@@ -81,12 +84,12 @@ public class Mnemonic extends Token implements IMnemonic {
      * toString() returns hex representation of the opcode.
      */
     public String toString() {
-        return Integer.toHexString(opCode).toUpperCase();
+        return mName + " " + Integer.toHexString(opCode).toUpperCase();
     }
 	
 
 	/**
-	 * 
+	 * Method used to set the name of the Mnemonic
 	 * @param name
 	 */
 	public void setName(String name) {

@@ -5,21 +5,22 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Lexer Class used to create Token Objects from a given fileStream to send to the Parser
+ */
 public class Lexer implements ILexer{
 
 	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();
 	private Iterator<Map.Entry<String, Token>> iter;
 
-
-	public Lexer() {
-		super();
-	}
+	//Default not necessary for the class, only need 
+	public Lexer() {}
 
 	/**
-	 *
+	 *Method used to start the Lexer
 	 * @param fileStream
 	 */
-	public void execute(FileInputStream fileStream) {
+	public Lexer(FileInputStream fileStream) {
 		int metaChar;       // May contained eof or a character.
 		int eofMarker = -1 ;
 		String word ="";
@@ -27,35 +28,50 @@ public class Lexer implements ILexer{
 		try {
 			while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
 				if((char)metaChar == '\n') { // check how EOL actually gets read
+
+					if (!word.trim().equals("")) { //TODO Brandon, without this check you end up missing a whole word sometimes!
+						Mnemonic m1 = new Mnemonic(word.trim()); //needs to be more generalized more after //TODO Brandon added trim
+					SymbolTable.put(m1.getName(), m1);
+					System.out.println(m1); //TODO Brandon
+					word="";
+					firstIter = true; //TODO Brandon
+					}
+
 					EOL e1 = new EOL("EOL");
 					SymbolTable.put(e1.getName(), e1);
+					System.out.println(e1); //TODO Brandon
 					continue;
 				}
-				if ((char)metaChar == ' ' && !firstIter ) { //just to account the space at the beginning, space char included for now as thats what is in the asm
-					Mnemonic m1 = new Mnemonic(word); //needs to be more generalized more after
+				if ((char)metaChar == ' ' && !firstIter && !word.trim().equals("")) { //just to account the space at the beginning, space char included for now as thats what is in the asm
+					Mnemonic m1 = new Mnemonic(word.trim()); //needs to be more generalized more after //TODO Brandon added trim 
 					SymbolTable.put(m1.getName(), m1);
+					System.out.println(m1); //TODO Brandon
 					word="";
+					firstIter = true; //TODO Brandon
 				}
 				else {
 					firstIter = false;
 					word += (char)metaChar;
+					System.out.println(word);
 				}
 			}
-			Mnemonic endCase = new Mnemonic(word); //needs to be more generalized more after
+			//CHECK FOR LAST ITERATION IN CASE 
+			/*
+			Mnemonic endCase = new Mnemonic(word.trim()); //needs to be more generalized more after 
+			System.out.println(endCase);
 			SymbolTable.put(endCase.getName(), endCase);
-			word="";
+			word="";*/
 
 			EOF eof = new EOF("EOF");
 			SymbolTable.put(eof.getName(), eof);
 			//System.out.println("<eof>");
-			iter = SymbolTable.entrySet().iterator(); //just creates it and doesnt do anything else
-			System.out.println(iter);
+			iter = SymbolTable.entrySet().iterator();
+			System.out.println(SymbolTable);
 		}
 		catch(IOException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-
 	/**
 	 *
 	 * @return Token
@@ -69,7 +85,7 @@ public class Lexer implements ILexer{
 				return t;
 			}
 			else if(me.getValue().getClass() == Mnemonic.class) {
-				t = (Mnemonic) me.getValue(); //maybe getValue isnt the right thing?
+				t = (Mnemonic) me.getValue();
 				return t;
 			}
 			else if(me.getValue().getClass() == EOL.class) {
@@ -80,11 +96,11 @@ public class Lexer implements ILexer{
 				t = (EOF) me.getValue();
 				return t;
 			}
-			return t;
+			return t; 
 		}
 		else {
 			return t; //Team 4 please handle the case where the Token is null, if it is then just don't process it.
-		}
+		}	
 	}
 
 }

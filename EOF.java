@@ -1,4 +1,6 @@
-// comment for EOF
+/**
+ * Class representing a EOF Token
+ */
 public class EOF extends Token{
 	EOF(String name) {
 		super(name, TokenType.EOF);
