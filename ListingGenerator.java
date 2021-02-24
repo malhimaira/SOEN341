@@ -1,19 +1,24 @@
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import jdk.jfr.StackTrace;
 
 
 public class ListingGenerator implements IListingGenerator {
 
-    private static ArrayList<LineStatement> arrayStubIR;
+    private static ArrayList<ILineStatement> IR;
     private static StubIR stub;
     public String header = "Line Addr Code Label Mne Operand Comment";
     private String addr, label, mne, operand, comment;
     private Byte code;
+    String fileName;
+    PrintWriter pw;
     
     //Error with Address it won't print
-
-
     //Constructors
 //    public ListingGenerator(){
 //        arrayStubIR = null;
@@ -22,11 +27,11 @@ public class ListingGenerator implements IListingGenerator {
 //        code = 0;
 //    }
 
-    public ListingGenerator(ArrayList<ILineStatement> arrayILineStat){
-        setStub(arrayILineStat);
-        arrayStubIR = stub.getListingGenIR();
+    public ListingGenerator(ArrayList<ILineStatement> IR, String fileName){
+       // setStub(arrayILineStat);
+        this.IR = IR;
         
-        for(LineStatement temp : arrayStubIR) {
+        for(ILineStatement temp : IR) {
 
             //setAddr(stub.getMnemonicOpcode(temp));
 
