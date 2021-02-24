@@ -1,11 +1,10 @@
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class StubIR extends Parser {
 
       //Added thing for test done for Team 1 part (Generation of Listing)
-      ArrayList<ILineStatement> listingIR;
-      ArrayList<StubIR> listStringIR;
+      ArrayList<ILineStatement> listingIR = getIR();
       String addr;
       String code;
       String label;
