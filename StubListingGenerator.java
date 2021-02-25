@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 
-public class StubListingGenerator {
+public class StubListingGenerator implements IListingGenerator{
 
     private String header;
     private String addrString, label, operand, comment, mneName,opcode;
