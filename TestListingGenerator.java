@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class TestListingGenerator {
 
     public static void main(String[] args) {
+    //Stub of the IR, hardcoded values.
     ArrayList<ILineStatement> stubIR = new ArrayList<ILineStatement>() ;
     stubIR.add(new LineStatement(new Instruction(new Mnemonic("halt"))));
     stubIR.add(new LineStatement(new Instruction(new Mnemonic("exit"))));
