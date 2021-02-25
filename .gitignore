@@ -2,3 +2,6 @@
 *.class
 test.java
 testMain.java
+StubIR.java
+StubListingGenerator.java
+StubSolutionFile.lst
