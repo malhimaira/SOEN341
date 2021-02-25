@@ -1,0 +1,3 @@
+Test Lexer
+{tne 1B, [EOL=EOL], tlt 1C, [EOL=EOL], tge 1F, [EOL=EOL], halt 0, [EOL=EOL], [EOF=EOF]}
+{tne 1B, [EOL=EOL], tlt 1C, [EOL=EOL], tge 1F, [EOL=EOL], halt 0, [EOL=EOL], [EOF=EOF]}
