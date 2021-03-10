@@ -1,6 +1,3 @@
-
-import java.util.ArrayList;
-
 /**
  * Tests ListingGenerator using stubbed (hardcoded) IR. Generates a lst file called StubbedIR.lst
  */
@@ -8,7 +5,7 @@ public class TestListingGenerator {
 
     public static void main(String[] args) {
     //Stub of the IR, hardcoded values.
-    ArrayList<ILineStatement> stubIR = new ArrayList<ILineStatement>() ;
+    IIR stubIR = new IR();
     stubIR.add(new LineStatement(new Instruction(new Mnemonic("halt"))));
     stubIR.add(new LineStatement(new Instruction(new Mnemonic("exit"))));
     stubIR.add(new LineStatement(new Instruction(new Mnemonic("and"))));

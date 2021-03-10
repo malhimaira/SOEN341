@@ -28,7 +28,7 @@ public class CMA {
 			//Parse tokens from the lexer
 	        Parser parser = new Parser(lexer);
 	        
-	        ArrayList<ILineStatement> IR =  parser.parse();
+	        IIR IR =  parser.parse();
 			//Pass IR to the code generator, which produces executable (eventually) and optional listing file
 	        CodeGenerator cg = new CodeGenerator(IR, fileName, true); //Set to true for now since we always want the listing file for sprint 2
 			System.out.println("Done!");

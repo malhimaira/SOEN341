@@ -19,7 +19,7 @@ public class ListingGenerator implements IListingGenerator {
      * @param IR Received from the parser
      * @param fileName The name of the input file, so the list file can have the same name
      */
-    public ListingGenerator(ArrayList<ILineStatement> IR, String fileName){
+    public ListingGenerator(IIR IR, String fileName){
         addrString = comment = operand = mneName = label = header = "";
         currentAddr = 0;
         currentLine = 1;
@@ -33,7 +33,9 @@ public class ListingGenerator implements IListingGenerator {
         header = String.format("%-5s%-5s%-8s%-10s%-8s%-12s%-10s","Line","Addr","Code","Label","Mne","Operand","Comments");
         pw.println(header); //Add header to document
         //Loop through all line statements, adding the information to the list file.
-        for(ILineStatement temp : IR) {
+        for(int i = 0; i <IR.getSize(); i++) {
+            ILineStatement temp = IR.getLineStatement(i);
+            
         	addrString = String.format("%04X", currentAddr);
 
             Mnemonic mne = temp.getInstruction().getMnemonic();

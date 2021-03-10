@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 /**
  * 
  * This is a batch testing file to test unit tests (AUnit Test - hardcoded result vs program, 
@@ -58,7 +57,7 @@ public class TestBatchUnit {
          * Test Parser (and Test Lexer's getNextToken() method)
          */
         IParser parserObject = new Parser(lexer);
-        ArrayList<ILineStatement> IR =  parserObject.parse();
+        IIR IR =  parserObject.parse();
 
       //************************************ WRITE THE SEQUENTIAL EXPECTED TRAVERSAL OF IR (FROM PARSER) HERE ********************* 
         //Printing the expected output
