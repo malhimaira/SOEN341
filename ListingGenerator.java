@@ -2,7 +2,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 /**
  * Listing Generator, generates the listing file as the constructor is called.
@@ -35,7 +34,7 @@ public class ListingGenerator implements IListingGenerator {
         //Loop through all line statements, adding the information to the list file.
         for(int i = 0; i <IR.getSize(); i++) {
             ILineStatement temp = IR.getLineStatement(i);
-            
+
         	addrString = String.format("%04X", currentAddr);
 
             Mnemonic mne = temp.getInstruction().getMnemonic();

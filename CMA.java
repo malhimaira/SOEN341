@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 
 /**
  * Main class, reads file name from console. Usage is java CMA File.asm
