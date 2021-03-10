@@ -8,3 +8,5 @@ StubSolutionFile.lst
 .DS_Store
 *.xml
 *.iml
+/.idea
+/out
