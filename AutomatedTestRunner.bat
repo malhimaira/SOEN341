@@ -13,5 +13,6 @@ echo "Running AUnit..."
 java aunit AUnitTests.txt
 
 echo "Running TestListingGenerator, (which is not an AUnit test) ***REVIEW OUTPUT ON StubbedIR.lst MANUALLY!!!!"
+java TestListingGenerator.java
 echo "Done!"
 pause
