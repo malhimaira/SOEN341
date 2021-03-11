@@ -15,7 +15,7 @@ public Instruction(IMnemonic mnemonic,IOperand operand) {
 
 }*/
 
-public Mnemonic getMnemonic() {
+public IMnemonic getMnemonic() {
     return mnemonic;
 }
 

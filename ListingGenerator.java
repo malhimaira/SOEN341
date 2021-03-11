@@ -37,7 +37,7 @@ public class ListingGenerator implements IListingGenerator {
 
         	addrString = String.format("%04X", currentAddr);
 
-            Mnemonic mne = temp.getInstruction().getMnemonic();
+            Mnemonic mne = (Mnemonic) temp.getInstruction().getMnemonic();
             mneName = mne.getName();
             opcode = String.format("%02X",mne.getOpcode());
             //TODO comments, operands, labels
