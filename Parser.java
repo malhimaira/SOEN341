@@ -1,18 +1,16 @@
-import java.util.ArrayList;
-
 /**
  * Parser class used to parse through the tokens provided by the Lexer
  */
 public class Parser implements IParser{
-    //IR is an ArrayList of LineStatements
-    ArrayList<ILineStatement> IR;
+    //IR is a wrapper of an ArrayList of LineStatements
+    IIR IR;
     ILexer lexer;
 
     /**
      * Constructor Method
      */
     public Parser(ILexer lexer) {
-        IR = new ArrayList<ILineStatement>();
+        IR = new IR();
         this.lexer = lexer;
 
     }
@@ -21,7 +19,7 @@ public class Parser implements IParser{
      * Parses the .asm file using the lexer. Calls the internal parseTokens method.
      * @return The IR ArrayList of LineStatements
      */
-    public ArrayList<ILineStatement> parse() {
+    public IIR parse() {
         parseTokens(lexer);
         return getIR();
     }
@@ -30,7 +28,7 @@ public class Parser implements IParser{
      * Method that gets the IR ArrayList containing the Line Statements
      * @return the IR Array List
      */
-    public ArrayList<ILineStatement> getIR() {
+    public IIR getIR() {
         return IR;
     }
 
@@ -70,10 +68,11 @@ public class Parser implements IParser{
                     }
                 }
                 //TODO change this based on presence of comments, labels and directives
+                if (currentInstruction != null) {
                 currentLineStatement = new LineStatement(currentInstruction);
                 // Adding LineStatement to IR ArrayList
                 IR.add(currentLineStatement);
-
+            }
                 //Reset the values for next line statements
                 currentToken = null;
                 currentMnemonic = null;

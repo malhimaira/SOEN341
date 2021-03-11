@@ -1,3 +1,12 @@
 
 *.class
 test.java
+testMain.java
+StubIR.java
+StubListingGenerator.java
+StubSolutionFile.lst
+.DS_Store
+*.xml
+*.iml
+/.idea
+/out
