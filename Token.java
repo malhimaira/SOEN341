@@ -7,33 +7,7 @@ public class Token implements IToken{
 	private String    name;
 	private int column;
 	private int row;
-	
-//
-//	Token(String name, TokenType code) { //Position later
-//		this.name = name;
-//		if(code == TokenType.Mnemonic) {
-//			this.code = TokenType.Mnemonic;
-//		}
-//		else if(code == TokenType.Label) {
-//			this.code = TokenType.Label;
-//		}
-//		else if(code == TokenType.LabelOperand) {
-//			this.code = TokenType.LabelOperand;
-//		}
-//		else if(code == TokenType.LabelOperand) {
-//			this.code = TokenType.LabelOperand;
-//		}
-//		else if(code == TokenType.EOL) {
-//			this.code = TokenType.EOL;
-//		}
-//		else if(code == TokenType.EOF) {
-//			this.code = TokenType.EOF;
-//		}
-//		
-//		//comment,EOL,EOF, etc.
-//
-//	}
-//	
+
 	
 	Token(String name, TokenType code, int column, int row) { //Position later
 		this.name = name;
@@ -58,6 +32,12 @@ public class Token implements IToken{
 		else if(code == TokenType.EOF) {
 			this.code = TokenType.EOF;
 		}
+		else if(code == TokenType.Number) {
+			this.code = TokenType.Number;
+		}
+		else if(code == TokenType.Comment) {
+			this.code = TokenType.Comment;
+		}
 		//comment,EOL,EOF, etc.
 
 	}
@@ -69,7 +49,15 @@ public class Token implements IToken{
 		return this.name;
 	}
 
-	public  TokenType getCode()      { 
+	public int getColumn() {
+		return this.column;
+	}
+
+	public int getRow() {
+		return this.row;
+	}
+
+	public  TokenType getCode()      {
 		return code; 
 	}
 	public  String    toString()     {
@@ -77,4 +65,7 @@ public class Token implements IToken{
 	}
 
 
+	protected void setColumn(int column) {
+		this.column = column;
+	}
 }
