@@ -2,5 +2,5 @@
  * Enum for the TokenType
  */
 public enum TokenType { 
-		Mnemonic, Label, LabelOperand, EOL, EOF
+		Mnemonic, Label, LabelOperand, Number, Comment, EOL, EOF
 	}

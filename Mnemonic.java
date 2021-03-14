@@ -5,15 +5,27 @@ import java.util.TreeMap;
 
 public class Mnemonic extends Token implements IMnemonic {
 	private String mName;
+	private String mNameMap;
 	private byte opCode;
+	private boolean needNumberToken;
 	
     private TreeMap<String,Integer> mapping; //Using a TreeMap for mapping as it is very efficient for searching.
 
     /**
 	 * Constructor used to specify the type of the mnemonic given
 	 */
-	public Mnemonic(String mnemonic) {
-        super(mnemonic,TokenType.Mnemonic);
+	public Mnemonic(String mnemonic, boolean needNumberToken, int column, int row) {
+        super(mnemonic,TokenType.Mnemonic, column, row);
+        
+        this.needNumberToken = needNumberToken;
+        if(needNumberToken) {
+        	this.mNameMap = mnemonic.substring(0,mnemonic.indexOf('.'));
+        }
+        else {
+        	this.mNameMap = mnemonic;
+        }
+        
+        
         opCode = -1;
         mapping = new TreeMap<String,Integer>();
         mapping.put("halt",0);
@@ -52,7 +64,7 @@ public class Mnemonic extends Token implements IMnemonic {
      * @return Boolean value which indicates the validity of the instruction 
      */
     public boolean isValidOperation() {
-        if (mapping.containsKey(mName))
+        if (mapping.containsKey(mNameMap))
             return true;
         else
             return false;
@@ -66,7 +78,7 @@ public class Mnemonic extends Token implements IMnemonic {
     private byte findOpcode() {
         int testOpcode = -1; //Default to -1
         if(isValidOperation()) //if the mapping contains the mnemonic, set testOpcode to that opcode, otherwise opcode is set to -1
-            testOpcode = mapping.get(mName);
+            testOpcode = mapping.get(mNameMap);
         
         opCode = (byte) testOpcode;
         return opCode;

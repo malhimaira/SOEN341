@@ -3,8 +3,8 @@
  */
 public class EOL extends Token {
 
-	EOL(String name) {
-		super(name, TokenType.EOL);
+	EOL(String name, int column, int row) {
+		super(name, TokenType.EOL, column, row);
 		// TODO Auto-generated constructor stub
 	}
 	public TokenType getCode() {

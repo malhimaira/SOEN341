@@ -5,9 +5,41 @@ public class Token implements IToken{
 	//private Position  pos;
 	private TokenType code;
 	private String    name;
-
-	Token(String name, TokenType code) { //Position later
+	private int column;
+	private int row;
+	
+//
+//	Token(String name, TokenType code) { //Position later
+//		this.name = name;
+//		if(code == TokenType.Mnemonic) {
+//			this.code = TokenType.Mnemonic;
+//		}
+//		else if(code == TokenType.Label) {
+//			this.code = TokenType.Label;
+//		}
+//		else if(code == TokenType.LabelOperand) {
+//			this.code = TokenType.LabelOperand;
+//		}
+//		else if(code == TokenType.LabelOperand) {
+//			this.code = TokenType.LabelOperand;
+//		}
+//		else if(code == TokenType.EOL) {
+//			this.code = TokenType.EOL;
+//		}
+//		else if(code == TokenType.EOF) {
+//			this.code = TokenType.EOF;
+//		}
+//		
+//		//comment,EOL,EOF, etc.
+//
+//	}
+//	
+	
+	Token(String name, TokenType code, int column, int row) { //Position later
 		this.name = name;
+		this.column= column;
+		this.row = row;
+		
 		if(code == TokenType.Mnemonic) {
 			this.code = TokenType.Mnemonic;
 		}
@@ -26,10 +58,11 @@ public class Token implements IToken{
 		else if(code == TokenType.EOF) {
 			this.code = TokenType.EOF;
 		}
-		
 		//comment,EOL,EOF, etc.
 
 	}
+	
+	
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub

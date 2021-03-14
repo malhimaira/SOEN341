@@ -28,41 +28,117 @@ public class Lexer implements ILexer{
 		String word ="";
 		TokenSequence = new ArrayList<String>(10); //TODO Maira
 		cntString = 0;//TODO Maira
+		int colLex = 1;
+		int rowLex = 1;
+		boolean prevIsSpace =true; //account for mulitple spaces in a row
+		
+		int cntTLS = 0; //count tokens in a line statement
 		
 		
 		boolean firstIter = true;
 		try {
 			while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
-				if((char)metaChar == '\n') { // check how EOL actually gets read
-
-					if (!word.trim().equals("")) { //TODO Brandon, without this check you end up missing a whole word sometimes!
-						Mnemonic m1 = new Mnemonic(word.trim()); //needs to be more generalized more after //TODO Brandon added trim
-					SymbolTable.put(m1.getName(), m1);
-					TokenSequence.add(m1.getName()); //TODO Maira
-					//System.out.println(m1); //TODO Brandon
-					word="";
-					firstIter = true; //TODO Brandon
+				
+				if(metaChar != eofMarker & metaChar == ' ' & !prevIsSpace) {
+					
+					prevIsSpace = true;
+					
+					System.out.println();
+					System.out.println(word);
+					System.out.println();
+					
+					cntTLS += 1;
+					
+					if(cntTLS == 1) { //Case for a mnemonic token 
+						if(word.contains(".")) { //if mnemonic needs a number token
+							Mnemonic mnem = new Mnemonic(word, true, colLex, rowLex);
+							SymbolTable.put(mnem.getName(), mnem);
+							TokenSequence.add(mnem.getName());
+							word = "";
+						}
+						else if(!word.contains(".")) { //if mnemonic does not need a number token
+							Mnemonic mnem = new Mnemonic(word, false, colLex, rowLex);
+							SymbolTable.put(mnem.getName(), mnem);
+							TokenSequence.add(mnem.getName());
+							word = "";
+						}
+						else{
+							System.out.print("mnemonic creation error");
+						}
+						
 					}
-
-					EOL e1 = new EOL("EOL");
-					SymbolTable.put(e1.getName(), e1);
-					TokenSequence.add(e1.getName()); //TODO Maira
-					//System.out.println(e1); //TODO Brandon
-					continue;
+					else if(cntTLS == 2) { //Case for a number token
+						Number num = new Number(word, colLex, rowLex);
+						SymbolTable.put(num.getName(), num);
+						TokenSequence.add(num.getName());
+						cntTLS = 0;
+						word = "";
+					}
 				}
-				if ((char)metaChar == ' ' && !firstIter && !word.trim().equals("")) { //just to account the space at the beginning, space char included for now as thats what is in the asm
-					Mnemonic m1 = new Mnemonic(word.trim()); //needs to be more generalized more after //TODO Brandon added trim 
-					SymbolTable.put(m1.getName(), m1);
-					TokenSequence.add(m1.getName()); //TODO Maira
-					//System.out.println(m1); //TODO Brandon
-					word="";
-					firstIter = true; //TODO Brandon
-				}
-				else {
-					firstIter = false;
+				else if(metaChar != eofMarker & metaChar != ';' & metaChar != ' ') {
 					word += (char)metaChar;
-					//System.out.println(word);
+					prevIsSpace = false; 
 				}
+				else if(metaChar != eofMarker & metaChar == ';') { //Handling for a comment token
+					prevIsSpace = false;
+					word += ";";
+					while((metaChar = fileStream.read()) != (int)'\n') {
+						word += (char)metaChar;
+					}
+					Comment comm = new Comment(word, colLex, rowLex);
+					SymbolTable.put(comm.getName(), comm);
+					TokenSequence.add(comm.getName()); 
+					word = "";
+				}
+				if((char)metaChar == '\n') {
+					prevIsSpace = false;
+					EOL eol = new EOL("EOL", colLex, rowLex);
+					SymbolTable.put(eol.getName(), eol);
+					TokenSequence.add(eol.getName()); 
+					word = "";
+				}
+				
+//				else {
+//					//sys.o.p   "no work"
+//				}
+//				
+				
+				
+				
+				
+				
+//				if((char)metaChar == '\n') { // check how EOL actually gets read
+//
+//					if (!word.trim().equals("")) { //TODO Brandon, without this check you end up missing a whole word sometimes!
+//						Mnemonic m1 = new Mnemonic(word.trim(), colLex, rowLex); //needs to be more generalized more after //TODO Brandon added trim
+//					SymbolTable.put(m1.getName(), m1);
+//					TokenSequence.add(m1.getName()); //TODO Maira
+//					//System.out.println(m1); //TODO Brandon
+//					word="";
+//					firstIter = true; //TODO Brandon
+//					}
+//
+//					EOL e1 = new EOL("EOL");
+//					SymbolTable.put(e1.getName(), e1);
+//					TokenSequence.add(e1.getName()); //TODO Maira
+//					//System.out.println(e1); //TODO Brandon
+//					continue;
+//				}
+//				
+//				
+//				if ((char)metaChar == ' ' && !firstIter && !word.trim().equals("")) { //just to account the space at the beginning, space char included for now as thats what is in the asm
+//					Mnemonic m1 = new Mnemonic(word.trim(), colLex, rowLex); //needs to be more generalized more after //TODO Brandon added trim 
+//					SymbolTable.put(m1.getName(), m1);
+//					TokenSequence.add(m1.getName()); //TODO Maira
+//					//System.out.println(m1); //TODO Brandon
+//					word="";
+//					firstIter = true; //TODO Brandon
+//				}
+//				else {
+//					firstIter = false;
+//					word += (char)metaChar;
+//					//System.out.println(word);
+//				}
 			}
 			//CHECK FOR LAST ITERATION IN CASE 
 			/*
@@ -71,10 +147,10 @@ public class Lexer implements ILexer{
 			SymbolTable.put(endCase.getName(), endCase);
 			word="";*/
 
-			EOF eof = new EOF("EOF");
-			SymbolTable.put(eof.getName(), eof);
-			TokenSequence.add(eof.getName());  //TODO Maira
-			//System.out.println("<eof>");
+//			EOF eof = new EOF("EOF");
+//			SymbolTable.put(eof.getName(), eof);
+//			TokenSequence.add(eof.getName());  //TODO Maira
+//			//System.out.println("<eof>");
 			
 			
 		}
