@@ -53,6 +53,11 @@ public class Mnemonic extends Token implements IMnemonic {
         mapping.put("tgt",29);
         mapping.put("tle",30);
         mapping.put("tge",31);
+        mapping.put("enter",32);
+        mapping.put("ldc",33);
+        mapping.put("addv",34);
+        mapping.put("ldv",35);
+        mapping.put("stv",36);
         this.mName = mnemonic;
         opCode = findOpcode(); //Set opcode to opcode found using helper method
        
@@ -96,7 +101,7 @@ public class Mnemonic extends Token implements IMnemonic {
      * toString() returns hex representation of the opcode.
      */
     public String toString() {
-        return mName + " " + Integer.toHexString(opCode).toUpperCase();
+        return mName + " " + Integer.toHexString(opCode).toUpperCase()+ " Col: " +getColumn() + " Row: " + getRow();
     }
 	
 
@@ -114,6 +119,10 @@ public class Mnemonic extends Token implements IMnemonic {
 		// TODO Auto-generated method stub
 		return mName;
 	}
+	public void setColLength(int col){
+	    super.setColumn(col - this.mName.length()-1);
+	    return;
+    }
 
 	@Override
 	public TokenType getCode() {

@@ -10,4 +10,9 @@ public class Number extends Token{
 		// TODO Auto-generated method stub
 		return TokenType.Number;
 	}
+
+	@Override
+	public String toString() {
+		return getName()+" " + getColumn() + "" + getRow();
+	}
 }

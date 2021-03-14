@@ -5,185 +5,140 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 
-
 /**
  * Lexer Class used to create Token Objects from a given fileStream to send to the Parser
  */
-public class Lexer implements ILexer{
+public class Lexer implements ILexer {
 
-	private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();
-	private ArrayList<String> TokenSequence;
-	private int cntString;
+    private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();
+    private ArrayList<String> TokenSequence;
+    private int cntString;
 
-	//Default not necessary for the class, only need 
-	public Lexer() {}
+    //Default not necessary for the class, only need
+    public Lexer() {
+    }
 
-	/**
-	 *Method used to start the Lexer
-	 * @param fileStream
-	 */
-	public Lexer(FileInputStream fileStream) {
-		int metaChar;       // May contained eof or a character.
-		int eofMarker = -1 ;
-		String word ="";
-		TokenSequence = new ArrayList<String>(10); //TODO Maira
-		cntString = 0;//TODO Maira
-		int colLex = 1;
-		int rowLex = 1;
-		boolean prevIsSpace =true; //account for mulitple spaces in a row
-		
-		int cntTLS = 0; //count tokens in a line statement
-		
-		
-		boolean firstIter = true;
-		try {
-			while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
-				
-				if(metaChar != eofMarker & metaChar == ' ' & !prevIsSpace) {
-					
-					prevIsSpace = true;
-					
-					System.out.println();
-					System.out.println(word);
-					System.out.println();
-					
-					cntTLS += 1;
-					
-					if(cntTLS == 1) { //Case for a mnemonic token 
-						if(word.contains(".")) { //if mnemonic needs a number token
-							Mnemonic mnem = new Mnemonic(word, true, colLex, rowLex);
-							SymbolTable.put(mnem.getName(), mnem);
-							TokenSequence.add(mnem.getName());
-							word = "";
-						}
-						else if(!word.contains(".")) { //if mnemonic does not need a number token
-							Mnemonic mnem = new Mnemonic(word, false, colLex, rowLex);
-							SymbolTable.put(mnem.getName(), mnem);
-							TokenSequence.add(mnem.getName());
-							word = "";
-						}
-						else{
-							System.out.print("mnemonic creation error");
-						}
-						
-					}
-					else if(cntTLS == 2) { //Case for a number token
-						Number num = new Number(word, colLex, rowLex);
-						SymbolTable.put(num.getName(), num);
-						TokenSequence.add(num.getName());
-						cntTLS = 0;
-						word = "";
-					}
-				}
-				else if(metaChar != eofMarker & metaChar != ';' & metaChar != ' ') {
-					word += (char)metaChar;
-					prevIsSpace = false; 
-				}
-				else if(metaChar != eofMarker & metaChar == ';') { //Handling for a comment token
-					prevIsSpace = false;
-					word += ";";
-					while((metaChar = fileStream.read()) != (int)'\n') {
-						word += (char)metaChar;
-					}
-					Comment comm = new Comment(word, colLex, rowLex);
-					SymbolTable.put(comm.getName(), comm);
-					TokenSequence.add(comm.getName()); 
-					word = "";
-				}
-				if((char)metaChar == '\n') {
-					prevIsSpace = false;
-					EOL eol = new EOL("EOL", colLex, rowLex);
-					SymbolTable.put(eol.getName(), eol);
-					TokenSequence.add(eol.getName()); 
-					word = "";
-				}
-				
-//				else {
-//					//sys.o.p   "no work"
-//				}
-//				
-				
-				
-				
-				
-				
-//				if((char)metaChar == '\n') { // check how EOL actually gets read
-//
-//					if (!word.trim().equals("")) { //TODO Brandon, without this check you end up missing a whole word sometimes!
-//						Mnemonic m1 = new Mnemonic(word.trim(), colLex, rowLex); //needs to be more generalized more after //TODO Brandon added trim
-//					SymbolTable.put(m1.getName(), m1);
-//					TokenSequence.add(m1.getName()); //TODO Maira
-//					//System.out.println(m1); //TODO Brandon
-//					word="";
-//					firstIter = true; //TODO Brandon
-//					}
-//
-//					EOL e1 = new EOL("EOL");
-//					SymbolTable.put(e1.getName(), e1);
-//					TokenSequence.add(e1.getName()); //TODO Maira
-//					//System.out.println(e1); //TODO Brandon
-//					continue;
-//				}
-//				
-//				
-//				if ((char)metaChar == ' ' && !firstIter && !word.trim().equals("")) { //just to account the space at the beginning, space char included for now as thats what is in the asm
-//					Mnemonic m1 = new Mnemonic(word.trim(), colLex, rowLex); //needs to be more generalized more after //TODO Brandon added trim 
-//					SymbolTable.put(m1.getName(), m1);
-//					TokenSequence.add(m1.getName()); //TODO Maira
-//					//System.out.println(m1); //TODO Brandon
-//					word="";
-//					firstIter = true; //TODO Brandon
-//				}
-//				else {
-//					firstIter = false;
-//					word += (char)metaChar;
-//					//System.out.println(word);
-//				}
-			}
-			//CHECK FOR LAST ITERATION IN CASE 
-			/*
-			Mnemonic endCase = new Mnemonic(word.trim()); //needs to be more generalized more after 
-			System.out.println(endCase);
-			SymbolTable.put(endCase.getName(), endCase);
-			word="";*/
+    /**
+     * Method used to start the Lexer
+     *
+     * @param fileStream
+     */
+    public Lexer(FileInputStream fileStream) {
+        int metaChar;       // May contained eof or a character.
+        int eofMarker = -1;
+        String word = "";
+        TokenSequence = new ArrayList<String>(10); //TODO Maira
+        cntString = 0;//TODO Maira
+        int colLex = 1;
+        int rowLex = 1;
+        boolean prevIsSpace = true; //account for mulitple spaces in a row
 
-//			EOF eof = new EOF("EOF");
-//			SymbolTable.put(eof.getName(), eof);
-//			TokenSequence.add(eof.getName());  //TODO Maira
-//			//System.out.println("<eof>");
-			
-			
-		}
-		catch(IOException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Get The Symbol Table (in case of parameter
-	 * @return
-	 */
-	public HashMap<String, Token> getSymbolTable() {
-		return SymbolTable;
-	}
-	
-	
-	/**
-	 * Method for returning tokens sequentially
-	 * @return Token
-	 */
-	public Token getNextToken() {
-		Token t = null;
-		
-		if (cntString != TokenSequence.size() && SymbolTable.get(TokenSequence.get(cntString))!= null) {
-			t = SymbolTable.get(TokenSequence.get(cntString));
-			cntString++;
-			return t; 
-		}
-		else {
-			return t; //Team 4 please handle the case where the Token is null, if it is then just don't process it.
-		}	
-	}
-	
+        int cntTLS = 0; //count tokens in a line statement
+
+
+        boolean firstIter = true;
+        try {
+            while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
+                colLex += 1;
+                if (metaChar != eofMarker & metaChar == ' ' & !prevIsSpace) {
+
+                    prevIsSpace = true;
+
+//                    System.out.println();
+//                    System.out.println(word);
+//                    System.out.println();
+
+                    cntTLS += 1;
+
+                    if (cntTLS == 1) { //Case for a mnemonic token
+                        if (word.contains(".")) { //if mnemonic needs a number token
+                            Mnemonic mnem = new Mnemonic(word, true, colLex, rowLex);
+                            mnem.setColLength(colLex);
+                            SymbolTable.put(mnem.getName(), mnem);
+                            TokenSequence.add(mnem.getName());
+                            word = "";
+                        } else if (!word.contains(".")) { //if mnemonic does not need a number token
+                            Mnemonic mnem = new Mnemonic(word, false, colLex, rowLex);
+                            mnem.setColLength(colLex);
+                            SymbolTable.put(mnem.getName(), mnem);
+                            TokenSequence.add(mnem.getName());
+                            word = "";
+                            cntTLS = 0;
+                        } else {
+                            System.out.print("mnemonic creation error");
+                        }
+
+                    } else if (cntTLS == 2) { //Case for a number token
+                        Number num = new Number(word, colLex-2, rowLex);
+                        SymbolTable.put(num.getName(), num);
+                        TokenSequence.add(num.getName());
+                        cntTLS = 0;
+                        word = "";
+                    }
+                } else if (metaChar != eofMarker & metaChar != ';' & metaChar != ' ') {
+                    word += (char) metaChar;
+
+                    prevIsSpace = false;
+                } else if (metaChar != eofMarker & metaChar == ';') { //Handling for a comment token
+                    prevIsSpace = false;
+                    word += ";";
+
+
+                    while ((metaChar = fileStream.read()) != (int) '\n') {
+                        colLex +=1;
+                        word += (char) metaChar;
+                    }
+                    Comment comm = new Comment(word, colLex, rowLex);
+                    SymbolTable.put(comm.getName(), comm);
+                    TokenSequence.add(comm.getName());
+                    word = "";
+                }
+                if ((char) metaChar == '\n') {
+                    prevIsSpace = false;
+                    EOL eol = new EOL("EOL", colLex, rowLex);
+                    SymbolTable.put(eol.getName(), eol);
+                    TokenSequence.add(eol.getName());
+                    word = "";
+                    colLex = 1;
+                    rowLex += 1;
+
+                }
+
+
+            }
+
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Get The Symbol Table (in case of parameter
+     *
+     * @return
+     */
+    public HashMap<String, Token> getSymbolTable() {
+        return SymbolTable;
+    }
+
+
+    /**
+     * Method for returning tokens sequentially
+     *
+     * @return Token
+     */
+    public Token getNextToken() {
+        Token t = null;
+
+        if (cntString != TokenSequence.size() && SymbolTable.get(TokenSequence.get(cntString)) != null) {
+            t = SymbolTable.get(TokenSequence.get(cntString));
+            cntString++;
+            return t;
+        } else {
+            return t; //Team 4 please handle the case where the Token is null, if it is then just don't process it.
+        }
+    }
+
 
 }

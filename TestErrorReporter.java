@@ -2,7 +2,7 @@
 import java.io.File;
 
 public class TestErrorReporter{
-
+/*
   	public static void main(String args[]) {
 
       File errorRepFile = new File("testErrorRepFile.txt");
@@ -17,5 +17,5 @@ public class TestErrorReporter{
       er.endErrorReporter();
       
     }//end of main
-
+*/
 }//end of class
