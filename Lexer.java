@@ -69,7 +69,7 @@ public class Lexer implements ILexer {
                         }
 
                     } else if (cntTLS == 2) { //Case for a number token
-                        Number num = new Number(word, colLex-2, rowLex);
+                        Number num = new Number(word, colLex - 2, rowLex);
                         SymbolTable.put(num.getName(), num);
                         TokenSequence.add(num.getName());
                         cntTLS = 0;
@@ -84,16 +84,16 @@ public class Lexer implements ILexer {
                     word += ";";
 
 
-                    while ((metaChar = fileStream.read()) != (int) '\n') {
-                        colLex +=1;
-                        word += (char) metaChar;
+                    while ((metaChar = fileStream.read()) != (int) '\n' && (metaChar ) != (int) '\r'  ) {
+                        colLex += 1;
+                        word += (char) metaChar;// kept appending spaces
                     }
                     Comment comm = new Comment(word, colLex, rowLex);
                     SymbolTable.put(comm.getName(), comm);
                     TokenSequence.add(comm.getName());
                     word = "";
                 }
-                if ((char) metaChar == '\n') {
+                if ((char) metaChar == '\n' ) {
                     prevIsSpace = false;
                     EOL eol = new EOL("EOL", colLex, rowLex);
                     SymbolTable.put(eol.getName(), eol);
