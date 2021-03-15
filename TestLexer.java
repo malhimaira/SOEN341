@@ -32,10 +32,10 @@ public class TestLexer {
         System.out.println();
         while(t != null) {
         	strST += t+", ";
-        	System.out.println(strST);
+        	//System.out.println(strST);
         	t = lexer.getNextToken();
         }
-
+        System.out.println(strST);
     }
 
 }

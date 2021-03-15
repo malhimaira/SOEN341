@@ -54,14 +54,18 @@ public class Lexer implements ILexer {
                         if (word.contains(".")) { //if mnemonic needs a number token
                             Mnemonic mnem = new Mnemonic(word, true, colLex, rowLex);
                             mnem.setColLength(colLex);
-                            SymbolTable.put(mnem.getName(), mnem);
-                            TokenSequence.add(mnem.getName());
+                            if (word.length() != 0) {
+                                SymbolTable.put(mnem.getName(), mnem);
+                                TokenSequence.add(mnem.getName());
+                            }
                             word = "";
                         } else if (!word.contains(".")) { //if mnemonic does not need a number token
                             Mnemonic mnem = new Mnemonic(word, false, colLex, rowLex);
                             mnem.setColLength(colLex);
-                            SymbolTable.put(mnem.getName(), mnem);
-                            TokenSequence.add(mnem.getName());
+                            if (word.length() != 0) {
+                                SymbolTable.put(mnem.getName(), mnem);
+                                TokenSequence.add(mnem.getName());
+                            }
                             word = "";
                             cntTLS = 0;
                         } else {
@@ -83,17 +87,37 @@ public class Lexer implements ILexer {
                     prevIsSpace = false;
                     word += ";";
 
-
-                    while ((metaChar = fileStream.read()) != (int) '\n' && (metaChar ) != (int) '\r'  ) {
+                    int spaceCount = 0; //allows for a max of 1 space at the end of a comment unless there is an EOL
+                    while ((metaChar = fileStream.read()) != (int) '\n' && (metaChar) != (int) '\r') {
                         colLex += 1;
-                        word += (char) metaChar;// kept appending spaces
+
+
+                        if(metaChar== 32){
+                            spaceCount++;
+                        }
+                        else if (metaChar != 32){
+                            spaceCount =0;
+                        }
+                        if(spaceCount==2){
+                            spaceCount = 0;
+                            break;
+                        }
+//                        if(prevIsSpace && metaChar == 32){
+//                            break;
+//                        }
+
+                        //need to flip prevSpace on after first comment
+                        word += (char) metaChar;
+
+
                     }
                     Comment comm = new Comment(word, colLex, rowLex);
                     SymbolTable.put(comm.getName(), comm);
                     TokenSequence.add(comm.getName());
+
                     word = "";
                 }
-                if ((char) metaChar == '\n' ) {
+                if ((char) metaChar == '\n') {
                     prevIsSpace = false;
                     EOL eol = new EOL("EOL", colLex, rowLex);
                     SymbolTable.put(eol.getName(), eol);
