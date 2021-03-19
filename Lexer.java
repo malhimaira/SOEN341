@@ -51,17 +51,19 @@ public class Lexer implements ILexer {
                     cntTLS += 1;
 
                     if (cntTLS == 1) { //Case for a mnemonic token
-                        if (word.contains(".")) { //if mnemonic needs a number token
+                        if (word.contains(".")) { //if mnemonic should expect a number token next
+                            //create the position inside the mnemonic using the word length and current column
                             Mnemonic mnem = new Mnemonic(word, true, colLex, rowLex);
-                            mnem.setColLength(colLex);
+                            mnem.setColLength(colLex);//needs to be redone
                             if (word.length() != 0) {
                                 SymbolTable.put(mnem.getName(), mnem);
                                 TokenSequence.add(mnem.getName());
                             }
                             word = "";
                         } else if (!word.contains(".")) { //if mnemonic does not need a number token
+                            //create the position inside the mnemonic using the word length and current column
                             Mnemonic mnem = new Mnemonic(word, false, colLex, rowLex);
-                            mnem.setColLength(colLex);
+                            mnem.setColLength(colLex);//needs to be redone
                             if (word.length() != 0) {
                                 SymbolTable.put(mnem.getName(), mnem);
                                 TokenSequence.add(mnem.getName());
