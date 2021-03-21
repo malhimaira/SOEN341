@@ -3,12 +3,15 @@
  */
 public class EOL extends Token {
 
-	EOL(String name, int column, int row) {
-		super(name, TokenType.EOL, column, row);
+	EOL(String name, Position pos) {
+		super(name, TokenType.EOL, pos);
 		// TODO Auto-generated constructor stub
 	}
 	public TokenType getCode() {
 		// TODO Auto-generated method stub
 		return TokenType.EOL;
+	}
+	public String toString() {
+		return "EOL row: "+super.getPosition().getRow()+" column: "+super.getPosition().getColumn();
 	}
 }

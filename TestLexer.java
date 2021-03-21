@@ -28,10 +28,11 @@ public class TestLexer {
 //
 
         Token t = lexer.getNextToken();
-        String strST="{";
+        String strST="";
         System.out.println();
         while(t != null) {
-        	strST += t+", ";
+        	strST += t+"\n ";
+        	//strST += t+", ";
         	//System.out.println(strST);
         	t = lexer.getNextToken();
         }

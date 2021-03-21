@@ -14,8 +14,8 @@ public class Mnemonic extends Token implements IMnemonic {
     /**
 	 * Constructor used to specify the type of the mnemonic given
 	 */
-	public Mnemonic(String mnemonic, boolean needNumberToken, int column, int row) {
-        super(mnemonic,TokenType.Mnemonic, column, row);
+	public Mnemonic(String mnemonic, boolean needNumberToken, Position pos) {
+        super(mnemonic,TokenType.Mnemonic, pos);
         
         this.needNumberToken = needNumberToken;
         if(needNumberToken) {
@@ -101,7 +101,7 @@ public class Mnemonic extends Token implements IMnemonic {
      * toString() returns hex representation of the opcode.
      */
     public String toString() {
-        return mName + " " + Integer.toHexString(opCode).toUpperCase()+ " Col: " +getColumn() + " Row: " + getRow();
+        return mName + " " + Integer.toHexString(opCode).toUpperCase() + " row:" +getPosition().getRow()+" column:" +getPosition().getColumn();
     }
 	
 
@@ -119,10 +119,10 @@ public class Mnemonic extends Token implements IMnemonic {
 		// TODO Auto-generated method stub
 		return mName;
 	}
-	public void setColLength(int col){
-	    super.setColumn(col - this.mName.length()-1);
-	    return;
-    }
+//	public void setColLength(int col){
+//	    super.setColumn(col - this.mName.length()-1);
+//	    return;
+//    }
 
 	@Override
 	public TokenType getCode() {

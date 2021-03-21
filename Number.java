@@ -2,8 +2,8 @@
  * Class representing a Number Token
  */
 public class Number extends Token{
-	Number(String name, int column, int row) {
-		super(name, TokenType.Number, column, row);
+	Number(String name, Position pos) {
+		super(name, TokenType.Number, pos);
 		// TODO Auto-generated constructor stub
 	}
 	public TokenType getCode() {
@@ -13,6 +13,6 @@ public class Number extends Token{
 
 	@Override
 	public String toString() {
-		return getName()+" " + getColumn() + "" + getRow();
+		return getName()+ " row:" +getPosition().getRow()+" column:" +getPosition().getColumn();
 	}
 }
