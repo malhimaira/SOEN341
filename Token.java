@@ -7,12 +7,12 @@ public class Token implements IToken{
 	private String    name;
 	private int column;
 	private int row;
+	private Position position;
 
 	
-	Token(String name, TokenType code, int column, int row) { //Position later
+	Token(String name, TokenType code,Position pos) { //Position later
 		this.name = name;
-		this.column= column;
-		this.row = row;
+		this.position = new Position(pos.getRow(),pos.getColumn());
 		
 		if(code == TokenType.Mnemonic) {
 			this.code = TokenType.Mnemonic;
@@ -49,12 +49,8 @@ public class Token implements IToken{
 		return this.name;
 	}
 
-	public int getColumn() {
-		return this.column;
-	}
-
-	public int getRow() {
-		return this.row;
+	public Position getPosition() {
+		return position;
 	}
 
 	public  TokenType getCode()      {
@@ -65,7 +61,4 @@ public class Token implements IToken{
 	}
 
 
-	protected void setColumn(int column) {
-		this.column = column;
-	}
 }
