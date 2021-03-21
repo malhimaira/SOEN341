@@ -13,22 +13,22 @@ public class DummyLexer extends Lexer{
         tokenList = new ArrayList<Token>();
 
         //Adding Tokens to the ArrayList
-        tokenList.add(new Mnemonic("halt"));
-        tokenList.add(new EOL("EOL"));
+        tokenList.add(new Mnemonic("halt",false,new Position(1,1)));
+        tokenList.add(new EOL("EOL", new Position(1,2)));
 
-        tokenList.add(new Mnemonic("and"));
-        tokenList.add(new EOL("EOL"));
+        tokenList.add(new Mnemonic("and",false,new Position(2,1)));
+        tokenList.add(new EOL("EOL", new Position(2,2)));
 
-        tokenList.add(new Mnemonic("shl"));
-        tokenList.add(new EOL("EOL"));
+        tokenList.add(new Mnemonic("shl",false,new Position(3,1)));
+        tokenList.add(new EOL("EOL", new Position(3,2)));
 
-        tokenList.add(new Mnemonic("tgt"));
-        tokenList.add(new EOL("EOL"));
+        tokenList.add(new Mnemonic("tgt",false, new Position (4,1)));
+        tokenList.add(new EOL("EOL", new Position (4,2)));
 
-        tokenList.add(new Mnemonic("exit"));
-        tokenList.add(new EOL("EOL"));
+        tokenList.add(new Mnemonic("exit",false,new Position(5,1)));
+        tokenList.add(new EOL("EOL",new Position(5,2)));
 
-        tokenList.add(new EOF("EOF"));
+        tokenList.add(new EOF("EOF",new Position(6,0)));
     }
 
     /**

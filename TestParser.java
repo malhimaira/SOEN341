@@ -13,7 +13,7 @@ public class TestParser {
 
         //Printing the expected output
         System.out.println("Test Parser");
-        System.out.println("[halt 0, and D, shl 18, tgt 1D, exit 3]");
+        System.out.println("[halt 0 row:1 column:1, and D row:2 column:1, shl 18 row:3 column:1, tgt 1D row:4 column:1, exit 3 row:5 column:1]");
 
         //Printing the actual output
         System.out.println(parserObject.parse());

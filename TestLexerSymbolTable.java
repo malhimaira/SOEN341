@@ -14,7 +14,7 @@ public class TestLexerSymbolTable {
         Lexer lexer = new Lexer (inputReader);
         
         System.out.println("Test Lexer Symbol Table");
-        System.out.println("{halt=halt 0, EOL=[EOL=EOL], tge=tge 1F, tne=tne 1B, tlt=tlt 1C, EOF=[EOF=EOF]}");
+        System.out.println("{halt=halt 0 row:4 column:2, EOL=EOL row: 4 column: 15, tge=tge 1F row:3 column:2, tne=tne 1B row:1 column:2, tlt=tlt 1C row:2 column:2}");
 
         System.out.println(lexer.getSymbolTable());
     }

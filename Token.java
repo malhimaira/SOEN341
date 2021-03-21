@@ -5,8 +5,6 @@ public class Token implements IToken{
 	//private Position  pos;
 	private TokenType code;
 	private String    name;
-	private int column;
-	private int row;
 	private Position position;
 
 	
