@@ -3,7 +3,7 @@
  */
 public interface IMnemonic extends IToken{
 
-    byte getOpcode();
+    int getOpcode();
     boolean isValidOperation();
     String getName();
     void setName(String name);

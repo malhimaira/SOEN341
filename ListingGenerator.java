@@ -29,21 +29,28 @@ public class ListingGenerator implements IListingGenerator {
             exception.printStackTrace();
         }
         //Header of the document, using String.format/
-        header = String.format("%-5s%-5s%-8s%-10s%-8s%-12s%-10s","Line","Addr","Code","Label","Mne","Operand","Comments");
+        header = String.format("%-5s%-5s%-8s%-10s%-11s%-16s%-16s","Line","Addr","Code","Label","Mne","Operand","Comments");
         pw.println(header); //Add header to document
         //Loop through all line statements, adding the information to the list file.
         for(int i = 0; i <IR.getSize(); i++) {
             ILineStatement temp = IR.getLineStatement(i);
 
         	addrString = String.format("%04X", currentAddr);
-
-            Mnemonic mne = (Mnemonic) temp.getInstruction().getMnemonic();
-            mneName = mne.getName();
-            opcode = String.format("%02X",mne.getOpcode());
+            
+            if (temp.getInstruction() != null) {
+                Mnemonic mne = (Mnemonic) temp.getInstruction().getMnemonic();
+                mneName = mne.getName();
+                opcode = String.format("%02X",mne.getOpcode());
+                if (!temp.getInstruction().isInherent()) //If it is not inherent and thus needs an operand.
+                    operand = Integer.toString(temp.getInstruction().getNumberInt());
+            }
+            if (temp.getComment() != null)
+                comment = temp.getComment().getName();
             //TODO comments, operands, labels
-            pw.println(String.format("%-4d %-4s %-7s %-9s %-7s %-7s %-9s",currentLine,addrString,opcode,label,mneName,operand,comment));
+            pw.println(String.format("%-4d %-4s %-7s %-9s %-10s %-16s %-15s",currentLine,addrString,opcode,label,mneName,operand,comment));
 
-            currentAddr++;
+            if (temp.getInstruction() != null) //If no instruction on line, we do not increment address!
+                currentAddr++;
             currentLine++;
             addrString = comment = operand = mneName = label = header = "";
         }

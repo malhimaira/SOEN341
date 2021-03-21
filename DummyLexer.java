@@ -28,7 +28,15 @@ public class DummyLexer extends Lexer{
         tokenList.add(new Mnemonic("exit",false,new Position(5,1)));
         tokenList.add(new EOL("EOL",new Position(5,2)));
 
-        tokenList.add(new EOF("EOF",new Position(6,0)));
+        tokenList.add(new Mnemonic("enter.u5", true, new Position (6,1)));
+        tokenList.add(new Number("31",new Position (6,2)));
+        tokenList.add(new Comment(";Test Comment",new Position(6,3)));
+        tokenList.add(new EOL("EOL", new Position (6,4)));
+        
+        tokenList.add(new Comment(";Comment and no Instruction",new Position(7,1)));
+        tokenList.add(new EOL("EOL", new Position (7,2)));
+
+        tokenList.add(new EOF("EOF",new Position(8,0)));
     }
 
     /**

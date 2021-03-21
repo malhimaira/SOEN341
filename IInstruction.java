@@ -4,5 +4,6 @@
 public interface IInstruction {
 
     IMnemonic getMnemonic();
-    //Operand getOperand();
+    int getNumberInt();
+    boolean isInherent();
 }

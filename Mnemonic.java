@@ -6,7 +6,7 @@ import java.util.TreeMap;
 public class Mnemonic extends Token implements IMnemonic {
 	private String mName;
 	private String mNameMap;
-	private byte opCode;
+	private int opCode;
 	private boolean needNumberToken;
 	
     private TreeMap<String,Integer> mapping; //Using a TreeMap for mapping as it is very efficient for searching.
@@ -18,12 +18,12 @@ public class Mnemonic extends Token implements IMnemonic {
         super(mnemonic,TokenType.Mnemonic, pos);
         
         this.needNumberToken = needNumberToken;
-        if(needNumberToken) {
-        	this.mNameMap = mnemonic.substring(0,mnemonic.indexOf('.'));
-        }
-        else {
+       // if(needNumberToken) {
+        	//this.mNameMap = mnemonic.substring(0,mnemonic.indexOf('.'));
+       // }
+       // else {
         	this.mNameMap = mnemonic;
-        }
+       // }
         
         
         opCode = -1;
@@ -55,11 +55,11 @@ public class Mnemonic extends Token implements IMnemonic {
         mapping.put("tge",31);
 
         //Immediate instructions (opcode given here is starting value)
-        mapping.put("enter.u5",112);
-        mapping.put("ldc.i3",144);
-        mapping.put("addv.u3",152);
-        mapping.put("ldv.u3",160);
-        mapping.put("stv.u3",168);
+       mapping.put("enter.u5",112);
+       mapping.put("ldc.i3",144);
+       mapping.put("addv.u3",152);
+       mapping.put("ldv.u3",160);
+       mapping.put("stv.u3",168);
         this.mName = mnemonic;
         opCode = findOpcode(); //Set opcode to opcode found using helper method
        
@@ -82,12 +82,12 @@ public class Mnemonic extends Token implements IMnemonic {
      * @param
      * @return Integer representing the opcode
      */
-    private byte findOpcode() {
+    private int findOpcode() {
         int testOpcode = -1; //Default to -1
         if(isValidOperation()) //if the mapping contains the mnemonic, set testOpcode to that opcode, otherwise opcode is set to -1
             testOpcode = mapping.get(mNameMap);
         
-        opCode = (byte) testOpcode;
+        opCode = testOpcode;
         return opCode;
     }
 
@@ -95,8 +95,20 @@ public class Mnemonic extends Token implements IMnemonic {
      * Gets the integer opcode
      * @return integer opcode
      */
-    public byte getOpcode() {
+    public int getOpcode() {
         return opCode;
+    }
+
+    public void incrementOpcode (byte increment) {
+        //System.out.println(opCode);
+        //System.out.println(increment);
+        opCode = opCode + increment;
+        //System.out.println(opCode);
+    }
+
+    public boolean needsNumber() 
+    {
+        return needNumberToken;
     }
 
     /**

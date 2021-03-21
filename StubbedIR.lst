@@ -1,7 +1,10 @@
-Line Addr Code    Label     Mne     Operand     Comments  
-1    0000 00                halt                     
-2    0001 03                exit                     
-3    0002 0D                and                      
-4    0003 0E                or                       
-5    0004 0F                xor                      
-6    0005 10                neg                      
+Line Addr Code    Label     Mne        Operand         Comments        
+1    0000 00                halt                                       
+2    0001 03                exit                                       
+3    0002 0D                and                                        
+4    0003 8F                enter.u5   31                              
+5    0004 94                ldc.i3     -4               ;Test Comment  
+6    0005 94                                            ;Test Comment No Instruction
+7    0005 0E                or                                         
+8    0006 0F                xor                                        
+9    0007 10                neg                                        
