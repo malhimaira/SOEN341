@@ -53,11 +53,13 @@ public class Mnemonic extends Token implements IMnemonic {
         mapping.put("tgt",29);
         mapping.put("tle",30);
         mapping.put("tge",31);
-        mapping.put("enter",32);
-        mapping.put("ldc",33);
-        mapping.put("addv",34);
-        mapping.put("ldv",35);
-        mapping.put("stv",36);
+
+        //Immediate instructions (opcode given here is starting value)
+        mapping.put("enter.u5",112);
+        mapping.put("ldc.i3",144);
+        mapping.put("addv.u3",152);
+        mapping.put("ldv.u3",160);
+        mapping.put("stv.u3",168);
         this.mName = mnemonic;
         opCode = findOpcode(); //Set opcode to opcode found using helper method
        
