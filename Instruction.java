@@ -64,7 +64,7 @@ private byte returnIncrementValue(boolean isSigned, int bitSize) {
     }
     
     if (numberIsInBounds(isSigned, bitSize, number)) {
-        String binaryNumberFullSized = String.format("%16s", Integer.toBinaryString(number)).replace(' ', '0'); //Full sized, we need to trim this to the proper number of bits
+        String binaryNumberFullSized = String.format("%32s", Integer.toBinaryString(number)).replace(' ', '0'); //Full sized, we need to trim this to the proper number of bits
         String binaryNumber = binaryNumberFullSized.substring(binaryNumberFullSized.length()-bitSize); //Gives us a properly trimmed binary representation.
 
         opcodeInc = Integer.parseInt(binaryNumber,2); //Convert binary number to an integer again, this takes care of 2's complement if the number is negative.
