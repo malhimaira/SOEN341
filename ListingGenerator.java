@@ -19,7 +19,7 @@ public class ListingGenerator implements IListingGenerator {
      * @param fileName The name of the input file, so the list file can have the same name
      */
     public ListingGenerator(IIR IR, String fileName){
-        addrString = comment = operand = mneName = label = header = "";
+        opcode = addrString = comment = operand = mneName = label = header = "";
         currentAddr = 0;
         currentLine = 1;
         
@@ -52,7 +52,7 @@ public class ListingGenerator implements IListingGenerator {
             if (temp.getInstruction() != null) //If no instruction on line, we do not increment address!
                 currentAddr++;
             currentLine++;
-            addrString = comment = operand = mneName = label = header = "";
+            opcode = addrString = comment = operand = mneName = label = header = "";
         }
 
 
