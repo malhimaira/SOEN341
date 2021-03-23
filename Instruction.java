@@ -4,16 +4,22 @@
 public class Instruction implements IInstruction {
     Mnemonic mnemonic;
     Number number;
-    //Operand operand;
+    boolean errorOccured;
+    String errorString;
+    int maxNumber; //Maximum number operand can have
+    int minNumber; //Minimun number operand can have
 
 public Instruction(Mnemonic mnemonic) {
     this.mnemonic = mnemonic;
-   // this.operand = null; //Implementation comes later
+    errorOccured = false; //Used to let parser know if something went wrong
+    errorString = ""; //Used to give String describing error to the parser.
+    maxNumber = -1;
+    minNumber = -1;
 }
 
 
 public Instruction(Mnemonic mnemonic,Number number) {
-    this.mnemonic = mnemonic;
+    this(mnemonic);
     this.number = number;
     incrementOpcode();
 }
@@ -44,10 +50,25 @@ private void incrementOpcode() {
             mnemonic.incrementOpcode(returnIncrementValue(true,3));
         break;
         default: //Matches none of the ones we want!
-        //TODO Report to error reporter!!!
+            errorOccured = true;
+            errorString = "Invalid mnemonic";
     }
 
 
+}
+/**
+ * Checks if an error occured while processing the instruction
+ * @return errorOccured
+ */
+public boolean errorOccured() {
+    return errorOccured;
+}
+/**
+ * Returns the String describing the error that occured.
+ * @return errorString
+ */
+public String errorString() {
+    return errorString;
 }
 /**
  * Returns the value to increment the opcode of the instruction by
@@ -59,17 +80,22 @@ private byte returnIncrementValue(boolean isSigned, int bitSize) {
    int number = this.number.getNumberInt();
    int opcodeInc = 0;
     //If the number is signed when we expect it to be unsigned
-    if (!isSigned && number < 0) {
-        //TODO Error reporter!!!
-    }
+    // if (!isSigned && number < 0) {
+    //     errorOccured = true;
+    //     numberIsInBounds(isSigned, bitSize, number); //Using this to find the max and min number size to put in our string
+    //     errorString = "The immediate instruction " + "'" + mnemonic.getName() + "' must have a " + bitSize + "-bit unsigned operand ranging from " ;
+
+    // }
     
-    if (numberIsInBounds(isSigned, bitSize, number)) {
+    if (numberIsInBounds(isSigned, bitSize, number)) { //Checks if the number is in bounds and sets the integers maxNumber and minNumber to the bounds.
         String binaryNumberFullSized = String.format("%32s", Integer.toBinaryString(number)).replace(' ', '0'); //Full sized, we need to trim this to the proper number of bits
         String binaryNumber = binaryNumberFullSized.substring(binaryNumberFullSized.length()-bitSize); //Gives us a properly trimmed binary representation.
 
         opcodeInc = Integer.parseInt(binaryNumber,2); //Convert binary number to an integer again, this takes care of 2's complement if the number is negative.
     } else { 
-        //TODO error reporter!!!
+        errorOccured = true;
+        String sign = (isSigned) ? "signed": "unsigned";
+        errorString = "The immediate instruction " + "'" + mnemonic.getName() + "' must have a " + bitSize + "-bit " + sign + " operand ranging from " + minNumber + " to " + maxNumber;
     }
     //System.out.println("DEBUG: " + (byte) opcodeInc);
     return (byte) opcodeInc; //Amount opcode should be incremented by.
@@ -107,6 +133,8 @@ private boolean numberIsInBounds(boolean isSigned, int bitSize, int number) {
     }
 
     //If number is in bounds, return true, else return false.
+    this.maxNumber = maxNumber; //Set our max and minimum numbers to the ones found in this function.
+    this.minNumber = minNumber;
     if (number <= maxNumber && number >= minNumber) {
         return true;
     } else {
