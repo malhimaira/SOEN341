@@ -16,10 +16,10 @@ public class TestErrorReporter{
       String erMsgParser2 = "Another Error Message from Parser";
 
 
-      er.ErrorReporterScanner(p1, erMsgScanner1);
-      er.ErrorReporterScanner(p2, erMsgScanner2);
-      er.ErrorReporterParser(p3, erMsgParser1);
-      er.ErrorReporterParser(p4, erMsgParser2);
+      er.errorReporterScanner(p1, erMsgScanner1);
+      er.errorReporterScanner(p2, erMsgScanner2);
+      er.errorReporterParser(p3, erMsgParser1);
+      er.errorReporterParser(p4, erMsgParser2);
       er.endErrorReporter();
       
     }//end of main

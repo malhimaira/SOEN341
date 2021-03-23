@@ -20,12 +20,15 @@ public class CMA {
 			//Open the stream to the file
 	        AssemblySourceReader reader = new AssemblySourceReader(asmFile);
 	        FileInputStream inputReader = reader.readAsmFile();
-	        
+	       
+			//Create error reporter
+			ErrorReporter errorReporter = new ErrorReporter();
+			
 			//Take file stream created in the reader
 	        Lexer lexer = new Lexer (inputReader);
 	        
 			//Parse tokens from the lexer
-	        Parser parser = new Parser(lexer);
+	        Parser parser = new Parser(lexer,errorReporter);
 	        
 	        IIR IR =  parser.parse();
 			//Pass IR to the code generator, which produces executable (eventually) and optional listing file

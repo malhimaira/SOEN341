@@ -26,14 +26,14 @@ public class ErrorReporter{
     errorMsg = msg;
   }
 
-  public void ErrorReporterScanner(Position position, String msg) {
+  public void errorReporterScanner(Position position, String msg) {
     ErrorReporter temp = new ErrorReporter(position, msg);
     scannerError.add(temp);
     counter++;
     System.out.println(temp.toString());
   }
 
-  public void ErrorReporterParser(Position position, String msg) {
+  public void errorReporterParser(Position position, String msg) {
     ErrorReporter temp = new ErrorReporter(position, msg);
     parserError.add(temp);
     counter++;

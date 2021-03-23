@@ -5,14 +5,15 @@ public class Parser implements IParser {
     // IR is a wrapper of an ArrayList of LineStatements
     IIR IR;
     ILexer lexer;
+    ErrorReporter errorReporter;
 
     /**
      * Constructor Method
      */
-    public Parser(ILexer lexer) {
+    public Parser(ILexer lexer, ErrorReporter errorReporter) {
         IR = new IR();
         this.lexer = lexer;
-
+        this.errorReporter = errorReporter;
     }
 
     /**

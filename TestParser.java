@@ -7,9 +7,10 @@ public class TestParser {
     public static void main(String[] args) {
 
         //Instantiating a DummyLexer Object with filled, hard-coded list of tokens.
-        ILexer dlex = new DummyLexer(); 
+        ILexer dlex = new DummyLexer();
+        ErrorReporter errorReporter = new ErrorReporter(); 
         //Instantiating a parser using the dummy lexer.
-        IParser parserObject = new Parser(dlex);
+        IParser parserObject = new Parser(dlex,errorReporter);
 
         //Printing the expected output
         System.out.println("Test Parser");
