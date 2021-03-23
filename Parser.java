@@ -90,6 +90,10 @@ public class Parser implements IParser {
                     } else {
                         currentInstruction = new Instruction(currentMnemonic);
                     }
+                } else { //No mnemonic on this line, so we should not have an operand!
+                    if (currentNumber != null) {
+                        //TODO Error reporter! Number and no instruction!
+                    }
                 }
                 // TODO change this based on presence of comments, labels and directives
                 if (currentInstruction != null) { // We have an instruction
@@ -122,7 +126,7 @@ public class Parser implements IParser {
         }
 
             if (lexer.getNextToken() != null) {//We have another token after the EOF, this is a problem.
-                System.out.println("ERROR!!!");
+                //System.out.println("ERROR!!!");
                 //TODO ERROR REPORTER
             }
 
