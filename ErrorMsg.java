@@ -3,20 +3,16 @@
  */
 public class ErrorMsg {
 	
-	private Token errorToken;
+
 	private String errorMessage;
 	private Position errorPosition;
 	
-	public ErrorMsg(Token errorToken, String errorMessage) {
-		this.errorPosition = errorToken.getPosition();
-		this.errorToken = errorToken;
+	public ErrorMsg(String errorMessage, Position errorPosition) {
+		this.errorPosition = errorPosition;
 		this.errorMessage = errorMessage;
 		
 	}
 
-	public Token getErrorToken() {
-		return errorToken;
-	}
 	
 	public Position getErrorPosition() {
 		return errorPosition;
