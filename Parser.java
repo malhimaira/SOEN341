@@ -49,6 +49,8 @@ public class Parser implements IParser {
         Number currentNumber = null;
         LineStatement currentLineStatement = null;
         Comment currentComment = null;
+        Directive currentDirective = null;
+        StringOperand currentString = null;
 
         while ((currentToken = lexer.getNextToken()).getCode() != TokenType.EOF) {
             //Debug System.out.println(currentToken);
@@ -68,8 +70,29 @@ public class Parser implements IParser {
             } else if (currentToken.getCode() == TokenType.Label) {
                 // System.out.println("Current token is a Label!"); //For debugging
                 // TODO SPRINT 4
+            //If the current token is a directive (i.e the .cstring)
+            } else if (currentToken.getCode() == TokenType.Directive) {
+                currentDirective = (Directive) currentToken;
+            //Current token is a string
+            } else if (currentToken.getCode() == TokenType.StringOperand) {
+                currentString = (StringOperand) currentToken;
+                //Check if currentString is of form "...", if not, error!
+                if (!(currentString.getName().startsWith("\"") && currentString.getName().endsWith("\""))) {
+                    ErrorMsg badStringError = new ErrorMsg("String " + currentString.getName() + " must be of the form \"...\"!", currentString.getPosition());
+                    errorReporter.record(badStringError);
+                    badStringError = null;
+                } else { //We have a good string
+                    //No directive but a string, this is a problem!
+                    if (currentDirective == null) {
+                        ErrorMsg stringAloneError = new ErrorMsg("String " + currentString.getName() + " appears without .cstring!",currentString.getPosition());
+                        errorReporter.record(stringAloneError);
+                        stringAloneError = null;
+                    } else { //We have our directive and string, all is good so we can add the StringOperand as the operand of the directive
+                        currentDirective.addStringOperand(currentString);
+                    }
 
-            } else if (currentToken.getCode() == TokenType.Number) {
+                }
+            }else if (currentToken.getCode() == TokenType.Number) {
                 currentNumber = (Number) currentToken;
 
                 // If token is a comment
@@ -118,12 +141,14 @@ public class Parser implements IParser {
                         currentLineStatement = new LineStatement(currentInstruction, currentComment);
                     } else // We don't have a comment
                         currentLineStatement = new LineStatement(currentInstruction);
-                } else { // we don't have an instruction
+                } else if (currentInstruction == null && currentDirective == null){ // we don't have an instruction or directive
 
                     if (currentComment != null) { // We have a comment
-                        currentLineStatement = new LineStatement(null, currentComment);
+                        currentLineStatement = new LineStatement(currentInstruction, currentComment); //Null instruction
                     } else // We don't have a comment
-                        currentLineStatement = new LineStatement(null);
+                        currentLineStatement = new LineStatement(currentInstruction); //Null
+                } else if (currentDirective != null) { //We have a directive
+                    currentLineStatement = new LineStatement(currentDirective, currentComment); //Works if we have a comment or not, as comment will just be null. Could do same for above cases
                 }
 
                 // Adding LineStatement to IR ArrayList
@@ -135,6 +160,8 @@ public class Parser implements IParser {
                 currentNumber = null;
                 currentLineStatement = null;
                 currentComment = null;
+                currentDirective = null;
+                currentString = null;
             } else { // TODO We add other checks here (labels and directives)
                 System.out.println("Current token was not recognized!");
                 return false;

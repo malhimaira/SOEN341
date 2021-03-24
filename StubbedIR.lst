@@ -1,11 +1,12 @@
-Line Addr Code    Label     Mne        Operand         Comments        
-1    0000 00                halt                                       
-2    0001 03                exit                                       
-3    0002 0D                and                                        
-4    0003 7F                enter.u5   31                              
-5    0004 94                ldc.i3     -4               ;Test Comment  
-6    0005                                               ;Test Comment No Instruction
-7    0005                                                              
-8    0005 0E                or                                         
-9    0006 0F                xor                                        
-10   0007 10                neg                                        
+Line Addr Machine Code         Label     Mne        Operand         Comments        
+1    0000 00                             halt                                       
+2    0001 03                             exit                                       
+3    0002 0D                             and                                        
+4    0003 7F                             enter.u5   31                              
+5    0004 94                             ldc.i3     -4               ;Test Comment  
+6    0005                                                            ;Test Comment No Instruction
+7    0005                                                                           
+8    0005 41 42 43 00                    .cstring   "ABC"            ;Test Comment 2
+9    0009 0E                             or                                         
+10   000A 0F                             xor                                        
+11   000B 10                             neg                                        
