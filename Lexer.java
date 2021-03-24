@@ -34,6 +34,7 @@ public class Lexer implements ILexer {
         char prevChar;
         boolean prevIsSpace = true; //account for mulitple spaces in a row
         boolean IscString =false;
+        boolean EOLCheck = true;
 
         int cntTLS = 0; //count tokens in a line statement
 
@@ -54,7 +55,7 @@ public class Lexer implements ILexer {
 //                }
                 colLex += 1;
 
-                if (metaChar != eofMarker & metaChar == ' ' & !prevIsSpace) {
+                if (metaChar != eofMarker & (metaChar == ' ' || metaChar == '\n' ||metaChar == '\r' )& !prevIsSpace) {
 
                     prevIsSpace = true;
 
@@ -157,14 +158,22 @@ public class Lexer implements ILexer {
                     word = "";
                 }
 
-                if ((char) metaChar == '\n') {
-                    prevIsSpace = false;
-                    EOL eol = new EOL("EOL", new Position(rowLex,colLex));
-                    SymbolTable.put(eol.toString(), eol);
-                    TokenSequence.add(eol.toString());
-                    word = "";
-                    colLex = 1;
-                    rowLex += 1;
+                if ((char) metaChar == '\n' || (char) metaChar == '\r' ) {
+                    if(EOLCheck == true) {
+                    	//process
+                    	EOLCheck = false;
+                    	prevIsSpace = false;
+                        EOL eol = new EOL("EOL", new Position(rowLex,colLex));
+                        SymbolTable.put(eol.toString(), eol);
+                        TokenSequence.add(eol.toString());
+                        word = "";
+                        colLex = 1;
+                        rowLex += 1;
+                    }
+                    else {
+                    	EOLCheck = true;
+                    }
+                	
 
                 }
 
@@ -175,6 +184,11 @@ public class Lexer implements ILexer {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        
+        EOF eof = new EOF("EOF", new Position(rowLex, 1));
+        SymbolTable.put(eof.toString(), eof);
+        TokenSequence.add(eof.toString());
+        
     }
 
     /**
