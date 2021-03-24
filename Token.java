@@ -18,6 +18,9 @@ public class Token implements IToken{
 		else if(code == TokenType.Label) {
 			this.code = TokenType.Label;
 		}
+		else if(code == TokenType.Directive) {
+			this.code = TokenType.Directive;
+		}
 		else if(code == TokenType.LabelOperand) {
 			this.code = TokenType.LabelOperand;
 		}
