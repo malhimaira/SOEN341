@@ -57,10 +57,10 @@ public class Instruction implements IInstruction {
 
     }
     /**
-     * Checks if an error occured while processing the instruction
-     * @return errorOccured
+     * Checks if an error occurred while processing the instruction
+     * @return errorOccurred
      */
-    public boolean errorOccured() {
+    public boolean errorOccurred() {
         return errorOccured;
     }
     /**
@@ -81,7 +81,7 @@ public class Instruction implements IInstruction {
         int opcodeInc = 0;
         //If the number is signed when we expect it to be unsigned
         // if (!isSigned && number < 0) {
-        //     errorOccured = true;
+        //     errorOccurred = true;
         //     numberIsInBounds(isSigned, bitSize, number); //Using this to find the max and min number size to put in our string
         //     errorString = "The immediate instruction " + "'" + mnemonic.getName() + "' must have a " + bitSize + "-bit unsigned operand ranging from " ;
 

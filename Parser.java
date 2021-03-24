@@ -60,7 +60,8 @@ public class Parser implements IParser {
 
                 if (currentMnemonic.getOpcode() == -1) //Invalid opcode
                 {
-                    //TODO Error reporter!!!
+                    // TODO error handler
+                    ErrorMsg opcodeError = new ErrorMsg("Current Line's Mnemonic: " + currentMnemonic.getName() + " contains an invalid opcode of: " + currentMnemonic.getOpcode() + "!", currentMnemonic.getPosition());
                 }
                 // If token is a Label
             } else if (currentToken.getCode() == TokenType.Label) {
@@ -80,12 +81,19 @@ public class Parser implements IParser {
                     if (currentNumber != null) { // We have a number on this line
                         //Number appears before instruction in the line.
                         if (currentNumber.getPosition().getColumn() < currentMnemonic.getPosition().getColumn()) {
-                            // TODO Report error!
+                            // TODO error handler
+                            ErrorMsg orderError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() + " appearing before the Mnemonic" + currentMnemonic.getName() + "!",currentMnemonic.getPosition());
                         } else {
                             if (currentMnemonic.needsNumber() == false) { // Instruction is inherent
-                                // TODO Report error! Instruction is inherent and does NOT need an operand!
+                                // TODO error handler
+                                ErrorMsg operandError = new ErrorMsg("Current Mnemonic: " + currentMnemonic.getName() + " is an Inherent Instruction and does not require an operand!",currentMnemonic.getPosition());
                             } else { // Everything is ok, add instruction with number operand.
                                 currentInstruction = new Instruction(currentMnemonic, currentNumber);
+                                //Checking if any errors happened during the creation of the Instruction object
+                                if(currentInstruction.errorOccurred()) {
+                                    // TODO error handler
+                                    ErrorMsg creationError = new ErrorMsg(currentInstruction.errorString(), currentMnemonic.getPosition());
+                                }
                             }
                         }
                     } else {
@@ -93,7 +101,8 @@ public class Parser implements IParser {
                     }
                 } else { //No mnemonic on this line, so we should not have an operand!
                     if (currentNumber != null) {
-                        //TODO Error reporter! Number and no instruction!
+                        // TODO error handler
+                        ErrorMsg noInstructionError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() + " without a Mnemonic!", currentMnemonic.getPosition());
                     }
                 }
                 // TODO change this based on presence of comments, labels and directives
@@ -119,16 +128,16 @@ public class Parser implements IParser {
                 currentNumber = null;
                 currentLineStatement = null;
                 currentComment = null;
-            } else { // TODO We add other checks here (comments, labels and directives)
+            } else { // TODO We add other checks here (labels and directives)
                 System.out.println("Current token was not recognized!");
                 return false;
             }
             //System.out.println(IR);
         }
 
-        if (lexer.getNextToken() != null) {//We have another token after the EOF, this is a problem.
-            //System.out.println("ERROR!!!");
-            //TODO ERROR REPORTER
+        if ((currentToken = lexer.getNextToken()) != null) {//We have another token after the EOF, this is a problem.
+            // TODO error handler
+            ErrorMsg eolError = new ErrorMsg("Additional token detected after the EOF token!", currentToken.getPosition());
         }
 
         return true;
