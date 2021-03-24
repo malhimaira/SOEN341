@@ -22,7 +22,7 @@ public class CMA {
 	        FileInputStream inputReader = reader.readAsmFile();
 	       
 			//Create error reporter
-			ErrorReporter errorReporter = new ErrorReporter();
+			ErrorReporter errorReporter = new ErrorReporter(asmFile.getName());
 			
 			//Take file stream created in the reader
 	        Lexer lexer = new Lexer (inputReader);

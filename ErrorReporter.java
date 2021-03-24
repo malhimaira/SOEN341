@@ -5,16 +5,18 @@ import java.util.ArrayList;
 public class ErrorReporter {
 
   private ArrayList<ErrorMsg> ErrMsg;
+  private String fileName;
 
   public ErrorReporter() {
     System.out.println("Activate Error Reporter");
     ErrMsg = new ArrayList<ErrorMsg>();
+    fileName = "File.asm";
   }
 
-  public ErrorReporter(ErrorMsg msg) {
+  public ErrorReporter(String fileName) {
     System.out.println("Activate Error Reporter");
     ErrMsg = new ArrayList<ErrorMsg>();
-    ErrMsg.add(msg);
+    this.fileName = fileName;
   }
 
   // Method to check the size of the ArrayList
@@ -32,7 +34,7 @@ public class ErrorReporter {
 
   public void report() {
     for (int i = 0; i < ErrMsg.size(); i++) {
-      System.out.println("File.asm:line " + ErrMsg.get(i).getErrorPosition().getRow() + ", column "
+      System.out.println(fileName + ":line " + ErrMsg.get(i).getErrorPosition().getRow() + ", column "
           + ErrMsg.get(i).getErrorPosition().getColumn() + ": " + ErrMsg.get(i).getErrorMessage());
     }
   }
@@ -40,7 +42,7 @@ public class ErrorReporter {
   public String toString() {
     String Error = "";
     for (int i = 0; i < ErrMsg.size(); i++) {
-      Error = "File.asm:line " + ErrMsg.get(i).getErrorPosition().getRow() + ", column "
+      Error = fileName + ":line " + ErrMsg.get(i).getErrorPosition().getRow() + ", column "
           + ErrMsg.get(i).getErrorPosition().getColumn() + ": " + ErrMsg.get(i).getErrorMessage();
     }
     return Error;
