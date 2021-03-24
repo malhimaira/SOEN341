@@ -87,7 +87,15 @@ public class Instruction implements IInstruction {
 
         // }
 
-        if (numberIsInBounds(isSigned, bitSize, number)) { //Checks if the number is in bounds and sets the integers maxNumber and minNumber to the bounds.
+        //Special case for 5 bit, check prof's instructions
+        if(numberIsInBounds(isSigned, bitSize, number) && bitSize == 5) {
+            //generalize later
+            int opcode = (number > 15) ? mnemonic.getOpcode() : (mnemonic.getOpcode() + 0x10); //Generalized way of doing 0x70 : 0x80;
+            opcode = opcode | number; //bitmask not needed as we checked if the number is in bounds!
+            mnemonic.setOpcode(opcode); //set opcode to new opcode
+            return 0; //Don't increment the opcode, we did it here.
+            
+        } else if (numberIsInBounds(isSigned, bitSize, number)) { //Checks if the number is in bounds and sets the integers maxNumber and minNumber to the bounds.
             String binaryNumberFullSized = String.format("%32s", Integer.toBinaryString(number)).replace(' ', '0'); //Full sized, we need to trim this to the proper number of bits
             String binaryNumber = binaryNumberFullSized.substring(binaryNumberFullSized.length()-bitSize); //Gives us a properly trimmed binary representation.
 
@@ -98,6 +106,7 @@ public class Instruction implements IInstruction {
             errorString = "The immediate instruction " + "'" + mnemonic.getName() + "' must have a " + bitSize + "-bit " + sign + " operand ranging from " + minNumber + " to " + maxNumber;
         }
         //System.out.println("DEBUG: " + (byte) opcodeInc);
+
         return (byte) opcodeInc; //Amount opcode should be incremented by.
     }
     /**
