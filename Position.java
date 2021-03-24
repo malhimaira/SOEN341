@@ -1,4 +1,4 @@
-public class Position {
+public class Position implements IPosition{
     private int row;
     private int column;
 

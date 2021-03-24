@@ -1,7 +1,7 @@
 /**
  * Class representing a Comment Token
  */
-public class Comment extends Token{
+public class Comment extends Token implements IComment{
 	Comment(String name, Position pos) {
 		super(name, TokenType.Comment, pos);
 		// TODO Auto-generated constructor stub

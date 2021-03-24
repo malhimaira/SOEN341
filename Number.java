@@ -1,7 +1,7 @@
 /**
  * Class representing a Number Token
  */
-public class Number extends Token{
+public class Number extends Token implements INumber{
  int numberInt;
 
 	Number(String name, Position pos) {

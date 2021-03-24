@@ -3,8 +3,8 @@
  */
 public class LineStatement implements ILineStatement{
     IInstruction instruction;
-    Comment comment;
-    Directive directive;
+    IComment comment;
+    IDirective directive;
     
     public LineStatement(IInstruction instruction) {
         this.instruction = instruction;
@@ -12,18 +12,18 @@ public class LineStatement implements ILineStatement{
         this.directive = null;
     }
 
-    public LineStatement(IInstruction instruction, Comment comment) {
+    public LineStatement(IInstruction instruction, IComment comment) {
         this(instruction);
         this.comment = comment;
     }
 
-    public LineStatement(Directive directive) {
+    public LineStatement(IDirective directive) {
         this.instruction = null;
         this.comment = null;
         this.directive = directive;
     }
 
-    public LineStatement(Directive directive, Comment comment) {
+    public LineStatement(IDirective directive, IComment comment) {
         this(directive);
         this.comment = comment;
     }
@@ -32,11 +32,11 @@ public class LineStatement implements ILineStatement{
         return instruction;
     }
 
-    public Comment getComment() {
+    public IComment getComment() {
         return comment;
     }
 
-    public Directive getDirective() {
+    public IDirective getDirective() {
         return directive;
     }
 
