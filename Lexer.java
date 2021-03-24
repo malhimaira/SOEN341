@@ -40,6 +40,17 @@ public class Lexer implements ILexer {
         boolean firstIter = true;
         try {
             while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
+
+
+//                if( metaChar!= 32 && metaChar != 34 && metaChar != 45 && metaChar != 46 && metaChar != 59 && metaChar != 60 && metaChar != 62 && (((91>=metaChar) && (metaChar<=96)) && (metaChar<65 || metaChar > 90 || metaChar<97 || metaChar > 122)))
+//                {
+//
+//                        Position errPos = new Position(rowLex, colLex);
+//                        ErrorMsg errorMsg = new ErrorMsg("Invalid Character", errPos);
+//                        System.exit(-1);
+//                        //throw to error reporter
+//
+//                }
                 colLex += 1;
 
                 if (metaChar != eofMarker & metaChar == ' ' & !prevIsSpace) {
@@ -63,6 +74,7 @@ public class Lexer implements ILexer {
                         		SymbolTable.put(dir.toString(), dir);
                                 TokenSequence.add(dir.toString());
                         	}
+                        	word = "";
                         }
                       //Case for a mnemonic token
                         else if (word.contains(".")) { //if mnemonic should expect a number token next
