@@ -1,5 +1,5 @@
 public class Directive extends Token implements IDirective{
-    StringOperand stringOperand;
+    IStringOperand stringOperand;
     String trimmedString; //String without quotation marks.
 
     public Directive(Position pos) {
@@ -10,7 +10,7 @@ public class Directive extends Token implements IDirective{
     }
 
     //Used for test files when we know operand in advance.
-    public Directive(StringOperand stringOperand, Position pos) {
+    public Directive(IStringOperand stringOperand, Position pos) {
         super(".cstring",TokenType.Directive, pos);
         addStringOperand(stringOperand);
 
@@ -19,7 +19,7 @@ public class Directive extends Token implements IDirective{
     /**
      * Add a String operand to the directive
      */
-    public void addStringOperand(StringOperand stringOperand) {
+    public void addStringOperand(IStringOperand stringOperand) {
         this.stringOperand = stringOperand;
 
         String stringOperandValue = stringOperand.getName();

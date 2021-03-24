@@ -1,5 +1,5 @@
 
-public class StringOperand extends Token{
+public class StringOperand extends Token implements IStringOperand{
 	String stringOperand;
 
 	StringOperand(String name, Position pos) {
