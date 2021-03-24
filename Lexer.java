@@ -33,6 +33,7 @@ public class Lexer implements ILexer {
         int rowLex = 1;
         char prevChar;
         boolean prevIsSpace = true; //account for mulitple spaces in a row
+        boolean IscString =false;
 
         int cntTLS = 0; //count tokens in a line statement
 
@@ -68,7 +69,7 @@ public class Lexer implements ILexer {
                         if(word.equals(".cstring")) {
                         	//create directive
                         	Directive dir = new Directive(new Position(rowLex, colLex-word.length()-1));
-                        	
+                        	IscString = true;
                         	if (word.length() != 0) 
                         	{
                         		SymbolTable.put(dir.toString(), dir);
@@ -102,9 +103,18 @@ public class Lexer implements ILexer {
                         }
 
                     } else if (cntTLS == 2) { //Case for a number token
-                        Number num = new Number(word, new Position(rowLex, colLex-2));
-                        SymbolTable.put(num.toString(), num);
-                        TokenSequence.add(num.toString());
+                    	if(IscString == true) {
+                    		IscString = false;
+                    		StringOperand sp = new StringOperand(word, new Position(rowLex, colLex-2));
+                            SymbolTable.put(sp.toString(), sp);
+                            TokenSequence.add(sp.toString());
+                    	}
+                    	else {
+                    		Number num = new Number(word, new Position(rowLex, colLex-2));
+                            SymbolTable.put(num.toString(), num);
+                            TokenSequence.add(num.toString());
+                    	}
+                        
                         cntTLS = 0;
                         word = "";
                     }
