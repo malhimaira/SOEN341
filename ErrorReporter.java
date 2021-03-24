@@ -14,7 +14,7 @@ public class ErrorReporter {
   }
 
   public ErrorReporter(String fileName) {
-    super();
+    this();
     this.fileName = fileName;
   }
 
