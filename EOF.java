@@ -10,4 +10,7 @@ public class EOF extends Token{
 		// TODO Auto-generated method stub
 		return TokenType.EOF;
 	}
+	public String toString() {
+		return "EOF row: "+super.getPosition().getRow()+" column: "+super.getPosition().getColumn();
+	}
 }

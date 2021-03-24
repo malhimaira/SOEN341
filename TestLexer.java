@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 public class TestLexer {
 
 	public static void main(String args[]) {
-		File asmFile = new File("TestInherentMnemonics.asm");
+		File asmFile = new File("TestImmediate.asm");
 		AssemblySourceReader reader = new AssemblySourceReader(asmFile);
         FileInputStream inputReader = reader.readAsmFile();
         
