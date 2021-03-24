@@ -60,8 +60,9 @@ public class Parser implements IParser {
 
                 if (currentMnemonic.getOpcode() == -1) //Invalid opcode
                 {
-                    // TODO error handler
-                    ErrorMsg opcodeError = new ErrorMsg("Current Line's Mnemonic: " + currentMnemonic.getName() + " contains an invalid opcode of: " + currentMnemonic.getOpcode() + "!", currentMnemonic.getPosition());
+                    ErrorMsg invalidMnemonicError = new ErrorMsg("Invalid mnemonic: " + currentMnemonic.getName() + "!", currentMnemonic.getPosition());
+                    errorReporter.record(invalidMnemonicError);
+                    invalidMnemonicError = null; //Set it to null after
                 }
                 // If token is a Label
             } else if (currentToken.getCode() == TokenType.Label) {
@@ -81,28 +82,34 @@ public class Parser implements IParser {
                     if (currentNumber != null) { // We have a number on this line
                         //Number appears before instruction in the line.
                         if (currentNumber.getPosition().getColumn() < currentMnemonic.getPosition().getColumn()) {
-                            // TODO error handler
                             ErrorMsg orderError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() + " appearing before the Mnemonic" + currentMnemonic.getName() + "!",currentMnemonic.getPosition());
+                            errorReporter.record(orderError);
+                            orderError = null;
                         } else {
                             if (currentMnemonic.needsNumber() == false) { // Instruction is inherent
-                                // TODO error handler
-                                ErrorMsg operandError = new ErrorMsg("Current Mnemonic: " + currentMnemonic.getName() + " is an Inherent Instruction and does not require an operand!",currentMnemonic.getPosition());
+                                ErrorMsg operandError = new ErrorMsg("Current instruction: " + currentMnemonic.getName() + " is an inherent instruction and does not require an operand!",currentMnemonic.getPosition());
+                                errorReporter.record(operandError);
+                                operandError = null;
                             } else { // Everything is ok, add instruction with number operand.
                                 currentInstruction = new Instruction(currentMnemonic, currentNumber);
-                                //Checking if any errors happened during the creation of the Instruction object
+                                //Checking if any errors happened during the creation of the Instruction object, including operand out of bounds
                                 if(currentInstruction.errorOccurred()) {
-                                    // TODO error handler
                                     ErrorMsg creationError = new ErrorMsg(currentInstruction.errorString(), currentMnemonic.getPosition());
+                                    errorReporter.record(creationError);
+                                    creationError = null;
                                 }
                             }
                         }
                     } else {
+                        //No operand
                         currentInstruction = new Instruction(currentMnemonic);
                     }
                 } else { //No mnemonic on this line, so we should not have an operand!
                     if (currentNumber != null) {
                         // TODO error handler
-                        ErrorMsg noInstructionError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() + " without a Mnemonic!", currentMnemonic.getPosition());
+                        ErrorMsg noInstructionError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() + " without a Mnemonic!", currentNumber.getPosition());
+                        errorReporter.record(noInstructionError);
+                        noInstructionError = null;
                     }
                 }
                 // TODO change this based on presence of comments, labels and directives
@@ -137,7 +144,8 @@ public class Parser implements IParser {
 
         if ((currentToken = lexer.getNextToken()) != null) {//We have another token after the EOF, this is a problem.
             // TODO error handler
-            ErrorMsg eolError = new ErrorMsg("Additional token detected after the EOF token!", currentToken.getPosition());
+            ErrorMsg eofError = new ErrorMsg("Additional token detected after the EOF token!", currentToken.getPosition());
+            errorReporter.record(eofError);
         }
 
         return true;
