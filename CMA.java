@@ -31,6 +31,13 @@ public class CMA {
 	        Parser parser = new Parser(lexer,errorReporter);
 	        
 	        IIR IR =  parser.parse();
+
+			//If there are errors, do not continue to create the executable/listing file.
+			if (errorReporter.hasErrors())
+			{
+				errorReporter.report();
+				System.exit(0);
+			}
 			//Pass IR to the code generator, which produces executable (eventually) and optional listing file
 	        CodeGenerator cg = new CodeGenerator(IR, fileName, true); //Set to true for now since we always want the listing file for sprint 2
 			System.out.println("Done!");

@@ -2,7 +2,7 @@ Line Addr Code    Label     Mne        Operand         Comments
 1    0000 00                halt                                       
 2    0001 03                exit                                       
 3    0002 0D                and                                        
-4    0003 8F                enter.u5   31                              
+4    0003 7F                enter.u5   31                              
 5    0004 94                ldc.i3     -4               ;Test Comment  
 6    0005                                               ;Test Comment No Instruction
 7    0005                                                              
