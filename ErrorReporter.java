@@ -2,7 +2,7 @@
 
 import java.util.ArrayList;
 
-public class ErrorReporter {
+public class ErrorReporter implements IErrorReporter{
 
   private ArrayList<ErrorMsg> errMsg;
   private String fileName;

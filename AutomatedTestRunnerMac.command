@@ -13,4 +13,7 @@ java aunit AUnitTests.txt
 
 printf "Running TestListingGenerator, (which is not an AUnit test) ***REVIEW OUTPUT ON StubbedIR.lst MANUALLY!!!!\n"
 java TestListingGenerator.java
+
+printf "Running ErrorReporter related tests (for ErrorReporter itself, Parser and Scanner) which are also not AUnit compatible, ***see ErrorReporterTests.txt***\n"
+java ErrorReporter > ErrorReporterTests.txt
 printf "Done!\n"

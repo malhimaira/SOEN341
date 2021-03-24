@@ -1,28 +1,22 @@
 /*ErrorReporter test class*/
-import java.io.File;
-
 public class TestErrorReporter{
-/*
-  	public static void main(String args[]) {
+      public static void main(String args[]) {
+            IErrorReporter errorReporter = new ErrorReporter();    
+            errorReporter.record(new ErrorMsg("Error! This should be reported!", new Position(1,0)));  
+            errorReporter.record(new ErrorMsg("Error! This should be also reported!", new Position(2,0)));  
+            errorReporter.record(new ErrorMsg("Error! This should be also reported too!", new Position(3,0)));
+            System.out.println("Test ErrorReporter");
+            // System.out.println("File.asm:line 1, column 0: Error! This should be reported!");
+            // System.out.println("File.asm:line 2, column 0: Error! This should be also reported!");
+            // System.out.println("File.asm:line 3, column 0: Error! This should be also reported too!");
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println("3 errors found.");
 
-      File errorRepFile = new File("testErrorRepFile.txt");
-      ErrorReporter er = new ErrorReporter("testErrorRepFile.txt");
-      Token brokenT1 = new Token("T1", null);
-      String p1 = "[1, 4]";
-      Token brokenT2 = new Token("T2", null);
-      String p2 = "[5, 2]";
+            errorReporter.report();
 
-<<<<<<< HEAD
-      er.errorReporterScanner(p1, erMsgScanner1);
-      er.errorReporterScanner(p2, erMsgScanner2);
-      er.errorReporterParser(p3, erMsgParser1);
-      er.errorReporterParser(p4, erMsgParser2);
-=======
-      er.callErrorReporter(brokenT1, p1);
-      er.callErrorReporter(brokenT2, p2);
->>>>>>> parent of 40dc9e9 (Try not to fix :))
-      er.endErrorReporter();
-      
+
     }//end of main
-*/
+
 }//end of class

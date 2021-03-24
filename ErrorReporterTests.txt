@@ -1,0 +1,8 @@
+Test ErrorReporter
+File.asm:line 1, column 0: Error! This should be reported!
+File.asm:line 2, column 0: Error! This should be also reported!
+File.asm:line 3, column 0: Error! This should be also reported too!
+
+
+
+3 errors found.

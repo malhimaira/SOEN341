@@ -1,4 +1,4 @@
-public class Directive extends Token{
+public class Directive extends Token implements IDirective{
     StringOperand stringOperand;
     String trimmedString; //String without quotation marks.
 
