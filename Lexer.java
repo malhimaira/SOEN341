@@ -52,14 +52,26 @@ public class Lexer implements ILexer {
 
                     cntTLS += 1;
 
-                    if (cntTLS == 1) { //Case for a mnemonic token
-                        if (word.contains(".")) { //if mnemonic should expect a number token next
+                    if (cntTLS == 1) { 
+                    	//case for directive
+                        if(word.equals(".cstring")) {
+                        	//create directive
+                        	Directive dir = new Directive(new Position(rowLex, colLex-word.length()-1));
+                        	
+                        	if (word.length() != 0) 
+                        	{
+                        		SymbolTable.put(dir.toString(), dir);
+                                TokenSequence.add(dir.toString());
+                        	}
+                        }
+                      //Case for a mnemonic token
+                        else if (word.contains(".")) { //if mnemonic should expect a number token next
                             //create the position inside the mnemonic using the word length and current column
                             Mnemonic mnem = new Mnemonic(word, true, new Position(rowLex, colLex-word.length()-1));
                             //mnem.setColLength(colLex);//needs to be redone
                             if (word.length() != 0) {
-                                SymbolTable.put(mnem.getName(), mnem);
-                                TokenSequence.add(mnem.getName());
+                                SymbolTable.put(mnem.toString(), mnem);
+                                TokenSequence.add(mnem.toString());
                             }
                             word = "";
                         } else if (!word.contains(".")) { //if mnemonic does not need a number token
@@ -67,19 +79,20 @@ public class Lexer implements ILexer {
                             Mnemonic mnem = new Mnemonic(word, false, new Position(rowLex, colLex-word.length()-1));
 
                             if (word.length() != 0) {
-                                SymbolTable.put(mnem.getName(), mnem);
-                                TokenSequence.add(mnem.getName());
+                                SymbolTable.put(mnem.toString(), mnem);
+                                TokenSequence.add(mnem.toString());
                             }
                             word = "";
                             cntTLS = 0;
-                        } else {
+                        } 
+                        else {
                             System.out.print("mnemonic creation error");
                         }
 
                     } else if (cntTLS == 2) { //Case for a number token
                         Number num = new Number(word, new Position(rowLex, colLex-2));
-                        SymbolTable.put(num.getName(), num);
-                        TokenSequence.add(num.getName());
+                        SymbolTable.put(num.toString(), num);
+                        TokenSequence.add(num.toString());
                         cntTLS = 0;
                         word = "";
                     }
@@ -116,8 +129,8 @@ public class Lexer implements ILexer {
 
                     }
                     Comment comm = new Comment(word, new Position(rowLex, colLex-word.length()));
-                    SymbolTable.put(comm.getName(), comm);
-                    TokenSequence.add(comm.getName());
+                    SymbolTable.put(comm.toString(), comm);
+                    TokenSequence.add(comm.toString());
 
                     word = "";
                 }
@@ -125,8 +138,8 @@ public class Lexer implements ILexer {
                 if ((char) metaChar == '\n') {
                     prevIsSpace = false;
                     EOL eol = new EOL("EOL", new Position(rowLex,colLex));
-                    SymbolTable.put(eol.getName(), eol);
-                    TokenSequence.add(eol.getName());
+                    SymbolTable.put(eol.toString(), eol);
+                    TokenSequence.add(eol.toString());
                     word = "";
                     colLex = 1;
                     rowLex += 1;
