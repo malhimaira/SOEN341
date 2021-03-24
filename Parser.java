@@ -35,6 +35,9 @@ public class Parser implements IParser {
         return IR;
     }
 
+    // TODO May need to change input type to lexer (DONE). I am not sure if it is
+    // possible to do it this way since eventually we need to get labels and
+    // operands...
     /**
      * Method used to Parse the tokens obtained from the Lexer object
      * 
@@ -51,7 +54,6 @@ public class Parser implements IParser {
         Comment currentComment = null;
 
         while ((currentToken = lexer.getNextToken()).getCode() != TokenType.EOF) {
-           //Debug System.out.println(currentToken);
             // If token is a mnemonic...
             // System.out.println(currentToken); //For debugging
             if (currentToken.getCode() == TokenType.Mnemonic) {
@@ -76,6 +78,7 @@ public class Parser implements IParser {
                 // If token is EOL
             } else if (currentToken.getCode() == TokenType.EOL) {
                 // System.out.println("Current token is a EOL!"); //For debugging
+                // TODO SPRINT 2
                 if (currentMnemonic != null) {
                     if (currentNumber != null) { // We have a number on this line
                         //Number appears before instruction in the line.
@@ -90,10 +93,6 @@ public class Parser implements IParser {
                         }
                     } else {
                         currentInstruction = new Instruction(currentMnemonic);
-                    }
-                } else { //No mnemonic on this line, so we should not have an operand!
-                    if (currentNumber != null) {
-                        //TODO Error reporter! Number and no instruction!
                     }
                 }
                 // TODO change this based on presence of comments, labels and directives
@@ -123,14 +122,7 @@ public class Parser implements IParser {
                 System.out.println("Current token was not recognized!");
                 return false;
             }
-            //System.out.println(IR);
         }
-
-            if (lexer.getNextToken() != null) {//We have another token after the EOF, this is a problem.
-                //System.out.println("ERROR!!!");
-                //TODO ERROR REPORTER
-            }
-
         return true;
     }
 }

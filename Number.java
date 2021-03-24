@@ -1,5 +1,5 @@
 /**
- * Class representing a Number Token, DIRECTIVE
+ * Class representing a Number Token
  */
 public class Number extends Token{
  int numberInt;

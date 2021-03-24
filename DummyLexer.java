@@ -37,7 +37,6 @@ public class DummyLexer extends Lexer{
         tokenList.add(new EOL("EOL", new Position (7,2)));
 
         tokenList.add(new EOF("EOF",new Position(8,0)));
-        tokenList.add(null);
     }
 
     /**

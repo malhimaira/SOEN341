@@ -40,17 +40,6 @@ public class Lexer implements ILexer {
         boolean firstIter = true;
         try {
             while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
-
-
-//                if( metaChar!= 32 && metaChar != 34 && metaChar != 45 && metaChar != 46 && metaChar != 59 && metaChar != 60 && metaChar != 62 && (((91>=metaChar) && (metaChar<=96)) && (metaChar<65 || metaChar > 90 || metaChar<97 || metaChar > 122)))
-//                {
-//
-//                        Position errPos = new Position(rowLex, colLex);
-//                        ErrorMsg errorMsg = new ErrorMsg("Invalid Character", errPos);
-//                        System.exit(-1);
-//                        //throw to error reporter
-//
-//                }
                 colLex += 1;
 
                 if (metaChar != eofMarker & metaChar == ' ' & !prevIsSpace) {
@@ -63,27 +52,14 @@ public class Lexer implements ILexer {
 
                     cntTLS += 1;
 
-                    if (cntTLS == 1) { 
-                    	//case for directive
-                        if(word.equals(".cstring")) {
-                        	//create directive
-                        	Directive dir = new Directive(new Position(rowLex, colLex-word.length()-1));
-                        	
-                        	if (word.length() != 0) 
-                        	{
-                        		SymbolTable.put(dir.toString(), dir);
-                                TokenSequence.add(dir.toString());
-                        	}
-                        	word = "";
-                        }
-                      //Case for a mnemonic token
-                        else if (word.contains(".")) { //if mnemonic should expect a number token next
+                    if (cntTLS == 1) { //Case for a mnemonic token
+                        if (word.contains(".")) { //if mnemonic should expect a number token next
                             //create the position inside the mnemonic using the word length and current column
                             Mnemonic mnem = new Mnemonic(word, true, new Position(rowLex, colLex-word.length()-1));
                             //mnem.setColLength(colLex);//needs to be redone
                             if (word.length() != 0) {
-                                SymbolTable.put(mnem.toString(), mnem);
-                                TokenSequence.add(mnem.toString());
+                                SymbolTable.put(mnem.getName(), mnem);
+                                TokenSequence.add(mnem.getName());
                             }
                             word = "";
                         } else if (!word.contains(".")) { //if mnemonic does not need a number token
@@ -91,20 +67,19 @@ public class Lexer implements ILexer {
                             Mnemonic mnem = new Mnemonic(word, false, new Position(rowLex, colLex-word.length()-1));
 
                             if (word.length() != 0) {
-                                SymbolTable.put(mnem.toString(), mnem);
-                                TokenSequence.add(mnem.toString());
+                                SymbolTable.put(mnem.getName(), mnem);
+                                TokenSequence.add(mnem.getName());
                             }
                             word = "";
                             cntTLS = 0;
-                        } 
-                        else {
+                        } else {
                             System.out.print("mnemonic creation error");
                         }
 
                     } else if (cntTLS == 2) { //Case for a number token
                         Number num = new Number(word, new Position(rowLex, colLex-2));
-                        SymbolTable.put(num.toString(), num);
-                        TokenSequence.add(num.toString());
+                        SymbolTable.put(num.getName(), num);
+                        TokenSequence.add(num.getName());
                         cntTLS = 0;
                         word = "";
                     }
@@ -141,8 +116,8 @@ public class Lexer implements ILexer {
 
                     }
                     Comment comm = new Comment(word, new Position(rowLex, colLex-word.length()));
-                    SymbolTable.put(comm.toString(), comm);
-                    TokenSequence.add(comm.toString());
+                    SymbolTable.put(comm.getName(), comm);
+                    TokenSequence.add(comm.getName());
 
                     word = "";
                 }
@@ -150,8 +125,8 @@ public class Lexer implements ILexer {
                 if ((char) metaChar == '\n') {
                     prevIsSpace = false;
                     EOL eol = new EOL("EOL", new Position(rowLex,colLex));
-                    SymbolTable.put(eol.toString(), eol);
-                    TokenSequence.add(eol.toString());
+                    SymbolTable.put(eol.getName(), eol);
+                    TokenSequence.add(eol.getName());
                     word = "";
                     colLex = 1;
                     rowLex += 1;
