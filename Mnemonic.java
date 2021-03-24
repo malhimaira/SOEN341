@@ -106,6 +106,14 @@ public class Mnemonic extends Token implements IMnemonic {
         //System.out.println(opCode);
     }
 
+    /**
+     * Used when we cannot simply increment the opcode. Ex: enter.u5
+     * @param newOpcode
+     */
+    public void setOpcode (int newOpcode) {
+        this.opCode = newOpcode;
+    }
+
     public boolean needsNumber() 
     {
         return needNumberToken;
