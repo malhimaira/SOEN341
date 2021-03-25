@@ -14,7 +14,7 @@ public class BrokenDummyLexer extends Lexer{
         tokenList = new ArrayList<Token>();
 
         //Adding Tokens to the ArrayList
-        tokenList.add(new Mnemonic("poop",false,new Position(1,1))); // Case where Opcode is -1
+        tokenList.add(new Mnemonic("popp",false,new Position(1,1))); // Case where Opcode is -1
         tokenList.add(new EOL("EOL", new Position(1,2)));
 
         tokenList.add(new Directive(new Position (2,1))); // Case where Directive without a String is caught
