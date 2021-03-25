@@ -16,6 +16,6 @@ echo "Running TestListingGenerator, (which is not an AUnit test) ***REVIEW OUTPU
 java TestListingGenerator.java
 
 echo "Running ErrorReporter related tests (for ErrorReporter itself, Parser and Scanner) which are also not AUnit compatible, ***see ErrorReporterTests.txt***"
-java ErrorReporter > ErrorReporterTests.txt
+java TestErrorReporter > ErrorReporterTests.txt
 echo "Done!"
 pause
