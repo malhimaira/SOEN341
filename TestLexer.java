@@ -17,7 +17,7 @@ public class TestLexer {
         
         Token t = lexer.getNextToken();
         String strST="";
-        System.out.println();
+       // System.out.println();
         while(t != null) {
         	
         	strST += t+", ";
