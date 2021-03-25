@@ -13,10 +13,11 @@ echo "Running AUnit..."
 java aunit AUnitTests.txt
 
 echo "Running TestListingGenerator, (which is not an AUnit test) ***REVIEW OUTPUT ON StubbedIR.lst MANUALLY!!!!"
-java TestListingGenerator.java
+java TestListingGenerator
 
 echo "Running ErrorReporter related tests (for ErrorReporter itself, Parser and Scanner) which are also not AUnit compatible, ***see ErrorReporterTests.txt***"
 java TestErrorReporter.java > ErrorReporterTests.txt
 java TestParserErrors.java >> ErrorReporterTests.txt
+java TestErrorReporterLexer >> ErrorReporterTests.txt
 echo "Done!"
 pause

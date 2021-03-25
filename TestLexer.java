@@ -13,7 +13,7 @@ public class TestLexer {
         Lexer lexer = new Lexer (inputReader, errorReporter);
         
         System.out.println("Test Lexer");
-        System.out.println("tne 1B row:1 column:2, EOL row: 1 column: 7, tlt 1C row:2 column:3, EOL row: 2 column: 8, tge 1F row:3 column:3, EOL row: 3 column: 8, halt 0 row:4 column:3, EOL row: 4 column: 15, EOF row: 5 column: 1,");
+        System.out.println("tne 1B row:1 column:2, EOL row: 1 column: 7, tlt 1C row:2 column:3, EOL row: 2 column: 8, tge 1F row:3 column:3, EOL row: 3 column: 8, halt 0 row:4 column:3, EOL row: 4 column: 15, EOF row: 5 column: 1, ");
         
         Token t = lexer.getNextToken();
         String strST="";
