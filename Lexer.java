@@ -57,7 +57,7 @@ public class Lexer implements ILexer {
             	if(!(metaChar >=48 && metaChar <= 57) && !(metaChar >=65 && metaChar <= 90) && !(metaChar >=97 && metaChar <= 122)) {
             		//not a valid special char
             		if( metaChar!= 32 && metaChar != 34 && metaChar != 45 && metaChar != 46 && metaChar != 59 && metaChar != 60 && metaChar != 62 && metaChar != 10 && metaChar != 13) {
-            			ErrorMsg invalidCharError = new ErrorMsg("Invalid char: '" + metaChar + "'!", new Position(rowLex, colLex));
+            			ErrorMsg invalidCharError = new ErrorMsg("Invalid char: '" + (char) metaChar + "'!", new Position(rowLex, colLex));
                          errorReporter.record(invalidCharError);
                          word = "";
                          invalidCharEOLCheck = true;
