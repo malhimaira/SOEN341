@@ -4,39 +4,31 @@ import java.io.FileInputStream;
 public class TestLexer {
 
 	public static void main(String args[]) {
-		File asmFile = new File("TestImmediate.asm");
+		File asmFile = new File("TestSymbolTable.asm");
 		AssemblySourceReader reader = new AssemblySourceReader(asmFile);
         FileInputStream inputReader = reader.readAsmFile();
         
 		//Take file stream created in the reader
-        Lexer lexer = new Lexer (inputReader);
-        //System.out.print(lexer.getNextToken());
-
-     //   System.out.println(lexer.getSymbolTable());
-		
-		
-//		//Get File from Assembly Source Reader
-//		File asmFile = new File("TestSymbolTable.asm");
-//		AssemblySourceReader reader = new AssemblySourceReader(asmFile);
-//        FileInputStream inputReader = reader.readAsmFile();
-//        
-//		//Take file stream created in the reader
-//        Lexer lexer = new Lexer (inputReader);
-//        
-//        System.out.println("Test Lexer");
-//        System.out.println("{tne 1B, [EOL=EOL], tlt 1C, [EOL=EOL], tge 1F, [EOL=EOL], halt 0, [EOL=EOL], [EOF=EOF]}");
-//
-
+        ErrorReporter errorReporter = new ErrorReporter(asmFile.getName());
+        Lexer lexer = new Lexer (inputReader, errorReporter);
+        
+        System.out.println("Test Lexer");
+        System.out.println("tne 1B row:1 column:2, EOL row: 1 column: 7, tlt 1C row:2 column:3, EOL row: 2 column: 8, tge 1F row:3 column:3, EOL row: 3 column: 8, halt 0 row:4 column:3, EOL row: 4 column: 15, EOF row: 5 column: 1,");
+        
         Token t = lexer.getNextToken();
         String strST="";
         System.out.println();
         while(t != null) {
-        	strST += t+"\n ";
-        	//strST += t+", ";
-        	//System.out.println(strST);
+        	
+        	strST += t+", ";
+        	
         	t = lexer.getNextToken();
         }
         System.out.println(strST);
+
+        //System.out.println(lexer.getSymbolTable());
+
+    
     }
 
 }

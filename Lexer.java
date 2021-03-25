@@ -23,7 +23,7 @@ public class Lexer implements ILexer {
      *
      * @param fileStream
      */
-    public Lexer(FileInputStream fileStream) {
+    public Lexer(FileInputStream fileStream, ErrorReporter errorReporter) {
         int metaChar;       // May contained eof or a character.
         int eofMarker = -1;
         String word = "";
@@ -35,6 +35,7 @@ public class Lexer implements ILexer {
         boolean prevIsSpace = true; //account for mulitple spaces in a row
         boolean IscString =false;
         boolean EOLCheck = true;
+        boolean invalidCharEOLCheck = false;
 
         int cntTLS = 0; //count tokens in a line statement
 
@@ -44,15 +45,27 @@ public class Lexer implements ILexer {
             while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
 
 
-//                if( metaChar!= 32 && metaChar != 34 && metaChar != 45 && metaChar != 46 && metaChar != 59 && metaChar != 60 && metaChar != 62 && (((91>=metaChar) && (metaChar<=96)) && (metaChar<65 || metaChar > 90 || metaChar<97 || metaChar > 122)))
-//                {
-//
-//                        Position errPos = new Position(rowLex, colLex);
-//                        ErrorMsg errorMsg = new ErrorMsg("Invalid Character", errPos);
-//                        System.exit(-1);
-//                        //throw to error reporter
-//
-//                }
+            	if(invalidCharEOLCheck == true && (char)metaChar != ' ' && (char)metaChar != '\n' && (char)metaChar != '\r') {
+            		continue;
+            	}
+            	else if(invalidCharEOLCheck == true) {
+            		invalidCharEOLCheck = false;
+            	}
+            	
+            	
+            	//not alpha numeric
+            	if(!(metaChar >=48 && metaChar <= 57) && !(metaChar >=65 && metaChar <= 90) && !(metaChar >=97 && metaChar <= 122)) {
+            		//not a valid special char
+            		if( metaChar!= 32 && metaChar != 34 && metaChar != 45 && metaChar != 46 && metaChar != 59 && metaChar != 60 && metaChar != 62) {
+            			ErrorMsg invalidCharError = new ErrorMsg("Invalid char: '" + metaChar + "'!", new Position(rowLex, colLex));
+                         errorReporter.record(invalidCharError);
+                         word = "";
+                         invalidCharEOLCheck = true;
+                	}
+            		
+            	}
+            	
+            	
                 colLex += 1;
 
                 if (metaChar != eofMarker & (metaChar == ' ' || metaChar == '\n' ||metaChar == '\r' )& !prevIsSpace) {
