@@ -27,6 +27,7 @@ public class Directive extends Token implements IDirective{
         this.trimmedString = stringOperandValue.substring(1,stringOperandValue.length()-1);
     }
 
+    public IStringOperand getStringOperand() {return stringOperand;}
     public String getTrimmedString() {
         return trimmedString;
     }

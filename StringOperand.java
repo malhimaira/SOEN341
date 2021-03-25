@@ -10,7 +10,7 @@ public class StringOperand extends Token implements IStringOperand{
 	}
 	public TokenType getCode() {
 		// TODO Auto-generated method stub
-		return TokenType.Number;
+		return TokenType.StringOperand;
 	}
 
 	public String getStringOperand() {

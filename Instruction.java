@@ -131,7 +131,7 @@ public class Instruction implements IInstruction {
             for (int i = 0; i < bitSize; i++) //For negative, most significant bit is 1. This is going to give us a magnitude.
                 binaryNumber = binaryNumber + "1";
 
-            minNumber = maxNumber - Integer.parseInt(binaryNumber); //Parsing the binary number gives us the maximum as an unsigned for bitSize, subtracting from maxNumber gives minNumber.
+            minNumber = maxNumber - Integer.parseInt(binaryNumber,2); //Parsing the binary number gives us the maximum as an unsigned for bitSize, subtracting from maxNumber gives minNumber.
         } else { //Unsigned now
             minNumber = 0;
             String binaryNumber = "";

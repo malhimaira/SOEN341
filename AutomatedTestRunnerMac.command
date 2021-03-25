@@ -15,5 +15,6 @@ printf "Running TestListingGenerator, (which is not an AUnit test) ***REVIEW OUT
 java TestListingGenerator.java
 
 printf "Running ErrorReporter related tests (for ErrorReporter itself, Parser and Scanner) which are also not AUnit compatible, ***see ErrorReporterTests.txt***\n"
-java TestErrorReporter > ErrorReporterTests.txt
+java TestErrorReporter.java > ErrorReporterTests.txt
+java TestParserErrors.java >> ErrorReporterTests.txt
 printf "Done!\n"

@@ -62,6 +62,7 @@ public class Parser implements IParser {
 
                 if (currentMnemonic.getOpcode() == -1) //Invalid opcode
                 {
+                    //TODO -- DONE
                     ErrorMsg invalidMnemonicError = new ErrorMsg("Invalid mnemonic: " + currentMnemonic.getName() + "!", currentMnemonic.getPosition());
                     errorReporter.record(invalidMnemonicError);
                     invalidMnemonicError = null; //Set it to null after
@@ -73,17 +74,20 @@ public class Parser implements IParser {
             //If the current token is a directive (i.e the .cstring)
             } else if (currentToken.getCode() == TokenType.Directive) {
                 currentDirective = (Directive) currentToken;
+
             //Current token is a string
             } else if (currentToken.getCode() == TokenType.StringOperand) {
                 currentString = (StringOperand) currentToken;
                 //Check if currentString is of form "...", if not, error!
                 if (!(currentString.getName().startsWith("\"") && currentString.getName().endsWith("\""))) {
+                    //TODO -- DONE
                     ErrorMsg badStringError = new ErrorMsg("String " + currentString.getName() + " must be of the form \"...\"!", currentString.getPosition());
                     errorReporter.record(badStringError);
                     badStringError = null;
                 } else { //We have a good string
                     //No directive but a string, this is a problem!
                     if (currentDirective == null) {
+                        //TODO -- DONE
                         ErrorMsg stringAloneError = new ErrorMsg("String " + currentString.getName() + " appears without .cstring!",currentString.getPosition());
                         errorReporter.record(stringAloneError);
                         stringAloneError = null;
@@ -105,11 +109,13 @@ public class Parser implements IParser {
                     if (currentNumber != null) { // We have a number on this line
                         //Number appears before instruction in the line.
                         if (currentNumber.getPosition().getColumn() < currentMnemonic.getPosition().getColumn()) {
-                            ErrorMsg orderError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() + " appearing before the Mnemonic" + currentMnemonic.getName() + "!",currentMnemonic.getPosition());
+                            //TODO -- DONE
+                            ErrorMsg orderError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() + " appearing before the Mnemonic " + currentMnemonic.getName() + "!",currentMnemonic.getPosition());
                             errorReporter.record(orderError);
                             orderError = null;
                         } else {
                             if (currentMnemonic.needsNumber() == false) { // Instruction is inherent
+                                //TODO -- DONE
                                 ErrorMsg operandError = new ErrorMsg("Current instruction: " + currentMnemonic.getName() + " is an inherent instruction and does not require an operand!",currentMnemonic.getPosition());
                                 errorReporter.record(operandError);
                                 operandError = null;
@@ -117,6 +123,7 @@ public class Parser implements IParser {
                                 currentInstruction = new Instruction(currentMnemonic, currentNumber);
                                 //Checking if any errors happened during the creation of the Instruction object, including operand out of bounds
                                 if(currentInstruction.errorOccurred()) {
+                                    //TODO -- DONE (Over and under)
                                     ErrorMsg creationError = new ErrorMsg(currentInstruction.errorString(), currentMnemonic.getPosition());
                                     errorReporter.record(creationError);
                                     creationError = null;
@@ -129,7 +136,7 @@ public class Parser implements IParser {
                     }
                 } else { //No mnemonic on this line, so we should not have an operand!
                     if (currentNumber != null) {
-                        // TODO error handler
+                        // TODO error handler -- DONE
                         ErrorMsg noInstructionError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() + " without a Mnemonic!", currentNumber.getPosition());
                         errorReporter.record(noInstructionError);
                         noInstructionError = null;
@@ -149,6 +156,13 @@ public class Parser implements IParser {
                         currentLineStatement = new LineStatement(currentInstruction); //Null
                 } else if (currentDirective != null) { //We have a directive
                     currentLineStatement = new LineStatement(currentDirective, currentComment); //Works if we have a comment or not, as comment will just be null. Could do same for above cases
+
+                    if (currentDirective.getStringOperand() == null){
+                        // The directive does not have a StringOperand assigned to it
+                        //TODO -- DONE
+                        ErrorMsg emptyDirectiveError = new ErrorMsg("Directive: " + currentDirective.getName() +" appears without a String!", currentDirective.getPosition());
+                        errorReporter.record(emptyDirectiveError);
+                    }
                 }
 
                 // Adding LineStatement to IR ArrayList
@@ -170,7 +184,7 @@ public class Parser implements IParser {
         }
 
         if ((currentToken = lexer.getNextToken()) != null) {//We have another token after the EOF, this is a problem.
-            // TODO error handler
+            // TODO error handler -- DONE
             ErrorMsg eofError = new ErrorMsg("Additional token detected after the EOF token!", currentToken.getPosition());
             errorReporter.record(eofError);
         }

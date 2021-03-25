@@ -35,7 +35,8 @@ public class DummyLexer extends Lexer{
         tokenList.add(new Number("31",new Position (7,2)));
         tokenList.add(new Comment(";Test Comment",new Position(7,3)));
         tokenList.add(new EOL("EOL", new Position (7,4)));
-        
+
+        tokenList.add(new StringOperand("\"ABC\"",new Position (5,1))); // Testing Cstring
         tokenList.add(new Comment(";Comment and no Instruction",new Position(8,1)));
         tokenList.add(new EOL("EOL", new Position (8,2)));
 
