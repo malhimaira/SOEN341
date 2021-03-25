@@ -24,8 +24,11 @@ public class CMA {
 			//Create error reporter
 			ErrorReporter errorReporter = new ErrorReporter(asmFile.getName());
 			
+			//Create Symbol Table
+			SymbolTable st = new SymbolTable();
+			
 			//Take file stream created in the reader
-	        Lexer lexer = new Lexer (inputReader, errorReporter);
+	        Lexer lexer = new Lexer (inputReader, st, errorReporter);
 	        
 			//Parse tokens from the lexer
 	        Parser parser = new Parser(lexer,errorReporter);

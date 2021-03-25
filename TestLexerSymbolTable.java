@@ -12,10 +12,11 @@ public class TestLexerSymbolTable {
         
 		//Take file stream created in the reader
         ErrorReporter errorReporter = new ErrorReporter(asmFile.getName());
-        Lexer lexer = new Lexer (inputReader, errorReporter);
+        SymbolTable symTab = new SymbolTable();
+        Lexer lexer = new Lexer (inputReader, symTab, errorReporter);
         
         System.out.println("Test Lexer Symbol Table");
-        System.out.println("{halt=halt 0 row:4 column:2, EOL=EOL row: 4 column: 15, tge=tge 1F row:3 column:2, tne=tne 1B row:1 column:2, tlt=tlt 1C row:2 column:2}");
+        System.out.println("{tne 1B row:1 column:2=tne 1B row:1 column:2, EOL row: 1 column: 7=EOL row: 1 column: 7, EOL row: 4 column: 15=EOL row: 4 column: 15, EOL row: 2 column: 8=EOL row: 2 column: 8, halt 0 row:4 column:3=halt 0 row:4 column:3, EOL row: 3 column: 8=EOL row: 3 column: 8, tge 1F row:3 column:3=tge 1F row:3 column:3, EOF row: 5 column: 1=EOF row: 5 column: 1, tlt 1C row:2 column:3=tlt 1C row:2 column:3}");
 
         System.out.println(lexer.getSymbolTable());
     }

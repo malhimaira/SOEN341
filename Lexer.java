@@ -23,8 +23,13 @@ public class Lexer implements ILexer {
      *
      * @param fileStream
      */
-    public Lexer(FileInputStream fileStream, ErrorReporter errorReporter) {
-        int metaChar;       // May contained eof or a character.
+    public Lexer(FileInputStream fileStream, SymbolTable symTab,ErrorReporter errorReporter) {
+        
+    	//PASS SYMBOL TABLE BY REFERENCE
+    	this.SymbolTable = symTab.getSymbolTable();
+    	
+    	
+    	int metaChar;       // May contained eof or a character.
         int eofMarker = -1;
         String word = "";
         TokenSequence = new ArrayList<String>(10); //TODO Maira

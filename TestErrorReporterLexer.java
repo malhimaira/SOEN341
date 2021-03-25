@@ -10,7 +10,8 @@ public class TestErrorReporterLexer {
         
 		//Take file stream created in the reader
         ErrorReporter errorReporter = new ErrorReporter(asmFile.getName());
-        Lexer lexer = new Lexer (inputReader, errorReporter);
+        SymbolTable symTab = new SymbolTable();
+        Lexer lexer = new Lexer (inputReader, symTab, errorReporter);
 
         System.out.println("Test LexerErrors");
 		errorReporter.report();
