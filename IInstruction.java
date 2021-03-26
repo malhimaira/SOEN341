@@ -3,6 +3,7 @@
  */
 public interface IInstruction {
 
-    Mnemonic getMnemonic();
-    //Operand getOperand();
+    IMnemonic getMnemonic();
+    int getNumberInt();
+    boolean isInherent();
 }

@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 
 /**
  * Main class, reads file name from console. Usage is java CMA File.asm
@@ -21,14 +20,27 @@ public class CMA {
 			//Open the stream to the file
 	        AssemblySourceReader reader = new AssemblySourceReader(asmFile);
 	        FileInputStream inputReader = reader.readAsmFile();
-	        
+	       
+			//Create error reporter
+			ErrorReporter errorReporter = new ErrorReporter(asmFile.getName());
+			
+			//Create Symbol Table
+			SymbolTable st = new SymbolTable();
+			
 			//Take file stream created in the reader
-	        Lexer lexer = new Lexer (inputReader);
+	        Lexer lexer = new Lexer (inputReader, st, errorReporter);
 	        
 			//Parse tokens from the lexer
-	        Parser parser = new Parser(lexer);
+	        Parser parser = new Parser(lexer,errorReporter);
 	        
-	        ArrayList<ILineStatement> IR =  parser.parse();
+	        IIR IR =  parser.parse();
+
+			//If there are errors, do not continue to create the executable/listing file.
+			if (errorReporter.hasErrors())
+			{
+				errorReporter.report();
+				System.exit(0);
+			}
 			//Pass IR to the code generator, which produces executable (eventually) and optional listing file
 	        CodeGenerator cg = new CodeGenerator(IR, fileName, true); //Set to true for now since we always want the listing file for sprint 2
 			System.out.println("Done!");
