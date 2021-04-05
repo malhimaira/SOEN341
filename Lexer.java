@@ -2,6 +2,7 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.ArrayList;
 
 
@@ -27,6 +28,42 @@ public class Lexer implements ILexer {
         
     	//PASS SYMBOL TABLE BY REFERENCE
     	this.SymbolTable = symTab.getSymbolTable();
+    	
+    	
+    	//INSTANTIATE TO PASS MAPPING BY REFERENCE
+    	TreeMap<String,Integer> mapping = new TreeMap<String,Integer>();
+        mapping.put("halt",0x00);
+        mapping.put("pop",0x01);
+        mapping.put("dup",0x02);
+        mapping.put("exit",0x03);
+        mapping.put("ret",0x04);
+        mapping.put("not",0x0C);
+        mapping.put("and",0x0D);
+        mapping.put("or",0x0E);
+        mapping.put("xor",0x0F);
+        mapping.put("neg",0x10);
+        mapping.put("inc",0x11);
+        mapping.put("dec",0x12);
+        mapping.put("add",0x13);
+        mapping.put("sub",0x14);
+        mapping.put("mul",0x15);
+        mapping.put("div",0x16);
+        mapping.put("rem",0x17);
+        mapping.put("shl",0x18);
+        mapping.put("shr",0x19);
+        mapping.put("teq",0x1A);
+        mapping.put("tne",0x1B);
+        mapping.put("tlt",0x1C);
+        mapping.put("tgt",0x1D);
+        mapping.put("tle",0x1E);
+        mapping.put("tge",0x1F);
+
+        //Immediate instructions (opcode given here is starting value)
+       mapping.put("enter.u5",0x70);
+       mapping.put("ldc.i3",0x90);
+       mapping.put("addv.u3",0x98);
+       mapping.put("ldv.u3",0xA0);
+       mapping.put("stv.u3",0xA8);
     	
     	
     	int metaChar;       // May contained eof or a character.
@@ -99,7 +136,7 @@ public class Lexer implements ILexer {
                       //Case for a mnemonic token
                         else if (word.contains(".")) { //if mnemonic should expect a number token next
                             //create the position inside the mnemonic using the word length and current column
-                            Mnemonic mnem = new Mnemonic(word, true, new Position(rowLex, colLex-word.length()-1));
+                            Mnemonic mnem = new Mnemonic(word, true, new Position(rowLex, colLex-word.length()-1), mapping);
                             //mnem.setColLength(colLex);//needs to be redone
                             if (word.length() != 0) {
                                 SymbolTable.put(mnem.toString(), mnem);
@@ -108,7 +145,7 @@ public class Lexer implements ILexer {
                             word = "";
                         } else if (!word.contains(".")) { //if mnemonic does not need a number token
                             //create the position inside the mnemonic using the word length and current column
-                            Mnemonic mnem = new Mnemonic(word, false, new Position(rowLex, colLex-word.length()-1));
+                            Mnemonic mnem = new Mnemonic(word, false, new Position(rowLex, colLex-word.length()-1), mapping);
 
                             if (word.length() != 0) {
                                 SymbolTable.put(mnem.toString(), mnem);

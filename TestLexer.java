@@ -28,7 +28,6 @@ public class TestLexer {
         System.out.println(strST);
 
         //System.out.println(lexer.getSymbolTable());
-
     
     }
 
