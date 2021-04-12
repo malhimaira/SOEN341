@@ -42,6 +42,13 @@ public class TestLineStatement {
        mapping.put("ldv.u3",0xA0);
        mapping.put("stv.u3",0xA8);
     	
+     //Relative Instructions
+       mapping.put("br.i8", 0xE0);
+       mapping.put("brf.i8", 0xE3);
+       mapping.put("ldc.i8", 0xD9);
+       mapping.put("ldv.u8", 0xB1);
+       mapping.put("stv.u8", 0xB2);
+       mapping.put("lda.i16", 0xDA);
     	
         LineStatement lineStatement = new LineStatement(new Instruction(new Mnemonic("halt", false, new Position(0,0), mapping)));
         System.out.println("Test LineStatement"); //Test name

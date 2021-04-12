@@ -8,6 +8,7 @@ public class Mnemonic extends Token implements IMnemonic {
 	private String mNameMap;
 	private int opCode;
 	private boolean needNumberToken;
+	private boolean isRelative;
 	
     private TreeMap<String,Integer> mapping; //Using a TreeMap for mapping as it is very efficient for searching.
 
@@ -35,8 +36,20 @@ public class Mnemonic extends Token implements IMnemonic {
      * @return Boolean value which indicates the validity of the instruction 
      */
     public boolean isValidOperation() {
-        if (mapping.containsKey(mNameMap))
+        if (mapping.containsKey(mNameMap)) {
+        	
+        	//RELATIVE INSTRUCTION BOOLEAN
+        	if(mNameMap.equals("br.i8") || mNameMap.equals("brf.i8") || mNameMap.equals("ldc.i8")|| 
+        	mNameMap.equals("ldv.u8")|| mNameMap.equals("stv.u8")|| mNameMap.equals("lda.i16") ){
+        		isRelative = true;	
+        	}
+        	else {
+        		isRelative = false;
+        	}
+        
             return true;
+            
+            }
         else
             return false;
     }
@@ -114,6 +127,12 @@ public class Mnemonic extends Token implements IMnemonic {
 	public TokenType getCode() {
 		// TODO Auto-generated method stub
 		return TokenType.Mnemonic;
+	}
+	
+	@Override
+	//Method to get relative boolean
+	public boolean getIsRelative () {
+		return isRelative;
 	}
 	
 }

@@ -27,8 +27,11 @@ public class CMA {
 			//Create Symbol Table
 			SymbolTable st = new SymbolTable();
 			
+			//Create LabelTable
+			LabelTable lt = new LabelTable();
+			
 			//Take file stream created in the reader
-	        Lexer lexer = new Lexer (inputReader, st, errorReporter);
+	        Lexer lexer = new Lexer (inputReader, st, lt, errorReporter);
 	        
 			//Parse tokens from the lexer
 	        Parser parser = new Parser(lexer,errorReporter);
