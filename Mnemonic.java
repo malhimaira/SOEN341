@@ -9,6 +9,7 @@ public class Mnemonic extends Token implements IMnemonic {
 	private int opCode;
 	private boolean needNumberToken;
 	private boolean isRelative;
+	private boolean needLabelToken;
 	
     private TreeMap<String,Integer> mapping; //Using a TreeMap for mapping as it is very efficient for searching.
 
@@ -42,6 +43,14 @@ public class Mnemonic extends Token implements IMnemonic {
         	if(mNameMap.equals("br.i8") || mNameMap.equals("brf.i8") || mNameMap.equals("ldc.i8")|| 
         	mNameMap.equals("ldv.u8")|| mNameMap.equals("stv.u8")|| mNameMap.equals("lda.i16") ){
         		isRelative = true;	
+        		if(mNameMap.equals("ldc.i8")|| mNameMap.equals("ldv.u8")|| mNameMap.equals("stv.u8")) {
+        			needNumberToken = true;
+        			needLabelToken = false;
+        		}
+        		else {
+        			needNumberToken = false;
+        			needLabelToken = true;
+        		}
         	}
         	else {
         		isRelative = false;
