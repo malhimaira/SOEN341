@@ -3,4 +3,5 @@
  **/
 public interface ICodeGenerator {
 
+    void generate(); //Generate listing file if enabled and exe
 }

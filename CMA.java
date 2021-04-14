@@ -46,6 +46,7 @@ public class CMA {
 			}
 			//Pass IR to the code generator, which produces executable (eventually) and optional listing file
 	        CodeGenerator cg = new CodeGenerator(IR, fileName, true); //Set to true for now since we always want the listing file for sprint 2
+			cg.generate(); //Generate listing file if enabled and generate the exe
 			System.out.println("Done!");
 	        
 	        
