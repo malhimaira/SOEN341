@@ -12,6 +12,7 @@ public class ListingGenerator implements IListingGenerator {
     private String addrString, label, operand, comment, mneName,opcode;
     private int currentAddr, currentLine;
     private PrintWriter pw;
+    private int addressArray[];
 
     /**
      * Generates the listing file
@@ -20,6 +21,7 @@ public class ListingGenerator implements IListingGenerator {
      */
     public ListingGenerator(IIR IR, String fileName){
         opcode = addrString = comment = operand = mneName = label = header = "";
+        addressArray = new int[IR.getSize()]; //Amount of addresses = number of line statements, aka the size of the IR
         currentAddr = 0;
         currentLine = 1;
         
@@ -34,6 +36,7 @@ public class ListingGenerator implements IListingGenerator {
         //Loop through all line statements, adding the information to the list file.
         for(int i = 0; i <IR.getSize(); i++) {
             ILineStatement temp = IR.getLineStatement(i);
+            addressArray[i] = currentAddr; //Set this line statement's address in the array to the current address.
 
         	addrString = String.format("%04X", currentAddr);
             
