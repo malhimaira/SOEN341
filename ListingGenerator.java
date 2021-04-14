@@ -38,6 +38,7 @@ public class ListingGenerator implements IListingGenerator {
             ILineStatement temp = IR.getLineStatement(i);
             calculateAddresses(IR);
 
+            currentAddr = addressArray[i];
         	addrString = String.format("%04X", currentAddr);
             if (temp.getLabel() != null) {
                 label = temp.getLabel().getName();
@@ -56,15 +57,17 @@ public class ListingGenerator implements IListingGenerator {
                     else if (mne.needsLabel()) {
                         operand = temp.getInstruction().getLabelOperand().getName();
                         int offsetInt = relativeOffset((Label) temp.getInstruction().getLabelOperand(),currentAddr,labelTable);
-
+                        int offsetChars = offset.length();
                         if (temp.getInstruction().getMnemonic().getName().contains(".i8")) {
                             offset = String.format("%02X", offsetInt);
+                            offsetChars = 2;
                         } else if (temp.getInstruction().getMnemonic().getName().contains("i16")) {
                             offset = String.format("%04X", offsetInt);
+                            offsetChars = 4;
                         }
 
                         if (!offset.equals(""))
-                            opcode += " " + offset;
+                            opcode += " " + offset.substring(offset.length()-offsetChars);
                     }
             } else if (temp.getDirective() != null) { //we have a directive aka the .cstring
                 Directive cstring = (Directive) temp.getDirective();
@@ -87,11 +90,12 @@ public class ListingGenerator implements IListingGenerator {
             //TODO comments, operands, labels
             pw.println(String.format("%-4d %-4s %-20s %-9s %-10s %-16s %-15s",currentLine,addrString,opcode,label,mneName,operand,comment));
 
-            if (temp.getInstruction() != null) //If no instruction on line, we do not increment address!
-                currentAddr+= temp.getInstruction().getSize();
+            if (temp.getInstruction() != null){ //If no instruction on line, we do not increment address!
+                //currentAddr+= temp.getInstruction().getSize();
+            }
             else if(temp.getDirective() != null)
                 {
-                    currentAddr += temp.getDirective().getSize(); //Increment by size of trimmed string + 1 for the null char (# of bytes in string)
+                    //currentAddr += temp.getDirective().getSize(); //Increment by size of trimmed string + 1 for the null char (# of bytes in string)
                 }
 
             currentLine++;
@@ -113,14 +117,19 @@ public class ListingGenerator implements IListingGenerator {
     }
 
     private void calculateAddresses(IIR IR) {
-        addressArray[0] = 0;
 
-        for (int i = 1; i < addressArray.length; i++)
+        addressArray[0] = 0;
+        LineStatement ls = (LineStatement) IR.getLineStatement(0);
+        addressArray[1] = ls.getSize();
+        for (int i = 1; i < addressArray.length-1; i++)
         {
-            LineStatement ls = (LineStatement) IR.getLineStatement(i);
+        
+            ls = (LineStatement) IR.getLineStatement(i);
             int lsSize = ls.getSize();
-            addressArray[i] = addressArray[i-1] + lsSize;
+            addressArray[i+1] = addressArray[i] + lsSize;
         }
+
+
     }
 
 }

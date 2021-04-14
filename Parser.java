@@ -78,7 +78,7 @@ public class Parser implements IParser {
                 }
                 // If token is a Label
             } else if (currentToken.getCode() == TokenType.Label) {
-                if (currentToken.getPosition().getColumn() == 1) {//If it's the first column, then it's a regular label, otherwise it's a label operand.
+                if (currentToken.getPosition().getColumn() == 1 || currentToken.getPosition().getColumn() == 2) {//If it's the first column, then it's a regular label, otherwise it's a label operand.
                     currentLabel = (Label) currentToken;
                     //We already have a label with this name! Error!
                     if (usedLabels.contains(currentLabel.getName())) {

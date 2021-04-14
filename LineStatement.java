@@ -58,7 +58,8 @@ public class LineStatement implements ILineStatement{
             return directive.getSize();
         else if (instruction != null)
             return instruction.getSize();
-        else
+        
+        if (directive == null && instruction == null);
             return 0;
     }
 
