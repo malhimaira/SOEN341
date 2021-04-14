@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 public class ListingGenerator implements IListingGenerator {
 
     private String header;
-    private String addrString, label, operand, comment, mneName,opcode;
+    private String addrString, label, operand, comment, mneName,opcode,offset;
     private int currentAddr, currentLine;
     private PrintWriter pw;
     private int addressArray[];
@@ -19,8 +19,8 @@ public class ListingGenerator implements IListingGenerator {
      * @param IR Received from the parser
      * @param fileName The name of the input file, so the list file can have the same name
      */
-    public ListingGenerator(IIR IR, String fileName){
-        opcode = addrString = comment = operand = mneName = label = header = "";
+    public ListingGenerator(IIR IR, String fileName,LabelTable labelTable){
+        opcode = addrString = comment = operand = mneName = label = header = offset = "";
         addressArray = new int[IR.getSize()]; //Amount of addresses = number of line statements, aka the size of the IR
         currentAddr = 0;
         currentLine = 1;
@@ -36,16 +36,36 @@ public class ListingGenerator implements IListingGenerator {
         //Loop through all line statements, adding the information to the list file.
         for(int i = 0; i <IR.getSize(); i++) {
             ILineStatement temp = IR.getLineStatement(i);
-            addressArray[i] = currentAddr; //Set this line statement's address in the array to the current address.
+            calculateAddresses(IR);
 
         	addrString = String.format("%04X", currentAddr);
-            
+            if (temp.getLabel() != null) {
+                label = temp.getLabel().getName();
+            }
             if (temp.getInstruction() != null) {
                 Mnemonic mne = (Mnemonic) temp.getInstruction().getMnemonic();
                 mneName = mne.getName();
                 opcode = String.format("%02X",mne.getOpcode());
                 if (!temp.getInstruction().isInherent()) //If it is not inherent and thus needs an operand.
-                    operand = Integer.toString(temp.getInstruction().getNumberInt());
+
+                    if (mne.needsNumber()) {
+                        operand = Integer.toString(temp.getInstruction().getNumberInt());
+                    }
+                    if (mne.needsNumber() && mne.isRelative())
+                        opcode += " " + String.format("%02X", temp.getInstruction().getNumberInt());
+                    else if (mne.needsLabel()) {
+                        operand = temp.getInstruction().getLabelOperand().getName();
+                        int offsetInt = relativeOffset((Label) temp.getInstruction().getLabelOperand(),currentAddr,labelTable);
+
+                        if (temp.getInstruction().getMnemonic().getName().contains(".i8")) {
+                            offset = String.format("%02X", offsetInt);
+                        } else if (temp.getInstruction().getMnemonic().getName().contains("i16")) {
+                            offset = String.format("%04X", offsetInt);
+                        }
+
+                        if (!offset.equals(""))
+                            opcode += " " + offset;
+                    }
             } else if (temp.getDirective() != null) { //we have a directive aka the .cstring
                 Directive cstring = (Directive) temp.getDirective();
                 mneName = cstring.getName(); //Always cstring but generalization is good.
@@ -68,20 +88,39 @@ public class ListingGenerator implements IListingGenerator {
             pw.println(String.format("%-4d %-4s %-20s %-9s %-10s %-16s %-15s",currentLine,addrString,opcode,label,mneName,operand,comment));
 
             if (temp.getInstruction() != null) //If no instruction on line, we do not increment address!
-                currentAddr++;
+                currentAddr+= temp.getInstruction().getSize();
             else if(temp.getDirective() != null)
                 {
-                    currentAddr += temp.getDirective().getTrimmedString().length() + 1; //Increment by size of trimmed string + 1 for the null char (# of bytes in string)
+                    currentAddr += temp.getDirective().getSize(); //Increment by size of trimmed string + 1 for the null char (# of bytes in string)
                 }
 
             currentLine++;
-            opcode = addrString = comment = operand = mneName = label = header = "";
+            opcode = addrString = comment = operand = mneName = label = header = offset = "";
         }
 
 
         pw.close(); //Close the PrintWriter
         System.out.println("Successfully generated " + fileName + ".lst");
 
+    }
+
+    private int relativeOffset(Label labelOperand, int currentAddr, LabelTable labelTable) {
+        Label labelToFind = labelTable.getLabelTable().get(labelOperand.getName());
+        int index = labelToFind.getPosition().getRow() -1;
+        int labelAddr = addressArray[index];
+        int offset = labelAddr - currentAddr;
+        return offset;
+    }
+
+    private void calculateAddresses(IIR IR) {
+        addressArray[0] = 0;
+
+        for (int i = 1; i < addressArray.length; i++)
+        {
+            LineStatement ls = (LineStatement) IR.getLineStatement(i);
+            int lsSize = ls.getSize();
+            addressArray[i] = addressArray[i-1] + lsSize;
+        }
     }
 
 }

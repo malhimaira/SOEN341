@@ -1,0 +1,6 @@
+Line Addr Machine Code         Label     Mne        Operand         Comments        
+1    0000                                                            ; rela03.asm   
+2    0000 B1 00                          ldv.u8     0                               
+3    0002 B1 FF                          ldv.u8     255                             
+4    0004 B2 00                          stv.u8     0                               
+5    0006 B2 FF                          stv.u8     255                             

@@ -44,6 +44,6 @@ public class Mapper {
        mapping.put("ldc.i8", 0xD9);
        mapping.put("ldv.u8", 0xB1);
        mapping.put("stv.u8", 0xB2);
-       mapping.put("lda.i16", 0xDA);
+       mapping.put("lda.i16", 0xD5);
     }
 }

@@ -11,7 +11,8 @@ public class TestListingGenerator {
     
   //Mapping for mnemonic
 	TreeMap<String,Integer> mapping = new TreeMap<String,Integer>();
-  Mapper mapper = new Mapper(mapping);
+    Mapper mapper = new Mapper(mapping);
+    LabelTable lt = new LabelTable(); //Keep compiler happy.
   
     //Stub of the IR, hardcoded values.
     IIR stubIR = new IR();
@@ -28,6 +29,6 @@ public class TestListingGenerator {
     stubIR.add(new LineStatement(new Instruction(new Mnemonic("neg",false,new Position(8,0), mapping))));
 
     
-    IListingGenerator slg = new ListingGenerator(stubIR,"StubbedIR");
+    IListingGenerator slg = new ListingGenerator(stubIR,"StubbedIR",lt);
 }
 }//end of StubIR Interface
