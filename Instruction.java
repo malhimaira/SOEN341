@@ -156,7 +156,7 @@ public class Instruction implements IInstruction {
      * Returns an int representing the size in bytes of the instruction.
      * @return
      */
-    public int instructionSize() {
+    public int getSize() {
         int size = 1; //Default size is 1 byte
 
         if (mnemonic.needsNumber() || mnemonic.isRelative()) { //Mnemonic needs a number or is relative, meaning it might be more than 1 byte

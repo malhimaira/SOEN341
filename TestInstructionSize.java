@@ -17,11 +17,11 @@ public class TestInstructionSize {
         System.out.println("halt: 1 byte, ldc.i3: 1 byte, enter.u5: 1 byte, br.i8: 2 bytes, lda.i16: 3 bytes");
         
         String output = "";
-        output += i1.getMnemonic().getName() + ": " + i1.instructionSize() + ((i1.instructionSize() < 2) ? " byte, " : " bytes, ");
-        output += i2.getMnemonic().getName() + ": " + i2.instructionSize() + ((i2.instructionSize() < 2) ? " byte, " : " bytes, ");
-        output += i3.getMnemonic().getName() + ": " + i3.instructionSize() + ((i3.instructionSize() < 2) ? " byte, " : " bytes, ");
-        output += i4.getMnemonic().getName() + ": " + i4.instructionSize() + ((i4.instructionSize() < 2) ? " byte, " : " bytes, ");
-        output += i5.getMnemonic().getName() + ": " + i5.instructionSize() + ((i5.instructionSize() < 2) ? " byte" : " bytes");
+        output += i1.getMnemonic().getName() + ": " + i1.getSize() + ((i1.getSize() < 2) ? " byte, " : " bytes, ");
+        output += i2.getMnemonic().getName() + ": " + i2.getSize() + ((i2.getSize() < 2) ? " byte, " : " bytes, ");
+        output += i3.getMnemonic().getName() + ": " + i3.getSize() + ((i3.getSize() < 2) ? " byte, " : " bytes, ");
+        output += i4.getMnemonic().getName() + ": " + i4.getSize() + ((i4.getSize() < 2) ? " byte, " : " bytes, ");
+        output += i5.getMnemonic().getName() + ": " + i5.getSize() + ((i5.getSize() < 2) ? " byte" : " bytes");
 
         System.out.println(output);
 
