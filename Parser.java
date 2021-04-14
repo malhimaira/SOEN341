@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.ArrayList;
+
 /**
  * Parser class used to parse through the tokens provided by the Lexer
  */
@@ -5,15 +8,19 @@ public class Parser implements IParser {
     // IR is a wrapper of an ArrayList of LineStatements
     IIR IR;
     ILexer lexer;
-    ErrorReporter errorReporter;
+    IErrorReporter errorReporter;
+    HashMap<String, Label> labelTable;
+    ArrayList<String> usedLabels; //Keeps tracks of labels already assigned on a line
 
     /**
      * Constructor Method
      */
-    public Parser(ILexer lexer, ErrorReporter errorReporter) {
+    public Parser(ILexer lexer, IErrorReporter errorReporter) {
         IR = new IR();
         this.lexer = lexer;
         this.errorReporter = errorReporter;
+        this.labelTable = lexer.getLabelTable();
+        this.usedLabels = new ArrayList<String>();
     }
 
     /**
@@ -51,6 +58,8 @@ public class Parser implements IParser {
         Comment currentComment = null;
         Directive currentDirective = null;
         StringOperand currentString = null;
+        Label currentLabel = null;
+        Label labelOperand = null;
 
         while ((currentToken = lexer.getNextToken()).getCode() != TokenType.EOF) {
             //Debug System.out.println(currentToken);
@@ -69,6 +78,17 @@ public class Parser implements IParser {
                 }
                 // If token is a Label
             } else if (currentToken.getCode() == TokenType.Label) {
+                if (currentToken.getPosition().getColumn() == 1) {//If it's the first column, then it's a regular label, otherwise it's a label operand.
+                    currentLabel = (Label) currentToken;
+                    //We already have a label with this name! Error!
+                    if (usedLabels.contains(currentLabel.getName())) {
+                        ErrorMsg labelAlreadyUsedError = new ErrorMsg("Current label: \"" + currentLabel.getName() + "\" already defined", currentLabel.getPosition());
+                        errorReporter.record(labelAlreadyUsedError);
+                        labelAlreadyUsedError = null;
+                    } else
+                        usedLabels.add(currentLabel.getName()); //We've now used this up
+                }else
+                    labelOperand = (Label) currentToken;
                 // System.out.println("Current token is a Label!"); //For debugging
                 // TODO SPRINT 4
             //If the current token is a directive (i.e the .cstring)
@@ -114,7 +134,7 @@ public class Parser implements IParser {
                             errorReporter.record(orderError);
                             orderError = null;
                         } else {
-                            if (currentMnemonic.needsNumber() == false) { // Instruction is inherent
+                            if (!currentMnemonic.needsNumber() && !currentMnemonic.isRelative()) { // Instruction is inherent
                                 //TODO -- DONE
                                 ErrorMsg operandError = new ErrorMsg("Current instruction: " + currentMnemonic.getName() + " is an inherent instruction and does not require an operand!",currentMnemonic.getPosition());
                                 errorReporter.record(operandError);
@@ -130,14 +150,50 @@ public class Parser implements IParser {
                                 }
                             }
                         }
+                    } else if(labelOperand != null ){
+                        //labelOperand is not in the labelTable
+                        if (!labelTable.containsKey(labelOperand.getName())) {
+                            ErrorMsg labelNotFound = new ErrorMsg("Current label operand: \"" + labelOperand.getName() + "\" not found (or defined).", labelOperand.getPosition());
+                            errorReporter.record(labelNotFound);
+                            labelNotFound = null;
+                        }
+
+                        if (labelOperand.getPosition().getColumn() < currentMnemonic.getPosition().getColumn()) {
+                            ErrorMsg orderError = new ErrorMsg("Current Line contains a label: " + labelOperand.getName() + " appearing before the Mnemonic " + currentMnemonic.getName() + "!",currentMnemonic.getPosition());
+                            errorReporter.record(orderError);
+                            orderError = null;
+                        } else {
+                            if (!currentMnemonic.needsLabel()) { // Instruction is inherent
+                                //TODO -- DONE
+                                ErrorMsg operandError = new ErrorMsg("Current instruction: " + currentMnemonic.getName() + " does not require a label operand!",currentMnemonic.getPosition());
+                                errorReporter.record(operandError);
+                                operandError = null;
+                            } else {
+                                currentInstruction = new Instruction(currentMnemonic,labelOperand); //Set current instruction to taking a labelOperand
+                                if(currentInstruction.errorOccurred()) {
+                                    //TODO -- DONE (Label found but should not have been there)
+                                    ErrorMsg creationError = new ErrorMsg(currentInstruction.errorString(), currentMnemonic.getPosition());
+                                    errorReporter.record(creationError);
+                                    creationError = null;
+                                }
+
+                            }
+                        }
                     } else {
                         //No operand
                         currentInstruction = new Instruction(currentMnemonic);
+                        if (!currentInstruction.isInherent()) {
+                            ErrorMsg needsOperandError = new ErrorMsg("Current instruction " + currentMnemonic.getName() +
+                                    " requires a " + ((currentMnemonic.needsNumber()) ? "number " : "label ") + " operand.",currentMnemonic.getPosition());
+                            errorReporter.record(needsOperandError);
+                            needsOperandError = null;
+                        }
                     }
                 } else { //No mnemonic on this line, so we should not have an operand!
                     if (currentNumber != null) {
                         // TODO error handler -- DONE
-                        ErrorMsg noInstructionError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() + " without a Mnemonic!", currentNumber.getPosition());
+                        ErrorMsg noInstructionError = new ErrorMsg("Current Line contains a number: " + currentNumber.getName() +
+                                " without a Mnemonic!", currentNumber.getPosition());
                         errorReporter.record(noInstructionError);
                         noInstructionError = null;
                     }
@@ -145,17 +201,17 @@ public class Parser implements IParser {
                 // TODO change this based on presence of comments, labels and directives
                 if (currentInstruction != null) { // We have an instruction
                     if (currentComment != null) { // We have a comment
-                        currentLineStatement = new LineStatement(currentInstruction, currentComment);
+                        currentLineStatement = new LineStatement(currentLabel, currentInstruction, currentComment);
                     } else // We don't have a comment
-                        currentLineStatement = new LineStatement(currentInstruction);
+                        currentLineStatement = new LineStatement(currentLabel, currentInstruction,null);
                 } else if (currentInstruction == null && currentDirective == null){ // we don't have an instruction or directive
 
                     if (currentComment != null) { // We have a comment
-                        currentLineStatement = new LineStatement(currentInstruction, currentComment); //Null instruction
+                        currentLineStatement = new LineStatement(currentLabel,currentInstruction, currentComment); //Null instruction
                     } else // We don't have a comment
-                        currentLineStatement = new LineStatement(currentInstruction); //Null
+                        currentLineStatement = new LineStatement(currentLabel, currentInstruction, null); //Null
                 } else if (currentDirective != null) { //We have a directive
-                    currentLineStatement = new LineStatement(currentDirective, currentComment); //Works if we have a comment or not, as comment will just be null. Could do same for above cases
+                    currentLineStatement = new LineStatement(currentLabel, currentDirective, currentComment); //Works if we have a comment or not, as comment will just be null. Could do same for above cases
 
                     if (currentDirective.getStringOperand() == null){
                         // The directive does not have a StringOperand assigned to it
@@ -176,6 +232,8 @@ public class Parser implements IParser {
                 currentComment = null;
                 currentDirective = null;
                 currentString = null;
+                currentLabel = null;
+                labelOperand = null;
             } else { // TODO We add other checks here (labels and directives)
                 System.out.println("Current token was not recognized!");
                 return false;

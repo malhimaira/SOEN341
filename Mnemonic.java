@@ -38,11 +38,13 @@ public class Mnemonic extends Token implements IMnemonic {
      */
     public boolean isValidOperation() {
         if (mapping.containsKey(mNameMap)) {
-        	
+        	isRelative = false;
+            needLabelToken = false;
         	//RELATIVE INSTRUCTION BOOLEAN
         	if(mNameMap.equals("br.i8") || mNameMap.equals("brf.i8") || mNameMap.equals("ldc.i8")|| 
         	mNameMap.equals("ldv.u8")|| mNameMap.equals("stv.u8")|| mNameMap.equals("lda.i16") ){
         		isRelative = true;	
+
         		if(mNameMap.equals("ldc.i8")|| mNameMap.equals("ldv.u8")|| mNameMap.equals("stv.u8")) {
         			needNumberToken = true;
         			needLabelToken = false;
@@ -51,11 +53,11 @@ public class Mnemonic extends Token implements IMnemonic {
         			needNumberToken = false;
         			needLabelToken = true;
         		}
-        	}
-        	else {
-        		isRelative = false;
-        		needLabelToken = false;
-        		needNumberToken = false;
+
+        	} else {
+        		//isRelative = false;
+        		//needLabelToken = false;
+        		//needNumberToken = false;
         	}
         
             return true;
@@ -139,6 +141,10 @@ public class Mnemonic extends Token implements IMnemonic {
 		// TODO Auto-generated method stub
 		return TokenType.Mnemonic;
 	}
+
+	public boolean needsLabel() {
+	    return needLabelToken;
+    }
 
 	//Method to get relative boolean
 	public boolean isRelative() {

@@ -8,6 +8,7 @@ public class Instruction implements IInstruction {
     String errorString;
     int maxNumber; //Maximum number operand can have
     int minNumber; //Minimun number operand can have
+    Label labelOperand;
 
     public Instruction(Mnemonic mnemonic) {
         this.mnemonic = mnemonic;
@@ -24,15 +25,29 @@ public class Instruction implements IInstruction {
         incrementOpcode();
     }
 
+    public Instruction(Mnemonic mnemonic,Label labelOperand) {
+        this(mnemonic);
+        this.labelOperand = labelOperand;
+        this.number = null;
+    }
+
     public IMnemonic getMnemonic() {
         return mnemonic;
     }
 
     public boolean isInherent() {
-        return !(mnemonic.needsNumber() || mnemonic.getIsRelative()); //If it is inherent, it does not need a number and it is not relative
+        return !(mnemonic.needsNumber() || mnemonic.isRelative()); //If it is inherent, it does not need a number and it is not relative
+    }
+
+    public boolean hasLabelOperand() {
+        return labelOperand != null;
     }
     public int getNumberInt() {
-        return number.getNumberInt();
+        if (number != null)
+            return number.getNumberInt();
+        else
+            return -999999999; //You should know this is not ok.
+
     }
 
     private void incrementOpcode() {
@@ -46,8 +61,14 @@ public class Instruction implements IInstruction {
             case "u5":
                 mnemonic.incrementOpcode(returnIncrementValue(false,5));
                 break;
+            case "u8":
+                returnIncrementValue(false,8);
+                break;
             case "i3":
                 mnemonic.incrementOpcode(returnIncrementValue(true,3));
+                break;
+            case "i8":
+                returnIncrementValue(true,8);
                 break;
             default: //Matches none of the ones we want!
                 errorOccured = true;
@@ -60,8 +81,11 @@ public class Instruction implements IInstruction {
      * Checks if an error occurred while processing the instruction
      * @return errorOccurred
      */
+    // TODO needs a label and doesnt have one
     public boolean errorOccurred() {
+        checkOperandMismatchErrors();
         return errorOccured;
+
     }
     /**
      * Returns the String describing the error that occured.
@@ -69,6 +93,16 @@ public class Instruction implements IInstruction {
      */
     public String errorString() {
         return errorString;
+    }
+
+    private void checkOperandMismatchErrors() {
+        if (mnemonic.needsNumber() && number == null) {
+            errorString = "Error: Operand must refer to a number for instruction " + mnemonic.getName();
+            errorOccured = true;
+        } else if (mnemonic.needsLabel() && labelOperand == null) {
+            errorString = "Error: Operand must refer to a label for instruction " + mnemonic.getName();
+            errorOccured = true;
+        }
     }
     /**
      * Returns the value to increment the opcode of the instruction by

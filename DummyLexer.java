@@ -83,11 +83,20 @@ public class DummyLexer extends Lexer{
         tokenList.add(new Comment(";Test Comment",new Position(7,3)));
         tokenList.add(new EOL("EOL", new Position (7,4)));
 
-        tokenList.add(new StringOperand("\"ABC\"",new Position (5,1))); // Testing Cstring
+        tokenList.add(new StringOperand("\"ABC\"",new Position (8,1))); // Testing Cstring
         tokenList.add(new Comment(";Comment and no Instruction",new Position(8,1)));
         tokenList.add(new EOL("EOL", new Position (8,2)));
 
-        tokenList.add(new EOF("EOF",new Position(9,0)));
+        tokenList.add(new Label("testLabel", new Position (9,1)));
+        tokenList.add(new Mnemonic("br.i8", true, new Position (9,2), mapping));
+        tokenList.add(new Label("testLabel", new Position (9,3)));
+        tokenList.add(new EOL("EOL", new Position (9,4)));
+
+        tokenList.add(new Mnemonic("lda.i16", true, new Position (10,2), mapping));
+        tokenList.add(new Label("testLabel", new Position (10,3)));
+        tokenList.add(new EOL("EOL", new Position (10,4)));
+
+        tokenList.add(new EOF("EOF",new Position(11,0)));
         tokenList.add(null);
     }
 
