@@ -54,6 +54,8 @@ public class Mnemonic extends Token implements IMnemonic {
         	}
         	else {
         		isRelative = false;
+        		needLabelToken = false;
+        		needNumberToken = false;
         	}
         
             return true;
