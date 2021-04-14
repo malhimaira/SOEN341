@@ -44,9 +44,10 @@ public class Option implements IOption{
 
     //Methods
     public void notationMsg(){
+        System.out.println("\nError in the name of option or name of ASM file.");
         System.out.println("Usage: cma [ Options ] <file>.asm");
         System.out.println("If you need more detail use the help option:\t-h \tOR \t-help");
-        System.exit(0);
+        return;
     }
 
     public void helpMsg(){
@@ -56,7 +57,7 @@ public class Option implements IOption{
         System.out.printf("%-15s%-15s%-15s\n","-v","-verbose","Verbose during the execution of the program.");
         System.out.printf("%-15s%-15s%-15s\n","-b","-banner","Print the banner of the program.");
         System.out.printf("%-15s%-15s%-15s\n","-l","-listing","Generate a listing of the assembly file.");
-        System.exit(0);
+
     }
 
 
@@ -80,76 +81,74 @@ public class Option implements IOption{
         System.out.println("\nCall exe");
     }
 
-    public void doVerbose(File fileIn){
+    public void doVerbose(){
         setVerboseStatus(true);
         System.out.println("\nVerbose is activated");
-        doExecutable(fileIn);
     }
 
-    public void doListing(File fileIn){
+    public void doListing(){
         setListingStatus(true);
         System.out.println("\nListing is activated");
-        doExecutable(fileIn);
     }
 
-    public void userInput(String[] args){
+    public void userInput(String[] args) {
         //Checking User inputs
         File asmFile;
         //Bad Case - User had put nothing past CMA or put too many arguments
-        if(args.length < 1 || args.length > 2){
-            System.out.println("\nError in the pattern of the command.\nThe command has to folllow the pattern below:");
+        if (args.length < 1 || args.length > 5) {
             notationMsg();
         }
 
-        //Cases where the user can give one argument
-        if(args.length == 1) {
+        //Cases depends on what is the first argument and continue if there's more than one
+        boolean doneB,doneH,doneL,doneV,didRun;
+        didRun=doneB=doneH=doneL=doneV=false;
+
+        for(int index = 0; index < args.length; index++) {
 
             //Good case - User asks for banner
-            if(args[0].equals("-b")||args[0].equals("-banner")) {
+            if ((args[index].equals("-b") || args[index].equals("-banner")) && doneB == false) {
                 System.out.println("\nCm Cross-Assembler Version 4.1 - Developed by Team 2.");
-                System.exit(0);
+                doneB = true;
+                didRun = true;
             }
 
             //Good case - User asks for help
-            else if(args[0].equals("-h")||args[0].equals("-help")) {
+            else if ((args[index].equals("-h") || args[index].equals("-help")) && doneH == false) {
+                doneH = true;
+                didRun = true;
                 helpMsg();
             }
 
+            //Good case - User asks for verbose
+            else if ((args[index].equals("-v") || args[index].equals("-verbose")) && doneV == false) {
+                if (checkFile(args[args.length-1])) {
+                    doVerbose();
+                    didRun = true;
+                    doneV = true;
+                }else{notationMsg();}
+            }
+
+            //Good case - User asks for listing
+            else if ((args[index].equals("-l") || args[index].equals("-listing")) && doneL == false) {
+                if (checkFile(args[args.length-1])) {
+                    doListing();
+                    didRun = true;
+                    doneL = true;
+                }else{notationMsg();}
+            }
+
             //Good case - User only gave ASM file (Checking if it exist)
-            else if(checkFile(args[0])){
-                asmFile = new File(args[0]);
+            else if (checkFile(args[index]) && index == (args.length - 1)) {
+                asmFile = new File(args[index]);
+                didRun = true;
                 doExecutable(asmFile);
             }
 
             //Bad case - the one argument given wasn't one of the options above
-            else{
-            System.out.println("\nError in the name of option or name of ASM file.");
-            notationMsg();
+            else if(doneB == false && doneH == false && doneL == false && doneV == false && didRun == false){
+                notationMsg();
             }
-        }
-
-        //Cases where the user can give one argument
-        if(args.length == 2) {
-            //Good case - User asks for verbose
-            if(args[0].equals("-v")||args[0].equals("-verbose")){
-                if(checkFile(args[1])){
-                    asmFile = new File(args[1]);
-                    doVerbose(asmFile);
-                }
-            }
-
-            //Good case - User asks for listing
-            else if((args[0].equals("-l")||args[0].equals("-listing")) && args[1].contains(".asm") && args[1].length() > 4){
-                if(checkFile(args[1])){
-                    asmFile = new File(args[1]);
-                    doListing(asmFile);
-                }
-            }
-            else{
-            //Bad case - one or both arguments given weren't one of the options above
-            System.out.println("\nError in the name of option or name of ASM file.");
-            notationMsg();
-            }
+            didRun = false;
         }
     }
 

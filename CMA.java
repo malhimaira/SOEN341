@@ -13,6 +13,7 @@ public class CMA {
 		Option optionUser = new Option();
 		optionUser.userInput(args);
 
+		if (optionUser.getAsmFile() == null){return;}
 
 		File asmFile = optionUser.getAsmFile();
 		//Get file name without the extension to help us produce properly named listing file and executable
