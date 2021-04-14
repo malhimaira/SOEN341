@@ -128,10 +128,9 @@ public class Mnemonic extends Token implements IMnemonic {
 		// TODO Auto-generated method stub
 		return TokenType.Mnemonic;
 	}
-	
-	@Override
+
 	//Method to get relative boolean
-	public boolean getIsRelative () {
+	public boolean isRelative() {
 		return isRelative;
 	}
 	

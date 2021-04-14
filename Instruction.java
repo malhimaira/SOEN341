@@ -29,7 +29,7 @@ public class Instruction implements IInstruction {
     }
 
     public boolean isInherent() {
-        return !(mnemonic.needsNumber()); //If it is inherent, it does not need a number
+        return !(mnemonic.needsNumber() || mnemonic.getIsRelative()); //If it is inherent, it does not need a number and it is not relative
     }
     public int getNumberInt() {
         return number.getNumberInt();
@@ -152,6 +152,27 @@ public class Instruction implements IInstruction {
 
     }
 
+    /**
+     * Returns an int representing the size in bytes of the instruction.
+     * @return
+     */
+    public int instructionSize() {
+        int size = 1; //Default size is 1 byte
+
+        if (mnemonic.needsNumber() || mnemonic.isRelative()) { //Mnemonic needs a number or is relative, meaning it might be more than 1 byte
+            String mName = mnemonic.getName();
+
+            String operandType = mName.substring(mName.indexOf("."));
+            String operandSize = operandType.substring(2); //After the i/u part describing unsigned and signed.
+            int operandSizeInt = Integer.parseInt(operandSize); //Convert to int
+            
+            if (operandSizeInt < 8) //i/u5, i/u3 are immediate and thus 1 byte 
+                return 1; //One byte for whole instruction
+            else
+                return ((operandSizeInt / 8) + size); // represents 1 byte for the opcode and adding the size of the operand / 8 (# bytes).
+        } else //It is immediate, thus 1 byte
+            return size; 
+    }
 
     @Override
     public String toString() {

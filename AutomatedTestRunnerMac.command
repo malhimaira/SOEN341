@@ -7,6 +7,7 @@ java TestLexer.java > AUnitTests.txt
 java TestParser.java >> AUnitTests.txt
 java TestLineStatement.java >> AUnitTests.txt
 java TestLexerSymbolTable.java >> AUnitTests.txt
+java TestInstructionSize.java >> AunitTests.txt
 
 printf "Running AUnit...\n"
 java aunit AUnitTests.txt

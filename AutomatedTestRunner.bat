@@ -8,6 +8,7 @@ java TestLexer.java > AUnitTests.txt
 java TestParser.java >> AUnitTests.txt
 java TestLineStatement.java >> AUnitTests.txt
 java TestLexerSymbolTable.java >> AUnitTests.txt
+java TestInstructionSize.java >> AunitTests.txt
 
 echo "Running AUnit..."
 java aunit AUnitTests.txt
@@ -18,6 +19,7 @@ java TestListingGenerator
 echo "Running ErrorReporter related tests (for ErrorReporter itself, Parser and Scanner) which are also not AUnit compatible, ***see ErrorReporterTests.txt***"
 java TestErrorReporter.java > ErrorReporterTests.txt
 java TestParserErrors.java >> ErrorReporterTests.txt
+java TestErrorReporterLexer >> ErrorReporterTests.txt
 java TestErrorReporterLexer >> ErrorReporterTests.txt
 echo "Done!"
 pause
