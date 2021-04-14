@@ -35,6 +35,10 @@ public class Instruction implements IInstruction {
         return mnemonic;
     }
 
+    public ILabel getLabelOperand() {
+        return labelOperand;
+    }
+
     public boolean isInherent() {
         return !(mnemonic.needsNumber() || mnemonic.isRelative()); //If it is inherent, it does not need a number and it is not relative
     }

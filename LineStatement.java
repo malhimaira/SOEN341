@@ -51,6 +51,17 @@ public class LineStatement implements ILineStatement{
         return directive;
     }
 
+    public ILabel getLabel(){return label;}
+
+    public int getSize() {
+        if (directive != null)
+            return directive.getSize();
+        else if (instruction != null)
+            return instruction.getSize();
+        else
+            return 0;
+    }
+
     @Override
     public String toString() {
         String output ="";
