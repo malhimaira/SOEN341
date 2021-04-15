@@ -9,7 +9,7 @@ public class CMA {
 	public static void main(String[] args) {
 		//TODO adapt this for getting options later.
 
-		//Comment out those two lines to make
+		//Take in options/file based on command prompt inputs
 		Option optionUser = new Option();
 		optionUser.userInput(args);
 
