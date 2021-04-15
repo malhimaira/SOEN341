@@ -249,4 +249,21 @@ public class Parser implements IParser {
 
         return true;
     }
+
+    //TODO Not sure about this
+    private void verboseOutputPass1() {
+        HashMap<String,Token> symbolTable = lexer.getSymbolTable();
+        System.out.println("Symbol Table Pass 1:");
+        System.out.println(String.format("%-10s %-10s %-20s","Name","Type","Addr/code"));
+        for (Token token : symbolTable.values()) {
+            if (token.getCode() == TokenType.Mnemonic)
+            {
+                Mnemonic mne = (Mnemonic) token;
+                System.out.println(String.format("%-10s %-10s %-20s",token.getName(),"Mnemonic",mne.getOpcode()));
+            } else if (token.getCode() == TokenType.Label)
+                System.out.println(String.format("%-10s %-10s %-20s",token.getName(),"Label",""));
+        }
+
+    }
+
 }
