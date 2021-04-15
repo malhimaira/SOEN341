@@ -11,6 +11,7 @@ public class Parser implements IParser {
     IErrorReporter errorReporter;
     HashMap<String, Label> labelTable;
     ArrayList<String> usedLabels; //Keeps tracks of labels already assigned on a line
+    boolean verboseEnabled; //Verbose option enabled
 
     /**
      * Constructor Method
@@ -21,6 +22,7 @@ public class Parser implements IParser {
         this.errorReporter = errorReporter;
         this.labelTable = lexer.getLabelTable();
         this.usedLabels = new ArrayList<String>();
+        this.verboseEnabled = verboseEnabled;
     }
 
     /**
@@ -238,8 +240,15 @@ public class Parser implements IParser {
                 System.out.println("Current token was not recognized!");
                 return false;
             }
+        
             //System.out.println(IR);
         }
+
+        if (verboseEnabled)
+            {
+                verboseOutput(1);
+                verboseOutput(2);
+            }
 
         if ((currentToken = lexer.getNextToken()) != null) {//We have another token after the EOF, this is a problem.
             // TODO error handler -- DONE
@@ -250,20 +259,64 @@ public class Parser implements IParser {
         return true;
     }
 
-    //TODO Not sure about this
-    private void verboseOutputPass1() {
-        HashMap<String,Token> symbolTable = lexer.getSymbolTable();
-        System.out.println("Symbol Table Pass 1:");
-        System.out.println(String.format("%-10s %-10s %-20s","Name","Type","Addr/code"));
-        for (Token token : symbolTable.values()) {
-            if (token.getCode() == TokenType.Mnemonic)
-            {
-                Mnemonic mne = (Mnemonic) token;
-                System.out.println(String.format("%-10s %-10s %-20s",token.getName(),"Mnemonic",mne.getOpcode()));
-            } else if (token.getCode() == TokenType.Label)
-                System.out.println(String.format("%-10s %-10s %-20s",token.getName(),"Label",""));
+    //TODO Enhance this function
+    private void verboseOutput(int pass) {
+        int addressArray[] = calculateAddresses();
+        System.out.println("\nLabel Table & Label Operands Pass " + pass + ":");
+        System.out.println(String.format("%-10s %-30s %-20s %-20s", "Name", "Type", "Address", "Offset"));
+        String name, offset;
+        name = "";
+        offset = "????";
+        for (int i = 0; i < IR.getSize(); i++) {
+            Label lb = (Label) IR.getLineStatement(i).getLabel();
+            if (lb != null) {
+                name = lb.getName();
+                System.out.println(String.format("%-10s %-30s %-20s %-20s", name, "Label",
+                        String.format("%04X", addressArray[i]), ""));
+            }
+            if (!(IR.getLineStatement(i).getInstruction() == null)) {
+                Label lbOperand = (Label) IR.getLineStatement(i).getInstruction().getLabelOperand();
+                if (lbOperand != null) {
+                    name = lbOperand.getName();
+                    int operandPos = lbOperand.getPosition().getRow();
+                    if (labelTable.containsKey(name)) {
+                        int labelPos = labelTable.get(name).getPosition().getRow();
+                        if (operandPos >= labelPos) {// Label is above, can resolve
+                            int offsetInt = addressArray[labelPos - 1] - addressArray[operandPos - 1];
+                            offset = String.format("%04X", offsetInt);
+                            if (offset.length() > 4)
+                                offset = offset.substring(offset.length()-4, offset.length());
+                        } else if (operandPos < labelPos && pass == 2) { // 2nd pass resolve all
+                            int offsetInt = addressArray[labelPos - 1] - addressArray[operandPos - 1];
+                            offset = String.format("%04X", offsetInt);
+                            if (offset.length() > 4)
+                                offset = offset.substring(offset.length()-4, offset.length());
+                        }
+                        System.out.println(String.format("%-10s %-30s %-20s %-20s", name, "Label Operand",
+                                String.format("%04X", addressArray[i]), offset));
+                    }
+                }
+            }
+            name = "";
+            offset = "????";
+        }
+        System.out.println("\n");
+
+    }
+    private int[] calculateAddresses() {
+        int[] addressArray = new int[IR.getSize()];
+        addressArray[0] = 0;
+        LineStatement ls = (LineStatement) IR.getLineStatement(0);
+        addressArray[1] = ls.getSize();
+        for (int i = 1; i < addressArray.length-1; i++)
+        {
+        
+            ls = (LineStatement) IR.getLineStatement(i);
+            int lsSize = ls.getSize();
+            addressArray[i+1] = addressArray[i] + lsSize;
         }
 
+        return addressArray;
     }
 
 }
