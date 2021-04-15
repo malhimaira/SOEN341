@@ -15,7 +15,7 @@ public class Parser implements IParser {
     /**
      * Constructor Method
      */
-    public Parser(ILexer lexer, IErrorReporter errorReporter) {
+    public Parser(ILexer lexer, IErrorReporter errorReporter, boolean verboseEnabled) {
         IR = new IR();
         this.lexer = lexer;
         this.errorReporter = errorReporter;

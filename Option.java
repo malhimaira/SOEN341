@@ -78,7 +78,7 @@ public class Option implements IOption{
 
 
     public void doExecutable(File fileIn){
-        System.out.println("\nCall exe");
+        //System.out.println("\nCall exe"); Hiding this for now
     }
 
     public void doVerbose(){

@@ -37,7 +37,7 @@ public class CMA {
 		Lexer lexer = new Lexer (inputReader, st, lt, errorReporter);
 
 		//Parse tokens from the lexer
-		Parser parser = new Parser(lexer,errorReporter);
+		Parser parser = new Parser(lexer,errorReporter,optionUser.getVerboseStatus());
 
 		IIR IR =  parser.parse();
 

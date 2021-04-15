@@ -10,7 +10,7 @@ public class TestParser {
         ILexer dlex = new DummyLexer();
         ErrorReporter errorReporter = new ErrorReporter(); 
         //Instantiating a parser using the dummy lexer.
-        IParser parserObject = new Parser(dlex,errorReporter);
+        IParser parserObject = new Parser(dlex,errorReporter,false);
 
         //Printing the expected output
         System.out.println("Test Parser");
