@@ -22,7 +22,7 @@ File.asm:line 10, column 1: Current label: "testLabel" already defined
 File.asm:line 10, column 3: Current label operand: "badlabel" not found (or defined).
 File.asm:line 11, column 2: Current instruction: ldc.i3 does not require a label operand!
 File.asm:line 12, column 2: Error: Operand must refer to a label for instruction lda.i16
-File.asm:line 13, column 2: The immediate instruction 'stv.u8' must have a 8-bit unsigned operand ranging from 0 to 255
+File.asm:line 13, column 2: The relative instruction 'stv.u8' must have a 8-bit unsigned operand ranging from 0 to 255
 File.asm:line 9, column 2: Additional token detected after the EOF token!
 
 

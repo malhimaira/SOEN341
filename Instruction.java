@@ -141,7 +141,8 @@ public class Instruction implements IInstruction {
         } else {
             errorOccured = true;
             String sign = (isSigned) ? "signed": "unsigned";
-            errorString = "The immediate instruction " + "'" + mnemonic.getName() + "' must have a " + bitSize + "-bit " + sign + " operand ranging from " + minNumber + " to " + maxNumber;
+            String mneType = (mnemonic.isRelative() ? "relative" : "immediate");
+            errorString = "The "+ mneType +" instruction " + "'" + mnemonic.getName() + "' must have a " + bitSize + "-bit " + sign + " operand ranging from " + minNumber + " to " + maxNumber;
         }
         //System.out.println("DEBUG: " + (byte) opcodeInc);
 
