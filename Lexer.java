@@ -1,4 +1,3 @@
-import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -55,7 +54,7 @@ public class Lexer implements ILexer {
         
 
 
-        boolean firstIter = true;
+        //boolean firstIter = true;
         try {
             while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
 

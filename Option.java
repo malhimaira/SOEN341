@@ -1,5 +1,5 @@
 import java.io.File;
-import java.io.FileInputStream;
+//import java.io.FileInputStream;
 
 //Class option to deal with the user input
 public class Option implements IOption{
