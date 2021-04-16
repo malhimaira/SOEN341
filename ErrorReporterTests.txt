@@ -35,10 +35,3 @@ TestErrorReporterLexer.asm:line 4, column 10: Invalid char: '%'!
 
 
 2 errors found.
-Test LexerErrors
-TestErrorReporterLexer.asm:line 2, column 3: Invalid char: '$'!
-TestErrorReporterLexer.asm:line 4, column 10: Invalid char: '%'!
-
-
-
-2 errors found.
