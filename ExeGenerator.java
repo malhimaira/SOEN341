@@ -68,7 +68,7 @@ public class ExeGenerator implements IExeGenerator {
             currentToken = (Token) mapEntry.getValue();
             currentTokenType = currentToken.getCode();
 
-            if (currentTokenType == TokenType.LabelOperand) {
+            if (currentTokenType == TokenType.Label && currentToken.getPosition().getColumn() > 2) {
 
                 // Get the address of this label operand
                 currentRow = currentToken.getPosition().getRow();
