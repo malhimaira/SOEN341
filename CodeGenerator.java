@@ -26,7 +26,6 @@ public class CodeGenerator implements ICodeGenerator{
 		if(generateLST == true) {
 			ListingGenerator lg = new ListingGenerator(IR,fileName, labelTable); //Automatically runs.
 		}
-			ExeGenerator eg = new ExeGenerator(IR, fileName, symbolTable, labelTable); //Automatically runs.
+			//ExeGenerator eg = new ExeGenerator(IR, fileName, symbolTable, labelTable); //Automatically runs. TODO fix this 
 		}
-	}
 }

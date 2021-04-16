@@ -1,5 +1,8 @@
-import java.awt.Label;
-import java.io.*;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Iterator;
@@ -23,6 +26,8 @@ public class ExeGenerator implements IExeGenerator {
     public ExeGenerator(IIR IR, String fileName, SymbolTable st, LabelTable lt) {
 
         opcode = addrString = comment = operand = mneName = label = "";
+        pseudoAddressTable = new HashMap<Integer, Integer>();
+        lineStatementSizeTable = new HashMap<Integer, Integer>();
 
         // Traverse the IR and fill in lineStatementSizeTable and pseudoAddressTable
 
@@ -147,7 +152,7 @@ public class ExeGenerator implements IExeGenerator {
 
                     } else if (directive != null) {
                         int[] directiveArray = directive.getCharValueArray();
-                        for (int j = 0; j < directiveArray.length; i++) {
+                        for (int j = 0; j < directiveArray.length; j++) {
 
                             dataOutputStream.writeByte(directiveArray[j]);
 
