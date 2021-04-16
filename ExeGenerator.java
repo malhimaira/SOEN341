@@ -30,7 +30,6 @@ public class ExeGenerator implements IExeGenerator {
         lineStatementSizeTable = new HashMap<Integer, Integer>();
 
         // Traverse the IR and fill in lineStatementSizeTable and pseudoAddressTable
-
         for (int i = 0; i < IR.getSize(); i++) {
 
             lineStatementSize = 0;
@@ -38,7 +37,7 @@ public class ExeGenerator implements IExeGenerator {
             ILineStatement temp = IR.getLineStatement(i);
             Instruction instruction = (Instruction) temp.getInstruction();
             Directive directive = (Directive) temp.getDirective();
-
+            pseudoAddressTable.put(i + 1, pseudoAddress);  // Rows start at 1
 
             if (instruction != null) {
                 lineStatementSize = instruction.getSize();
@@ -49,7 +48,7 @@ public class ExeGenerator implements IExeGenerator {
             lineStatementSizeTable.put(i + 1, lineStatementSize); // Rows start at 1
 
             pseudoAddress += lineStatementSize;
-            pseudoAddressTable.put(i + 1, pseudoAddress);  // Rows start at 1
+            //pseudoAddressTable.put(i + 1, pseudoAddress);  // Rows start at 1
 
         }
 
@@ -167,6 +166,8 @@ public class ExeGenerator implements IExeGenerator {
                 e.printStackTrace();
             }
         }
+
+        //System.out.println(pseudoAddressTable);
     }
 }
 
