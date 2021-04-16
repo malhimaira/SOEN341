@@ -9,6 +9,8 @@ public class Instruction implements IInstruction {
     int maxNumber; //Maximum number operand can have
     int minNumber; //Minimun number operand can have
     Label labelOperand;
+    boolean isResolved = false;
+    int labelOperandOffset;
 
     public Instruction(Mnemonic mnemonic) {
         this.mnemonic = mnemonic;
@@ -46,6 +48,7 @@ public class Instruction implements IInstruction {
     public boolean hasLabelOperand() {
         return labelOperand != null;
     }
+
     public int getNumberInt() {
         if (number != null)
             return number.getNumberInt();
@@ -216,5 +219,18 @@ public class Instruction implements IInstruction {
     @Override
     public String toString() {
         return mnemonic.toString();
+    }
+
+    public void setLabelOperandOffset(int offset) {
+        this.labelOperandOffset = offset;
+        isResolved = true;
+    }
+
+    public int getLabelOperandOffset() {
+        return labelOperandOffset;
+    }
+
+    public boolean isLabelOperandResolved() {
+        return isResolved;
     }
 }
