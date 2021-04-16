@@ -119,14 +119,14 @@ public class ExeGenerator implements IExeGenerator {
                             // If it is a 1 byte offset
                             if (!instruction.isLabelOperandResolved()) {
                                 // Error, not all offsets are resolved
-                                System.out.println("Offset not resolved");
+                                //System.out.println("Offset not resolved");
 
                             } else {
                                 // Data offsets are resolved
                                 if (mne.getName().contains(".i16")) {
                                     // More than 1 byte
                                     String offsetStr = String.format("%04X", instruction.getLabelOperandOffset());
-
+                                    //System.out.println(instruction.getLabelOperandOffset());
                                     // To get the last 4
                                     offsetStr = offsetStr.substring(offsetStr.length()-4);
                                     String topByteStr = offsetStr.substring(0,2);
@@ -134,7 +134,7 @@ public class ExeGenerator implements IExeGenerator {
                                     int topByteInt = Integer.parseInt(topByteStr);
                                     int bottomByteInt = Integer.parseInt(bottomByteStr);
 
-                                    dataOutputStream.writeByte(instruction.getLabelOperandOffset());
+                                    dataOutputStream.writeByte(mne.getOpcode());
                                     dataOutputStream.writeByte(topByteInt);
                                     dataOutputStream.writeByte(bottomByteInt);
                                 }
