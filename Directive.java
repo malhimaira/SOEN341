@@ -47,6 +47,20 @@ public class Directive extends Token implements IDirective{
         return (trimmedString.length() + 1); //+1 as we count the null character
     }
 
+    public int[] getCharValueArray() {
+        if (stringOperand != null) {
+            int[] charValues = new int[trimmedString.length() +1]; //+1 for null char
+            for (int i = 0; i < trimmedString.length(); i++) {
+                charValues[i] = (int) trimmedString.charAt(i);
+            }
+            charValues[charValues.length-1] = 0x00;
+
+            return charValues;
+        }
+
+        return null;
+    }
+
     /**
      * Get the ASCII representation of the first 4 characters (after that prof said don't bother showing them)
      * @return
