@@ -20,6 +20,5 @@ echo "Running ErrorReporter related tests (for ErrorReporter itself, Parser and 
 java TestErrorReporter.java > ErrorReporterTests.txt
 java TestParserErrors.java >> ErrorReporterTests.txt
 java TestErrorReporterLexer >> ErrorReporterTests.txt
-java TestErrorReporterLexer >> ErrorReporterTests.txt
 echo "Done!"
 pause
