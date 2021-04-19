@@ -8,4 +8,5 @@ public interface IMnemonic extends IToken{
     String getName();
     void setName(String name);
     TokenType getCode();
+    boolean needsLabel();
 }

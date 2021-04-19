@@ -1,14 +1,10 @@
 import java.util.TreeMap;
-
 /**
- * TestLineStatement
+ * Helper class, sole purpose is to put the opcode mappings for the mnemonics as to reduce clutter.
  */
-public class TestLineStatement {
-
-    public static void main(String[] args) {
-    	
-    	//Mapping for mnemonic
-    	TreeMap<String,Integer> mapping = new TreeMap<String,Integer>();
+public class Mapper {
+    public Mapper(TreeMap<String,Integer> mapping) {
+        //Inherent Instructions
         mapping.put("halt",0x00);
         mapping.put("pop",0x01);
         mapping.put("dup",0x02);
@@ -42,20 +38,12 @@ public class TestLineStatement {
        mapping.put("ldv.u3",0xA0);
        mapping.put("stv.u3",0xA8);
     	
-     //Relative Instructions
+       //Relative Instructions
        mapping.put("br.i8", 0xE0);
        mapping.put("brf.i8", 0xE3);
        mapping.put("ldc.i8", 0xD9);
        mapping.put("ldv.u8", 0xB1);
        mapping.put("stv.u8", 0xB2);
-       mapping.put("lda.i16", 0xDA);
-    	
-        LineStatement lineStatement = new LineStatement(new Instruction(new Mnemonic("halt", false, new Position(0,0), mapping)));
-        System.out.println("Test LineStatement"); //Test name
-
-        System.out.println("LineStatement: halt 0");
-        System.out.println("LineStatement: " + lineStatement.getInstruction().getMnemonic().getName() + " " + lineStatement.getInstruction().getMnemonic().getOpcode());
-
+       mapping.put("lda.i16", 0xD5);
     }
-    
 }

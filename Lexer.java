@@ -1,7 +1,7 @@
-import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.ArrayList;
 
 
@@ -13,7 +13,7 @@ public class Lexer implements ILexer {
     private HashMap<String, Token> SymbolTable = new HashMap<String, Token>();
     private ArrayList<String> TokenSequence;
     private int cntString;
-
+    private HashMap<String, Label> LabelTable = new HashMap<String, Label>();
     //Default not necessary for the class, only need
     public Lexer() {
     }
@@ -23,11 +23,17 @@ public class Lexer implements ILexer {
      *
      * @param fileStream
      */
-    public Lexer(FileInputStream fileStream, SymbolTable symTab,ErrorReporter errorReporter) {
+    public Lexer(FileInputStream fileStream, SymbolTable symTab,LabelTable labTab, ErrorReporter errorReporter) {
         
     	//PASS SYMBOL TABLE BY REFERENCE
     	this.SymbolTable = symTab.getSymbolTable();
     	
+    	//PASS LABEL TABLE BY REFERNCE
+    	this.LabelTable = labTab.getLabelTable();
+    	
+    	//INSTANTIATE TO PASS MAPPING BY REFERENCE
+    	TreeMap<String,Integer> mapping = new TreeMap<String,Integer>();
+        new Mapper(mapping); //Maps mnemonics to the proper opcodes. Done in this class to reduce clutter.
     	
     	int metaChar;       // May contained eof or a character.
         int eofMarker = -1;
@@ -43,9 +49,12 @@ public class Lexer implements ILexer {
         boolean invalidCharEOLCheck = false;
 
         int cntTLS = 0; //count tokens in a line statement
+        
+        boolean mnemRead = false;
+        
 
 
-        boolean firstIter = true;
+        //boolean firstIter = true;
         try {
             while ((metaChar = fileStream.read()) != eofMarker) {// read is defined in the final class
 
@@ -83,7 +92,8 @@ public class Lexer implements ILexer {
 
                     cntTLS += 1;
 
-                    if (cntTLS == 1) { 
+                    if (cntTLS == 1) {
+                    	
                     	//case for directive
                         if(word.equals(".cstring")) {
                         	//create directive
@@ -96,10 +106,20 @@ public class Lexer implements ILexer {
                         	}
                         	word = "";
                         }
+                      //case for label
+                        else if (word.length() != 0 && !mapping.containsKey(word)) {
+                    		Label lab = new Label(word,new Position(rowLex, colLex-word.length()-1));
+                            SymbolTable.put(lab.toString(), lab);
+                            TokenSequence.add(lab.toString());
+                            LabelTable.put(lab.getName(), lab);
+                            word ="";
+                            cntTLS = 0;
+                            
+                    	}
                       //Case for a mnemonic token
                         else if (word.contains(".")) { //if mnemonic should expect a number token next
                             //create the position inside the mnemonic using the word length and current column
-                            Mnemonic mnem = new Mnemonic(word, true, new Position(rowLex, colLex-word.length()-1));
+                            Mnemonic mnem = new Mnemonic(word, true, new Position(rowLex, colLex-word.length()-1), mapping);
                             //mnem.setColLength(colLex);//needs to be redone
                             if (word.length() != 0) {
                                 SymbolTable.put(mnem.toString(), mnem);
@@ -108,7 +128,7 @@ public class Lexer implements ILexer {
                             word = "";
                         } else if (!word.contains(".")) { //if mnemonic does not need a number token
                             //create the position inside the mnemonic using the word length and current column
-                            Mnemonic mnem = new Mnemonic(word, false, new Position(rowLex, colLex-word.length()-1));
+                            Mnemonic mnem = new Mnemonic(word, false, new Position(rowLex, colLex-word.length()-1), mapping);
 
                             if (word.length() != 0) {
                                 SymbolTable.put(mnem.toString(), mnem);
@@ -129,9 +149,24 @@ public class Lexer implements ILexer {
                             TokenSequence.add(sp.toString());
                     	}
                     	else {
-                    		Number num = new Number(word, new Position(rowLex, colLex-2));
-                            SymbolTable.put(num.toString(), num);
-                            TokenSequence.add(num.toString());
+                    		try {
+                    			int numberInt = Integer.parseInt(word); //Convert number string to integer
+                    			Number num = new Number(word, new Position(rowLex, colLex-2));
+                                SymbolTable.put(num.toString(), num);
+                                TokenSequence.add(num.toString());
+                                cntTLS = 0;
+                                word = "";
+                    		}
+                    		catch (Exception e){
+                    			if(word.length()!=0) {
+                    				//System.out.println("yes a label");
+                    			Label lab = new Label(word,new Position(rowLex, colLex-word.length()-1));
+                    			SymbolTable.put(lab.toString(), lab);
+	                            TokenSequence.add(lab.toString());
+	                            cntTLS = 0;
+                                word = "";
+                    			}
+                    		}
                     	}
                         
                         cntTLS = 0;
@@ -216,6 +251,15 @@ public class Lexer implements ILexer {
      */
     public HashMap<String, Token> getSymbolTable() {
         return SymbolTable;
+    }
+    
+    /**
+     * Get The Label Table (in case of parameter
+     *
+     * @return
+     */
+    public HashMap<String, Label> getLabelTable() {
+        return LabelTable;
     }
 
 

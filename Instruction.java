@@ -8,6 +8,9 @@ public class Instruction implements IInstruction {
     String errorString;
     int maxNumber; //Maximum number operand can have
     int minNumber; //Minimun number operand can have
+    Label labelOperand;
+    boolean isResolved = false;
+    int labelOperandOffset;
 
     public Instruction(Mnemonic mnemonic) {
         this.mnemonic = mnemonic;
@@ -24,15 +27,34 @@ public class Instruction implements IInstruction {
         incrementOpcode();
     }
 
+    public Instruction(Mnemonic mnemonic,Label labelOperand) {
+        this(mnemonic);
+        this.labelOperand = labelOperand;
+        this.number = null;
+    }
+
     public IMnemonic getMnemonic() {
         return mnemonic;
     }
 
-    public boolean isInherent() {
-        return !(mnemonic.needsNumber()); //If it is inherent, it does not need a number
+    public ILabel getLabelOperand() {
+        return labelOperand;
     }
+
+    public boolean isInherent() {
+        return !(mnemonic.needsNumber() || mnemonic.isRelative()); //If it is inherent, it does not need a number and it is not relative
+    }
+
+    public boolean hasLabelOperand() {
+        return labelOperand != null;
+    }
+
     public int getNumberInt() {
-        return number.getNumberInt();
+        if (number != null)
+            return number.getNumberInt();
+        else
+            return -999999999; //You should know this is not ok.
+
     }
 
     private void incrementOpcode() {
@@ -46,8 +68,14 @@ public class Instruction implements IInstruction {
             case "u5":
                 mnemonic.incrementOpcode(returnIncrementValue(false,5));
                 break;
+            case "u8":
+                returnIncrementValue(false,8);
+                break;
             case "i3":
                 mnemonic.incrementOpcode(returnIncrementValue(true,3));
+                break;
+            case "i8":
+                returnIncrementValue(true,8);
                 break;
             default: //Matches none of the ones we want!
                 errorOccured = true;
@@ -60,8 +88,11 @@ public class Instruction implements IInstruction {
      * Checks if an error occurred while processing the instruction
      * @return errorOccurred
      */
+    // TODO needs a label and doesnt have one
     public boolean errorOccurred() {
+        checkOperandMismatchErrors();
         return errorOccured;
+
     }
     /**
      * Returns the String describing the error that occured.
@@ -69,6 +100,16 @@ public class Instruction implements IInstruction {
      */
     public String errorString() {
         return errorString;
+    }
+
+    private void checkOperandMismatchErrors() {
+        if (mnemonic.needsNumber() && number == null) {
+            errorString = "Error: Operand must refer to a number for instruction " + mnemonic.getName();
+            errorOccured = true;
+        } else if (mnemonic.needsLabel() && labelOperand == null) {
+            errorString = "Error: Operand must refer to a label for instruction " + mnemonic.getName();
+            errorOccured = true;
+        }
     }
     /**
      * Returns the value to increment the opcode of the instruction by
@@ -103,7 +144,8 @@ public class Instruction implements IInstruction {
         } else {
             errorOccured = true;
             String sign = (isSigned) ? "signed": "unsigned";
-            errorString = "The immediate instruction " + "'" + mnemonic.getName() + "' must have a " + bitSize + "-bit " + sign + " operand ranging from " + minNumber + " to " + maxNumber;
+            String mneType = (mnemonic.isRelative() ? "relative" : "immediate");
+            errorString = "The "+ mneType +" instruction " + "'" + mnemonic.getName() + "' must have a " + bitSize + "-bit " + sign + " operand ranging from " + minNumber + " to " + maxNumber;
         }
         //System.out.println("DEBUG: " + (byte) opcodeInc);
 
@@ -152,9 +194,43 @@ public class Instruction implements IInstruction {
 
     }
 
+    /**
+     * Returns an int representing the size in bytes of the instruction.
+     * @return
+     */
+    public int getSize() {
+        int size = 1; //Default size is 1 byte
+
+        if (mnemonic.needsNumber() || mnemonic.isRelative()) { //Mnemonic needs a number or is relative, meaning it might be more than 1 byte
+            String mName = mnemonic.getName();
+
+            String operandType = mName.substring(mName.indexOf("."));
+            String operandSize = operandType.substring(2); //After the i/u part describing unsigned and signed.
+            int operandSizeInt = Integer.parseInt(operandSize); //Convert to int
+            
+            if (operandSizeInt < 8) //i/u5, i/u3 are immediate and thus 1 byte 
+                return 1; //One byte for whole instruction
+            else
+                return ((operandSizeInt / 8) + size); // represents 1 byte for the opcode and adding the size of the operand / 8 (# bytes).
+        } else //It is immediate, thus 1 byte
+            return size; 
+    }
 
     @Override
     public String toString() {
         return mnemonic.toString();
+    }
+
+    public void setLabelOperandOffset(int offset) {
+        this.labelOperandOffset = offset;
+        isResolved = true;
+    }
+
+    public int getLabelOperandOffset() {
+        return labelOperandOffset;
+    }
+
+    public boolean isLabelOperandResolved() {
+        return isResolved;
     }
 }

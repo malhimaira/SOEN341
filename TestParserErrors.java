@@ -6,7 +6,7 @@ public class TestParserErrors {
         ILexer bdlex = new BrokenDummyLexer();
         ErrorReporter errorReporter = new ErrorReporter();
         //Instantiating a parser using the dummy lexer.
-        IParser parserObject = new Parser(bdlex,errorReporter);
+        IParser parserObject = new Parser(bdlex,errorReporter,false);
 
         //Printing the expected output
         System.out.println("Test ParserErrors");

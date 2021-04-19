@@ -27,9 +27,38 @@ public class Directive extends Token implements IDirective{
         this.trimmedString = stringOperandValue.substring(1,stringOperandValue.length()-1);
     }
 
+    /**
+     * Returns the StringOperand Object
+     */
     public IStringOperand getStringOperand() {return stringOperand;}
+    
+    /**
+     * Returns the string without the quotation marks
+     */
     public String getTrimmedString() {
         return trimmedString;
+    }
+
+    /**
+     * Returns size of directive's string in bytes
+     * @return integer representing byte size
+     */
+    public int getSize() {
+        return (trimmedString.length() + 1); //+1 as we count the null character
+    }
+
+    public int[] getCharValueArray() {
+        if (stringOperand != null) {
+            int[] charValues = new int[trimmedString.length() +1]; //+1 for null char
+            for (int i = 0; i < trimmedString.length(); i++) {
+                charValues[i] = (int) trimmedString.charAt(i);
+            }
+            charValues[charValues.length-1] = 0x00;
+
+            return charValues;
+        }
+
+        return null;
     }
 
     /**

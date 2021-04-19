@@ -1,0 +1,6 @@
+Line Addr Machine Code         Label     Mne        Operand         Comments        
+1    0000                                                            ; rela02.asm   
+2    0000 E0 00                Main      br.i8      Main                            
+3    0002 E0 FE                          br.i8      Main             ; Backward branching 
+4    0004 E0 02                          br.i8      End              ; Forward branching 
+5    0006 E0 00                End       br.i8      End                             

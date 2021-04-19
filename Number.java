@@ -5,7 +5,7 @@ public class Number extends Token implements INumber{
  int numberInt;
 
 	Number(String name, Position pos) {
-		super(name, TokenType.Number, pos);
+		super(name, TokenType.Number, pos); 
 		try {
 			numberInt = Integer.parseInt(name); //Convert number string to integer
 		} catch (Exception e) {

@@ -60,6 +60,11 @@ public class Token implements IToken{
 	public  String    toString()     {
 		return "["+getName()+"="+code+"]"; 
 	}
+	
+	public boolean getIsRelative () {
+		
+		return false;
+	}
 
 
 }
