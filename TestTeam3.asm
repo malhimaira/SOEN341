@@ -1,0 +1,4 @@
+ tne 
+ tlt 
+ tge 
+ halt       
