@@ -1,6 +1,12 @@
 import java.io.File;
 import java.io.FileInputStream;
 
+import FrontEnd.*;
+import FrontEnd.Number;
+import BackEnd.*;
+import main.*;
+import Tables.*;
+
 public class TestLexerRelativeInstruction {
 	 
 	public static void main(String args[]) {

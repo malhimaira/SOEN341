@@ -1,4 +1,8 @@
-
+import FrontEnd.*;
+import FrontEnd.Number;
+import BackEnd.*;
+import main.*;
+import Tables.*;
 //Tests to check outputs of the class Option
 
 public class TestOption {
